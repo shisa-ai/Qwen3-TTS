@@ -1,5 +1,47 @@
 # Qwen3-TTS
 
+## Local optimization tracker
+
+Last measured: **2026-11-14**. These are local **H20, BF16, batch-one CustomVoice** experiments, not official upstream benchmarks. **RTF = generation wall time / audio duration; lower is better.** Rows show cumulative configurations, not additive speedups.
+
+| Configuration | 0.6B mean RTF ↓ | 1.7B mean RTF ↓ | 0.6B speedup vs original | 1.7B speedup vs original |
+|---|---:|---:|---:|---:|
+| Original package: HF generation + Flash Attention 2 | 1.4246 | 1.3154 | 1.00× | 1.00× |
+| Switch to SDPA | 1.0548 | 1.0211 | 1.35× | 1.29× |
+| + Predictor and talker CUDA graphs | 0.2240 | 0.2230 | 6.36× | 5.90× |
+| + Fused predictor RMSNorm and removal of unused predictor hidden states | 0.1842 | 0.1945 | 7.73× | 6.76× |
+| + Fused predictor kernels, talker norm/projection fusion, cached immutable configuration defaults | 0.1027 | 0.1086 | 13.88× | 12.11× |
+| **+ Explicit decode loop (current offline stack)** | **0.0891** | **0.1016** | **15.99×** | **12.94×** |
+| Historical vLLM-Omni 0.32.0 deployment — comparison only | 0.0753 | 0.0844 | 18.91× | 15.59× |
+
+**Measurement notes:** Custom-path suites use Ryan/Aiden across four shared texts, with three measured repetitions after warmup; the aggregate is the mean of condition-level median RTFs. Offline timing includes waveform decoding. Sampled audio lengths differ, and measurements span separate runs/devices of the same GPU class. Ratios describe recorded end-to-end results, not identical-token causal speedups. The vLLM measurements are historical and are **not a contemporaneous controlled comparison**. The current custom stack has not beaten those vLLM results.
+
+**Current constraints:** Optimizations are opt-in experimental adapters in the enclosing workspace, not enabled by this upstream checkout. The validated fused predictor uses explicit `nonpdl` mode for 0.6B and `pdl` mode for 1.7B. Independent talker/subtalker temperature controls remain available; unsupported fast-path options, including nondefault subtalker top-p, use strict fallback. No production concurrency scheduler or perceptual-quality certification is provided.
+
+### Streaming and experiment decisions
+
+- **Retained experimentally:** direct codec-frame streaming and bounded exact-shape codec graphs with eager fallback. Final deterministic short/medium tests with four initial frames, then 25-frame chunks and 588-frame context measured **56–59 ms first audio**, with no simulated playback starvation. These are known-shape warm benchmarks, not production latency guarantees, and are separate from the offline table.
+- **Rejected:** tested FP8 and compiled-decode paths, position-check-only wrapper, and compute-only unified frame capture. The latter had negligible benefit and unresolved correctness discrepancies.
+- **Approximate/deferred:** shorter codec context is not waveform-equivalent; stateful codec execution, fully captured sampling/history, asynchronous EOS, and full talker attention/cache fusion remain future work. Streaming avoids retaining layer histories but still computes/copies those outputs.
+- **Attribution caution:** the final fixed 72-frame test measured only **1.006× / 1.024×** improvement from the explicit loop alone. Do not attribute all sampled full-suite gains to reduced host overhead.
+
+### Evidence and updating this table
+
+Artifacts currently live **outside this Git repository**, under the enclosing `/root/tts` workspace; they are not included by cloning this checkout:
+
+| Rows | Workspace-relative evidence |
+|---|---|
+| Original / SDPA / both graphs | `results/gpu3-optimization/qwen3-tts-{size}.json`, `{size}-sdpa-baseline.json`, `{size}-sdpa-both-graphs-reviewed.json` |
+| Previous accepted stack | `results/gap/baseline/{size}-accepted-stack-v2.json` |
+| Fusion + configuration cache | `results/gap/combined/{size}-final-cache-v1.json` |
+| Final explicit loop | `results/gap/final/{size}-loop-v2.json`, `audit-loop-v2.json` |
+| Historical vLLM | `results/vllm-omni-{size}.json` |
+| Final streaming | `results/gap/frame-streaming/final-measurement-audit.json` and per-size final JSON files |
+
+Here `{size}` is `0.6b` or `1.7b` for the offline files. The enclosing workspace's `OPTIMIZATION_RESULTS.md` and `GAP_CLOSING_RESULTS.md` contain methodology, commands, correctness evidence, rejected experiments, and remaining limitations.
+
+For future updates, preserve raw results and source hashes, record model/backend/sampling settings and capture exclusions, check EOS/truncation, and recompute aggregates from per-condition results. Keep fixed-work, sampled offline, streaming, and concurrent-serving measurements separate.
+
 <br>
 
 <p align="center">
