@@ -35,6 +35,7 @@ _gemm_stream_kernel = _k._cp_gemm_stream_kernel
 _gemv_kernel = _k._cp_gemv_kernel
 _gemv_w8_kernel = _k._cp_gemv_w8_kernel
 _gemv_w8g_kernel = _k._cp_gemv_w8g_kernel
+_gemv_w4g_kernel = _k._cp_gemv_w4g_kernel
 _head_norm_rope = _k._head_norm_rope
 _PDL_GU_BN = _k._PDL_GU_BN
 
@@ -371,14 +372,20 @@ class TalkerEngine:
         self.eps = float(m.norm.variance_epsilon)
         self.capacity, self.S, self.abk, self.awarps = capacity, attn_splits, attn_bk, attn_warps
         self._w8 = weight_bits == 8
-        self._group = group_size if self._w8 else 0
-        if weight_bits not in (8, 16):
-            raise ValueError("weight_bits must be 8 or 16")
-        if self._w8:
-            # Quantized decode weights are INT8 tuples; the engine prefill kernels read BF16 weights, so
-            # quantized mode uses the HF prefill (also faster than the engine prefill on gfx1151).
+        self._w4 = weight_bits == 4
+        self._quant = weight_bits in (4, 8)
+        if weight_bits not in (4, 8, 16):
+            raise ValueError("weight_bits must be 4, 8 or 16")
+        self._group = group_size if self._quant else 0
+        if self._w4 and not self._group:
+            self._group = 128  # INT4 needs per-group scales
+        if self._quant:
+            # Quantized decode weights are INT8/INT4 tuples; the engine prefill kernels read BF16 weights,
+            # so quantized mode uses the HF prefill (also faster than the engine prefill on gfx1151).
             own_prefill = False
-        if self._w8 and self._group:
+        if self._w4:
+            base_cfgs = {name: ("q4", 8, self._group, 4, 8) for name in QUANT_CONFIGS}
+        elif self._w8 and self._group:
             base_cfgs = {name: ("qg", 8, self._group, 4, 8) for name in QUANT_CONFIGS}
         else:
             base_cfgs = QUANT_CONFIGS if self._w8 else DEFAULT_CONFIGS
@@ -387,13 +394,17 @@ class TalkerEngine:
         bf = lambda t: t.to(torch.bfloat16).contiguous()
         fold = lambda w, ln: bf(f32(w) * f32(ln)[None, :])  # [N, K] weight with RMSNorm weight folded on K
         self._gptq = gptq_weights or {}
-        if self._w8 and self._gptq:
+        if self._w4 and self._gptq:
+            qw = lambda w, key: self._gptq.get(key, _k._quantize_w4_group(w, self._group))
+        elif self._w4:
+            qw = lambda w, key: _k._quantize_w4_group(w, self._group)
+        elif self._w8 and self._gptq:
             qw = lambda w, key: self._gptq.get(key, _k._quantize_w8(w))
         elif self._w8 and self._group:
             qw = lambda w, key: _k._quantize_w8_group(w, self._group)
         else:
             qw = (lambda w, key: _k._quantize_w8(w)) if self._w8 else (lambda w, key: w)
-        half = 4 if self._w8 else _PDL_GU_BN // 2
+        half = 4 if self._quant else _PDL_GU_BN // 2
         self.layers = []
         for li, layer in enumerate(m.layers):
             a, mlp = layer.self_attn, layer.mlp
@@ -415,7 +426,7 @@ class TalkerEngine:
         self.norm_w = bf(m.norm.weight)
         self.head = qw(fold(talker.codec_head.weight, m.norm.weight), "head")
         d0 = self.layers[0]["down"]
-        self.inter = (d0[0] if self._w8 else d0).shape[1]
+        self.inter = (d0[0] if self._quant else d0).shape[1]
         # RoPE tables exactly as HF builds them (text-only mRoPE: all three axes share positions).
         pos = torch.arange(capacity, device=self.device).view(1, 1, -1).expand(3, 1, -1)
         cos, sin = m.rotary_emb(torch.empty(1, device=self.device, dtype=dt), pos)
@@ -450,6 +461,8 @@ class TalkerEngine:
                                    device=self.device, dtype=torch.float32)
             if pred_configs:
                 self.set_pred_configs(pred_configs)
+            elif self._w4:
+                self.set_pred_configs({name: ("q4", 8, self._group, 4, 8) for name in QUANT_CONFIGS})
             elif self._w8:
                 pc = {name: ("qg", 8, self._group, 4, 8) for name in QUANT_CONFIGS} if self._group else QUANT_CONFIGS
                 self.set_pred_configs(pc)
@@ -480,7 +493,7 @@ class TalkerEngine:
                      (self.cfgs["gu"], self.hidden), (self.cfgs["down"], self.inter), (self.cfgs["lm"], self.hidden)])
         self.ws = z(64 * widest, dtype=torch.float32)  # any split-K up to 64
         self.cnt = z(16384, dtype=torch.int32)
-        self.ss = [z(self.hidden // (8 if (torch.version.hip is not None or self._w8) else 16), 1, dtype=torch.float32) for _ in range(2)]
+        self.ss = [z(self.hidden // (8 if (torch.version.hip is not None or self._quant) else 16), 1, dtype=torch.float32) for _ in range(2)]
         # own prefill (bucketed graphs); prompts longer than pmax use the HF prefill
         self.pmax, self.pstep = prefill_max, 16
         P = self.pmax
@@ -513,16 +526,16 @@ class TalkerEngine:
 
     @staticmethod
     def _split(cfg, k):
-        if cfg[0] in ("g", "q", "qg"):
+        if cfg[0] in ("g", "q", "qg", "q4"):
             return 1
         return cfg[3] if cfg[0] == "s" else k // (cfg[1] * cfg[2])
 
     def _gemm(self, cfg, a, w, out, ss_in, nt_in, ss_out, epi, eps=0.0, M=1, rmax=1, ro=0, ws=None):
-        if cfg[0] in ("q", "qg"):
+        if cfg[0] in ("q", "qg", "q4"):
             w8, scale = w
-            N, K = w8.shape
+            N, K = w8.shape[0], w8.shape[1] * (2 if cfg[0] == "q4" else 1)
             _, BN, BK, STAGES, warps = cfg
-            kern = _gemv_w8_kernel if cfg[0] == "q" else _gemv_w8g_kernel
+            kern = {"q": _gemv_w8_kernel, "qg": _gemv_w8g_kernel, "q4": _gemv_w4g_kernel}[cfg[0]]
             kern[(N // BN,)](
                 a, 1, ro, w8, scale, self.ws if ws is None else ws, self.cnt, out, ss_in, ss_out, M, eps,
                 K=K, N=N, HID=self.hidden, RMAX=rmax, BN=BN, BK=BK, EPI=epi,
@@ -835,7 +848,7 @@ def install_fast_tts(model, *, tuned="auto", codec_fast=True, codec_graphs=True,
     if tuned == "auto":
         size = "1.7B" if model.model.talker.config.hidden_size == 2048 else "0.6B"
         lt = load_tuned(size)
-        if engine_kw.get("weight_bits") == 8:
+        if engine_kw.get("weight_bits") in (4, 8):
             # Quantized GEMMs use QUANT_CONFIGS; only the tuned attention params apply.
             lt = {k: lt[k] for k in ("attn_splits", "attn_bk", "attn_warps") if k in lt}
         engine_kw = {**lt, **engine_kw}

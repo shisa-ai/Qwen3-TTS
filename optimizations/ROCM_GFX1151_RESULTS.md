@@ -131,6 +131,22 @@ modest numeric-error reductions above do not change intelligibility. These metho
 RTN error is ~18% and GPTQ/AutoRound-style rounding is needed to keep quality usable. Per-group scales and
 GPTQ are kept as optional modes (`group_size`, `gptq_weights`); the default remains per-channel RTN (fastest).
 
+### INT4: too aggressive for this model (tried, rejected)
+
+A packed INT4 weight-only GEMV (2 values/byte, nibble unpack via `tl.join`, per-group scales) runs **1.56× the
+INT8 GEMV** in isolation (13.3 vs 20.8 µs); the engine reaches **RTF 0.127** (1.27× INT8). But quality collapses:
+
+| INT4 variant | rel-err vs FP32 | WER | EOS |
+|---|---:|---:|---|
+| RTN, per-group G128 | 35.7% | **2966%** | fails (endless rambling, 2077 s audio) |
+| GPTQ, eager calibration, G128 | 88.6% | **2223%** | fails |
+
+At 4-bit the quantization destroys the model's EOS prediction and language modeling — outputs ramble without
+stopping. GPTQ's error propagation is *unstable* at this coarseness (large per-column errors overshoot the
+compensation), making it worse than RTN. The 1.27× speed gain over INT8 is not worth catastrophic quality.
+**INT8 is the sweet spot** for this model (4.26×/3.46× over HF, WER 0.5–1%). INT4 is kept as an experimental
+`weight_bits=4` path but is not usable. (Larger models tolerate INT4 better; this 0.6B/1.7B TTS model does not.)
+
 ## Quality checks
 
 Same principles as the CUDA work: compare against an FP32 reference and sampled behavior, not greedy token

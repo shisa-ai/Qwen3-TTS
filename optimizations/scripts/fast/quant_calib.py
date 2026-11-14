@@ -1,14 +1,13 @@
-"""Calibration-based weight-only INT8 quantization (GPTQ/OBQ) for the gfx1151 engine.
+"""Calibration-based weight-only quantization (GPTQ/OBQ) for the gfx1151 engine.
 
-RTN (round-to-nearest) per-channel INT8 is the default. GPTQ minimizes the layer output error
-||WX - QX|| using a few calibration activations, propagating each column's rounding error to the
-remaining columns via the inverse Hessian. Output is still INT8 + per-channel scales, so the fused
-GEMV kernel is unchanged. At INT8 this cuts per-GEMM error ~1.5x vs RTN (more at lower bit widths).
+Captures REAL decode activations by running the engine eagerly (graph replay would otherwise hide
+the per-frame GEMM inputs), then GPTQ-quantizes each folded weight to minimize ||(W-Q)X||. Supports
+INT8 (per-channel) and INT4 (per-group). Output feeds install_fast_tts(weight_bits=..., gptq_weights=...).
 
 Usage:
     from quant_calib import calibrate_gptq
-    gw = calibrate_gptq(model)                 # captures activations, runs GPTQ per weight
-    install_fast_tts(model, weight_bits=8, gptq_weights=gw)
+    gw = calibrate_gptq(model, bits=4, group_size=128)
+    install_fast_tts(model, weight_bits=4, group_size=128, gptq_weights=gw)
 """
 from __future__ import annotations
 import torch
@@ -17,49 +16,68 @@ import talker_engine as te
 from bench_common import TEXTS
 
 
-def _gptq_dequant(W, X, bits=8, percdamp=0.01):
-    """OBQ/GPTQ: return the dequantized weight (float) that minimizes ||(W-Q)X||. W [N,K], X [ns,K]."""
+def _gptq_dequant(W, X, bits=8, G=0, percdamp=0.05):
+    """OBQ/GPTQ with per-channel (G=0) or per-group (G>0) scales. Returns dequantized W (float)."""
     N, K = W.shape
     W = W.float().clone()
     H = (X.T @ X) * (2.0 / X.shape[0])
     H.diagonal().add_(percdamp * torch.diag(H).mean().clamp(min=1e-6))
     Hinv = H.inverse()
     qmax = 2 ** (bits - 1) - 1
-    scale = (W.abs().amax(dim=1) / qmax).clamp(min=1e-8)
+    qmin = -(2 ** (bits - 1))
+    if G:
+        scale = (W.reshape(N, K // G, G).abs().amax(dim=2) / qmax).clamp(min=1e-8)  # [N, K//G]
+    else:
+        scale = (W.abs().amax(dim=1) / qmax).clamp(min=1e-8)  # [N]
     Q = torch.zeros_like(W)
     for k in range(K):
+        s = scale[:, k // G] if G else scale
         w = W[:, k]
-        q = torch.round(w / scale).clamp(-qmax, qmax) * scale
+        q = torch.round(w / s).clamp(qmin, qmax) * s
         Q[:, k] = q
         if k < K - 1:
             W[:, k + 1:] -= (w - q)[:, None] * (Hinv[k + 1:, k] / Hinv[k, k])[None, :]
     return Q
 
 
-def _to_int8(Wdeq):
+def _pack_int8(Wdeq):
     scale = (Wdeq.abs().amax(dim=1) / 127.0).clamp(min=1e-8)
     q = torch.round(Wdeq / scale[:, None]).clamp(-127, 127).to(torch.int8).contiguous()
     return q, scale.contiguous()
 
 
-def _repack_gu(q, scale, inter, hid, src_half=32, dst_half=4):
-    """GPTQ is per-row independent (one Hessian for all rows), so the quantized gate/up rows can be
-    re-interleaved from the BF16 calibration packing (src_half) to the quantized GEMV packing (dst_half)."""
-    def repack(t, h):
-        gate = t.reshape(-1, 2, src_half, h)[:, 0].reshape(inter, h)
-        up = t.reshape(-1, 2, src_half, h)[:, 1].reshape(inter, h)
-        return torch.stack((gate.reshape(-1, dst_half, h), up.reshape(-1, dst_half, h)), 1).reshape(-1, h)
-    return repack(q, hid).contiguous(), repack(scale, 1).reshape(-1).contiguous()
+def _pack_int4_group(Wdeq, G):
+    N, K = Wdeq.shape
+    wr = Wdeq.reshape(N, K // G, G)
+    scale = (wr.abs().amax(dim=2) / 7.0).clamp(min=1e-8)
+    q = torch.round(wr / scale[:, :, None]).clamp(-8, 7).to(torch.int8).reshape(N, K)
+    packed = (((q[:, 1::2] & 0xF) << 4) | (q[:, 0::2] & 0xF)).to(torch.uint8).contiguous()
+    return packed, scale.contiguous()
+
+
+def _repack_rows(t, inter, hid, src_half=32, dst_half=4):
+    gate = t.reshape(-1, 2, src_half, hid)[:, 0].reshape(inter, hid)
+    up = t.reshape(-1, 2, src_half, hid)[:, 1].reshape(inter, hid)
+    return torch.stack((gate.reshape(-1, dst_half, hid), up.reshape(-1, dst_half, hid)), 1).reshape(-1, hid)
+
+
+class _EagerGraph:
+    def __init__(self, eng, key, pkey):
+        self.eng, self.key, self.pkey = eng, key, pkey
+
+    def replay(self):
+        self.eng._frame(self.key, self.pkey)
 
 
 @torch.inference_mode()
-def calibrate_gptq(model, *, texts=("short", "medium", "numbers", "long"), max_new_tokens=40,
-                   nsamples=256, bits=8, verbose=False):
-    """Capture folded-GEMM calibration activations from a BF16 engine, then GPTQ-quantize each weight.
-    Returns a gptq_weights dict for install_fast_tts(weight_bits=8, gptq_weights=...)."""
+def calibrate_gptq(model, *, bits=8, group_size=0, texts=("short", "medium", "numbers", "long"),
+                   max_new_tokens=80, nsamples=1024, percdamp=0.05, verbose=False):
+    """Capture real decode activations (eager frames), GPTQ-quantize each folded weight. Returns a
+    gptq_weights dict for install_fast_tts(weight_bits=bits, group_size=group_size, gptq_weights=...)."""
+    if bits == 4 and not group_size:
+        group_size = 128
     h = te.install_talker_engine(model.model.talker)   # BF16
     eng = h.engine
-    # map weight identity -> override key
     keymap = {}
     for li, L in enumerate(eng.layers):
         for name in ("qkv", "o", "gu", "down"):
@@ -85,6 +103,7 @@ def calibrate_gptq(model, *, texts=("short", "medium", "numbers", "long"), max_n
 
     eng._gemm = make_hook(eng._gemm)
     eng.pred._gemm = make_hook(eng.pred._gemm)
+    eng._graph = lambda key, pkey: _EagerGraph(eng, key, pkey)   # force eager decode frames
     for tid in texts:
         torch.manual_seed(0)
         model.generate_custom_voice(text=TEXTS[tid], speaker="Ryan", language="English", max_new_tokens=max_new_tokens)
@@ -93,16 +112,21 @@ def calibrate_gptq(model, *, texts=("short", "medium", "numbers", "long"), max_n
     gw = {}
     for key, chunks in cap.items():
         X = torch.cat(chunks, 0)
-        # recover the BF16 folded weight from the keymap source
-        W = _weight_for_key(eng, key).float()
-        if X.shape[0] < 16:
+        X = X[X.abs().sum(1) > 1e-6]   # drop zero-padded prefill rows
+        if X.shape[0] < 32:
             continue
-        Wdeq = _gptq_dequant(W, X.to(W.device), bits=bits)
-        q, s = _to_int8(Wdeq)
+        W = _weight_for_key(eng, key).float()
+        Wdeq = _gptq_dequant(W, X.to(W.device), bits=bits, G=group_size, percdamp=percdamp)
+        if bits == 4:
+            q, s = _pack_int4_group(Wdeq, group_size)
+        else:
+            q, s = _pack_int8(Wdeq)
         is_gu = (key[0] == "pred" and key[2] == "gu") or (key[0] != "pred" and key != "head" and key[1] == "gu")
         if is_gu:
             inter = W.shape[0] // 2
-            q, s = _repack_gu(q, s, inter, W.shape[1])
+            q = _repack_rows(q, inter, q.shape[1]).contiguous()
+            s = _repack_rows(s.reshape(s.shape[0], -1), inter, s.shape[1] if s.ndim > 1 else 1)
+            s = s.reshape(s.shape[0], -1).contiguous() if s.ndim > 1 else s.reshape(-1).contiguous()
         gw[key] = (q, s)
         if verbose:
             print(f"  {key}: {tuple(W.shape)} ns={X.shape[0]}", flush=True)
