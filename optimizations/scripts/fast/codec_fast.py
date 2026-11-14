@@ -12,7 +12,10 @@ import torch
 import torch.nn.functional as F
 import triton
 import triton.language as tl
-from triton.language.extra.cuda import libdevice
+if torch.version.hip is not None:
+    from triton.language.extra import libdevice
+else:
+    from triton.language.extra.cuda import libdevice
 
 
 @triton.jit

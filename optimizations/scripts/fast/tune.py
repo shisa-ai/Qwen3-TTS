@@ -183,5 +183,7 @@ with torch.inference_mode():
     print('pred final ms', round(best_p, 4), eng.pred_configs())
 out = dict(configs=eng.cfgs, attn_splits=eng.S, attn_bk=eng.abk, attn_warps=eng.awarps,
            pred_configs=eng.pred_configs(), talker_ms=best_t, pred_ms=best_p)
+tag = te._gpu_tag()
+json.dump(out, open(_paths.TUNED / f'tuned-{size}-{tag}.json', 'w'), indent=1, default=list)
 json.dump(out, open(_paths.TUNED / f'tuned-{size}.json', 'w'), indent=1, default=list)
-print('WROTE', out)
+print('WROTE', f'tuned-{size}-{tag}.json', out)

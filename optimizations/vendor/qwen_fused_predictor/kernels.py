@@ -25,7 +25,10 @@ from __future__ import annotations
 import torch
 import triton
 import triton.language as tl
-from triton.language.extra.cuda import libdevice as tldevice
+if torch.version.hip is not None:
+    from triton.language.extra import libdevice as tldevice
+else:
+    from triton.language.extra.cuda import libdevice as tldevice
 
 
 @triton.jit
@@ -254,7 +257,8 @@ def _cp_sample_kernel(
         c = tl.arange(0, HID)
         e = tl.load(table_ptr + code.to(tl.int64) * HID + c)
         tl.store(next_ptr + row * HID + c, e)
-        if PDL:
+        if ss_ptr is not None:
+            # Chain bookkeeping, needed with or without PDL: sum of squares of the next input row.
             ef = e.to(tl.float32)
             tl.store(ss_ptr + row, tl.sum(ef * ef, axis=0))
 
@@ -362,10 +366,11 @@ def _cp_gemm_kernel(
     out_ptr, ss_in_ptr, ss_out_ptr, M, eps,
     K: tl.constexpr, N: tl.constexpr, HID: tl.constexpr, RMAX: tl.constexpr,
     BN: tl.constexpr, BK: tl.constexpr, NCH: tl.constexpr, BM: tl.constexpr,
-    EPI: tl.constexpr, NT_IN: tl.constexpr, MSTAGES: tl.constexpr,
+    EPI: tl.constexpr, NT_IN: tl.constexpr, MSTAGES: tl.constexpr, PDL: tl.constexpr = True,
 ):  # fmt: skip
     """Small-M variant: the CTA's [BN, NCH * BK] weight panel is loaded once, before the wait, and reused for
-    every M tile of the CTA (M tiles pid_m, pid_m + MT, ...)."""
+    every M tile of the CTA (M tiles pid_m, pid_m + MT, ...). PDL=False compiles the chain for GPUs without
+    programmatic dependent launch (e.g. AMD gfx1151); the launches are then plain stream-ordered kernels."""
     pid_n = tl.program_id(0)
     pid_k = tl.program_id(1)
     pid_m = tl.program_id(2)
@@ -382,8 +387,9 @@ def _cp_gemm_kernel(
     if NCH > 2:
         w2 = _w_chunk(w_ptr, n, kb + 2 * BK, K, BK)
         w3 = _w_chunk(w_ptr, n, kb + 3 * BK, K, BK)
-    tl.extra.cuda.gdc_wait()
-    tl.extra.cuda.gdc_launch_dependents()
+    if PDL:
+        tl.extra.cuda.gdc_wait()
+        tl.extra.cuda.gdc_launch_dependents()
     for m0 in tl.range(pid_m * BM, M, BM * MT, num_stages=MSTAGES):
         m = m0 + tl.arange(0, BM)
         rmask = m < M
@@ -409,11 +415,39 @@ def _cp_gemm_kernel(
 
 
 @triton.jit
+def _cp_gemv_kernel(
+    a_ptr, a_rs, a_ro, w_ptr, ws_ptr, cnt_ptr, out_ptr, ss_in_ptr, ss_out_ptr, M, eps,
+    K: tl.constexpr, N: tl.constexpr, HID: tl.constexpr, RMAX: tl.constexpr,
+    BN: tl.constexpr, BK: tl.constexpr, EPI: tl.constexpr, NT_IN: tl.constexpr, STAGES: tl.constexpr,
+):  # fmt: skip
+    """M=1 GEMV for bandwidth-bound GPUs (AMD gfx1151). Fine N tiles (BN=8 -> hundreds of CTAs) plus a
+    pipelined K loop stream the weight matrix at near-peak DRAM bandwidth; the chain's register-panel
+    and tl.dot kernels only reach ~1/2 of that on RDNA because M=1 is padded to 16 and few CTAs run.
+    Same epilogues as the chain GEMMs (norm-fold scale, SiLU-mul, in-place residual + sum of squares);
+    no split-K (SK=1). Only valid for M == 1; callers fall back to the stream kernel otherwise."""
+    pid_n = tl.program_id(0)
+    n = pid_n * BN + tl.arange(0, BN)
+    arow = a_ro
+    acc = tl.zeros([BN], tl.float32)
+    for k0 in tl.range(0, K, BK, num_stages=STAGES):
+        k = k0 + tl.arange(0, BK)
+        a = tl.load(a_ptr + arow * K + k).to(tl.float32)
+        w = tl.load(w_ptr + n[:, None] * K + k[None, :]).to(tl.float32)
+        acc += tl.sum(w * a[None, :], axis=1)
+    m = tl.arange(0, 1)
+    rmask = m < M
+    _cp_gemm_epilogue(
+        acc[:, None], m, rmask, m * a_rs + a_ro, n, pid_n, out_ptr, ss_in_ptr, ss_out_ptr, eps,
+        N, HID, RMAX, BN, EPI, NT_IN,
+    )  # fmt: skip
+
+
+@triton.jit
 def _cp_gemm_stream_kernel(
     a_ptr, a_rs, a_ro, w_ptr, ws_ptr, cnt_ptr, out_ptr, ss_in_ptr, ss_out_ptr, M, eps,
     K: tl.constexpr, N: tl.constexpr, HID: tl.constexpr, RMAX: tl.constexpr,
     BN: tl.constexpr, BK: tl.constexpr, SK: tl.constexpr, BM: tl.constexpr,
-    EPI: tl.constexpr, NT_IN: tl.constexpr, STAGES: tl.constexpr, NLP: tl.constexpr,
+    EPI: tl.constexpr, NT_IN: tl.constexpr, STAGES: tl.constexpr, NLP: tl.constexpr, PDL: tl.constexpr = True,
 ):  # fmt: skip
     """Large-M variant: one M tile per CTA and a pipelined K loop; the CTA's weight slice is prefetched into
     L2 before the wait instead of being held in registers."""
@@ -425,9 +459,11 @@ def _cp_gemm_stream_kernel(
     kb = pid_k * KS
     # one prefetch per 128-byte line of the slice (index clamped to pad to a power of two)
     li = tl.minimum(tl.arange(0, NLP), KS // 64 - 1)
-    _prefetch_l2(w_ptr + n[:, None] * K + kb + (li * 64)[None, :])
-    tl.extra.cuda.gdc_wait()
-    tl.extra.cuda.gdc_launch_dependents()
+    if PDL:
+        # PTX L2 prefetch; not available on AMD (the inline asm is NVIDIA-only).
+        _prefetch_l2(w_ptr + n[:, None] * K + kb + (li * 64)[None, :])
+        tl.extra.cuda.gdc_wait()
+        tl.extra.cuda.gdc_launch_dependents()
     m = pid_m * BM + tl.arange(0, BM)
     rmask = m < M
     arow = m * a_rs + a_ro
@@ -476,13 +512,18 @@ _PDL_CONFIGS: tuple[tuple[int, dict[str, tuple]], ...] = (
 
 
 def _pdl_supported(device: torch.device) -> bool:
-    """Programmatic dependent launch (``gdc_wait``) needs Hopper or newer and a Triton that exposes it."""
+    """Programmatic dependent launch (``gdc_wait``) needs Hopper or newer and a Triton that exposes it.
+    ROCm exposes the ``tl.extra.cuda`` namespace but the instructions are NVIDIA-only."""
+    if torch.version.hip is not None:
+        return False
     if device.type != "cuda" or torch.cuda.get_device_capability(device)[0] < 9:
         return False
     return hasattr(getattr(tl.extra, "cuda", None), "gdc_wait")
 
 
 def _pdl_split(cfg: tuple, k: int) -> int:
+    if cfg[0] == "g":
+        return 1
     return cfg[3] if cfg[0] == "s" else k // (cfg[1] * cfg[2])
 
 
@@ -562,7 +603,10 @@ class FusedCodePredictor:
         kv = (len(self.layers), 2, max_batch, self.kv_heads, self.max_pos, self.head_dim)
         self.cache = torch.zeros(kv, device=dev, dtype=dt)
         self._dummy = torch.zeros(1, device=dev, dtype=dt)
-        self._pdl_configs = _PDL_CONFIGS if mode == "pdl" and _pdl_supported(dev) and self._pdl_shapes_fit() else ()
+        # The fused chain also runs without PDL on ROCm (plain stream-ordered launches inside a graph).
+        self._use_pdl = _pdl_supported(dev)
+        chain = mode == "pdl" and (self._use_pdl or torch.version.hip is not None) and self._pdl_shapes_fit()
+        self._pdl_configs = _PDL_CONFIGS if chain else ()
         if self._pdl_configs:
             self._init_pdl(max_batch)
         if self.layers[0]["qkv"] is not None:
@@ -629,8 +673,10 @@ class FusedCodePredictor:
         splits = max(_pdl_split(c[name], ks[name]) for _, c in self._pdl_configs for name in ks)
         self.pdl_ws = torch.empty(splits * rows * widest, device=dev, dtype=torch.float32)
         self.pdl_cnt = torch.zeros(16384, device=dev, dtype=torch.int32)
-        # per-row sums of squares of the residual stream, [N tiles, rows], ping-ponged between producers
-        self.pdl_ss = [torch.zeros(hid // 16, rows, device=dev, dtype=torch.float32) for _ in range(2)]
+        # per-row sums of squares of the residual stream, [N tiles, rows], ping-ponged between producers.
+        # gfx1151 GEMV EPI2 producers use BN=8 -> hidden//8 tiles (vs hidden//16 for the BN>=16 chain).
+        ss_tiles = hid // 8 if torch.version.hip is not None else hid // 16
+        self.pdl_ss = [torch.zeros(ss_tiles, rows, device=dev, dtype=torch.float32) for _ in range(2)]
         if max_batch <= self._pdl_configs[-1][0]:
             # Every batch takes the PDL chain: drop the weights only the other path reads.
             for L in self.layers:
@@ -658,18 +704,28 @@ class FusedCodePredictor:
         """Launch one chain GEMM; returns the number of sum-of-squares tiles it wrote (EPI 2)."""
         N, K = w.shape
         common = (a, a_rs, a_ro, w, self.pdl_ws, self.pdl_cnt, out, ss_in, ss_out, M, eps)
+        lp = {"launch_pdl": True} if self._use_pdl else {}
+        if cfg[0] == "g" and M == 1:
+            _, BN, BK, STAGES, warps = cfg
+            _cp_gemv_kernel[(N // BN,)](
+                *common, K=K, N=N, HID=self.hidden, RMAX=self._rows, BN=BN, BK=BK, EPI=epi,
+                NT_IN=nt_in, STAGES=STAGES, num_warps=warps,
+            )  # fmt: skip
+            return self.hidden // BN if epi == 2 else 0
+        if cfg[0] == "g":  # M>1 (predictor's first step): fall back to the stream kernel
+            cfg = ("s", 64, 128, 1, 16, 4, 3)
         if cfg[0] == "s":
             _, BN, BK, SK, BM, warps, stages = cfg
             _cp_gemm_stream_kernel[(N // BN, SK, triton.cdiv(M, BM))](
                 *common, K=K, N=N, HID=self.hidden, RMAX=self._rows, BN=BN, BK=BK, SK=SK, BM=BM, EPI=epi,
                 NT_IN=nt_in, STAGES=stages, NLP=triton.next_power_of_2(K // SK // 64),
-                num_warps=warps, launch_pdl=True,
+                num_warps=warps, PDL=self._use_pdl, **lp,
             )  # fmt: skip
         else:
             BN, BK, NCH, BM, warps, MT, mstages = cfg
             _cp_gemm_kernel[(N // BN, K // (BK * NCH), max(1, min(MT, triton.cdiv(M, BM))))](
                 *common, K=K, N=N, HID=self.hidden, RMAX=self._rows, BN=BN, BK=BK, NCH=NCH, BM=BM, EPI=epi,
-                NT_IN=nt_in, MSTAGES=mstages, num_warps=warps, launch_pdl=True,
+                NT_IN=nt_in, MSTAGES=mstages, num_warps=warps, PDL=self._use_pdl, **lp,
             )  # fmt: skip
         return self.hidden // BN if epi == 2 else 0
 
@@ -693,7 +749,8 @@ class FusedCodePredictor:
                     self.pdl_qkv, self.cache[L["index"], 0], self.cache[L["index"], 1], L["qn"], L["kn"],
                     self.cos, self.sin, self.pdl_att, first, L["head_eps"], self.scale,
                     NQ=nq, H=self.heads, KVH=self.kv_heads, HD=self.head_dim, MAXP=self.max_pos,
-                    BK=self._attn_keys, PDL=True, num_warps=1, launch_pdl=True,
+                    BK=self._attn_keys, PDL=self._use_pdl, num_warps=1,
+                    **({"launch_pdl": True} if self._use_pdl else {}),
                 )  # fmt: skip
                 nt = self._gemm(cfg["o"], self.pdl_att, 1, 0, W["o"], x, None, 0, ss_nxt, rows, 2)
                 ss_cur, ss_nxt = ss_nxt, ss_cur
@@ -709,8 +766,8 @@ class FusedCodePredictor:
             _cp_sample_kernel[(B,)](
                 self.pdl_logits, us, us.stride(0), codes, step, self.groups,
                 self.tables[step - 1] if has_next else self._dummy, x, inv_temperature,
-                V=self.vocab, TOPK=top_k, HID=self.hidden, HAS_NEXT=has_next, ss_ptr=ss_nxt, PDL=True,
-                num_warps=4, launch_pdl=True,
+                V=self.vocab, TOPK=top_k, HID=self.hidden, HAS_NEXT=has_next, ss_ptr=ss_nxt, PDL=self._use_pdl,
+                num_warps=4, **({"launch_pdl": True} if self._use_pdl else {}),
             )  # fmt: skip
             ss_cur, ss_nxt = ss_nxt, ss_cur
             nt = 1

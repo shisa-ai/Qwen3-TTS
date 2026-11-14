@@ -32,6 +32,7 @@ from qwen_fused_predictor import _k, _mapped  # noqa: E402
 
 _gemm_kernel = _k._cp_gemm_kernel
 _gemm_stream_kernel = _k._cp_gemm_stream_kernel
+_gemv_kernel = _k._cp_gemv_kernel
 _head_norm_rope = _k._head_norm_rope
 _PDL_GU_BN = _k._PDL_GU_BN
 
@@ -47,7 +48,7 @@ def _attn_kernel(
     qkv_ptr, kc_ptr, vc_ptr, qw_ptr, kw_ptr, cos_ptr, sin_ptr, state_ptr,
     ws_ptr, ml_ptr, cnt_ptr, out_ptr, eps, scale,
     H: tl.constexpr, KVH: tl.constexpr, HD: tl.constexpr, CAP: tl.constexpr,
-    S: tl.constexpr, BK: tl.constexpr,
+    S: tl.constexpr, BK: tl.constexpr, PDL: tl.constexpr = True,
 ):
     """Split-KV decode attention for one new token with fused q/k RMSNorm, RoPE and cache write.
 
@@ -71,8 +72,9 @@ def _attn_kernel(
     c2 = tl.load(cos_ptr + p * HD + HALF + d).to(tl.float32)
     s1 = tl.load(sin_ptr + p * HD + d).to(tl.float32)
     s2 = tl.load(sin_ptr + p * HD + HALF + d).to(tl.float32)
-    tl.extra.cuda.gdc_wait()
-    tl.extra.cuda.gdc_launch_dependents()
+    if PDL:
+        tl.extra.cuda.gdc_wait()
+        tl.extra.cuda.gdc_launch_dependents()
     # new key / value of this group
     kx1 = tl.load(qkv_ptr + (H + g) * HD + d).to(tl.float32)
     kx2 = tl.load(qkv_ptr + (H + g) * HD + HALF + d).to(tl.float32)
@@ -353,6 +355,8 @@ class TalkerEngine:
         self.device, dt = w0.device, w0.dtype
         if dt != torch.bfloat16 or self.device.type != "cuda":
             raise ValueError("TalkerEngine requires CUDA BF16")
+        # PDL is Hopper-only; on ROCm the same chain runs as plain graph-ordered launches.
+        self._pdl = _k._pdl_supported(self.device)
         if cfg.num_code_groups != 16 or cfg.hidden_act != "silu":
             raise ValueError("Unsupported talker config")
         a0 = m.layers[0].self_attn
@@ -447,7 +451,7 @@ class TalkerEngine:
                      (self.cfgs["gu"], self.hidden), (self.cfgs["down"], self.inter), (self.cfgs["lm"], self.hidden)])
         self.ws = z(64 * widest, dtype=torch.float32)  # any split-K up to 64
         self.cnt = z(16384, dtype=torch.int32)
-        self.ss = [z(self.hidden // 16, 1, dtype=torch.float32) for _ in range(2)]
+        self.ss = [z(self.hidden // (8 if torch.version.hip is not None else 16), 1, dtype=torch.float32) for _ in range(2)]
         # own prefill (bucketed graphs); prompts longer than pmax use the HF prefill
         self.pmax, self.pstep = prefill_max, 16
         P = self.pmax
@@ -480,22 +484,33 @@ class TalkerEngine:
 
     @staticmethod
     def _split(cfg, k):
+        if cfg[0] == "g":
+            return 1
         return cfg[3] if cfg[0] == "s" else k // (cfg[1] * cfg[2])
 
     def _gemm(self, cfg, a, w, out, ss_in, nt_in, ss_out, epi, eps=0.0, M=1, rmax=1, ro=0, ws=None):
         N, K = w.shape
         common = (a, 1, ro, w, self.ws if ws is None else ws, self.cnt, out, ss_in, ss_out, M, eps)
+        lp = {"launch_pdl": True} if self._pdl else {}
+        if cfg[0] == "g" and M == 1:
+            _, BN, BK, STAGES, warps = cfg
+            _gemv_kernel[(N // BN,)](
+                *common, K=K, N=N, HID=self.hidden, RMAX=rmax, BN=BN, BK=BK, EPI=epi,
+                NT_IN=nt_in, STAGES=STAGES, num_warps=warps)
+            return self.hidden // BN if epi == 2 else 0
+        if cfg[0] == "g":
+            cfg = ("s", 64, 128, 1, 16, 4, 3)
         if cfg[0] == "s":
             _, BN, BK, SK, BM, warps, stages = cfg
             _gemm_stream_kernel[(N // BN, SK, triton.cdiv(M, BM))](
                 *common, K=K, N=N, HID=self.hidden, RMAX=rmax, BN=BN, BK=BK, SK=SK, BM=BM, EPI=epi,
                 NT_IN=nt_in, STAGES=stages, NLP=triton.next_power_of_2(K // SK // 64),
-                num_warps=warps, launch_pdl=True)
+                num_warps=warps, PDL=self._pdl, **lp)
         else:
             BN, BK, NCH, BM, warps, MT, mstages = cfg
             _gemm_kernel[(N // BN, K // (BK * NCH), max(1, min(MT, triton.cdiv(M, BM))))](
                 *common, K=K, N=N, HID=self.hidden, RMAX=rmax, BN=BN, BK=BK, NCH=NCH, BM=BM, EPI=epi,
-                NT_IN=nt_in, MSTAGES=mstages, num_warps=warps, launch_pdl=True)
+                NT_IN=nt_in, MSTAGES=mstages, num_warps=warps, PDL=self._pdl, **lp)
         return self.hidden // BN if epi == 2 else 0
 
     def _sample(self, key, adv):
@@ -517,7 +532,7 @@ class TalkerEngine:
                 self.qkv, self.kc[li], self.vc[li], Lw["qn"], Lw["kn"], self.cos, self.sin, self.state,
                 self.aws, self.aml, self.acnt, self.att, Lw["head_eps"], self.scale,
                 H=self.H, KVH=self.KVH, HD=self.HD, CAP=self.capacity, S=self.S, BK=self.abk,
-                num_warps=self.awarps, launch_pdl=True)
+                num_warps=self.awarps, PDL=self._pdl, **({"launch_pdl": True} if self._pdl else {}))
             nt = self._gemm(c["o"], self.att, Lw["o"], self.x, None, 0, ss_nxt, 2)
             ss_cur, ss_nxt = ss_nxt, ss_cur
             self._gemm(c["gu"], self.x, Lw["gu"], self.act, ss_cur, nt, None, 1, Lw["eps2"])
@@ -745,13 +760,30 @@ def install_talker_engine(talker, **kw):
     return EngineGenerate(talker, **kw)
 
 
+def _gpu_tag():
+    """Stable per-GPU tag for tuned-config filenames (ROCm: gcn arch; CUDA: device-name slug)."""
+    import re
+    props = torch.cuda.get_device_properties(torch.cuda.current_device())
+    arch = getattr(props, "gcnArchName", "") or ""
+    if arch:
+        return arch.split(":")[0]
+    return re.sub(r"[^a-z0-9]+", "-", torch.cuda.get_device_name().lower()).strip("-")
+
+
 def load_tuned(size):
-    """Engine kwargs tuned on this GPU type by tune.py (results/fast/tuned-<size>.json)."""
+    """Engine kwargs tuned on this GPU type by tune.py. Prefers tuned-<size>-<gpu>.json, then the
+    legacy tuned-<size>.json. Returns {} when no configs exist for this GPU (defaults are used)."""
     import json, os
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tuned", f"tuned-{size}.json")
-    if not os.path.exists(path):
+    here = os.path.dirname(os.path.abspath(__file__))
+    tag = _gpu_tag()
+    t = None
+    for fname in (f"tuned-{size}-{tag}.json", f"tuned-{size}.json"):
+        path = os.path.join(here, "tuned", fname)
+        if os.path.exists(path):
+            t = json.load(open(path))
+            break
+    if t is None:
         return {}
-    t = json.load(open(path))
     tup = lambda d: {k: tuple(v) for k, v in d.items()}
     return dict(configs=tup(t["configs"]), pred_configs=tup(t["pred_configs"]),
                 attn_splits=t["attn_splits"], attn_bk=t["attn_bk"], attn_warps=t["attn_warps"])
