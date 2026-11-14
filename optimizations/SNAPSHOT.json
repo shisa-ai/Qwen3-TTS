@@ -35,7 +35,7 @@
   },
   "vendor/qwen_fused_predictor/kernels.py": {
    "source": "results/gap/final/0.6b-loop-v2-sources/kernels.py",
-   "sha256": "ac3e4557f0b64660a2bfeed809fe1e137a5a27b95ba16e7363710de1cd9cb2bb"
+   "sha256": "2337329a758aaadfa09b419b8d72169f71d9f0c097e08145c0d1377bcd5de77a"
   },
   "scripts/qwen_frame_loop.py": {
    "source": "results/gap/final/0.6b-loop-v2-sources/qwen_frame_loop.py",

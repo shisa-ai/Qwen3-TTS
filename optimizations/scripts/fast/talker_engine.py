@@ -33,6 +33,7 @@ from qwen_fused_predictor import _k, _mapped  # noqa: E402
 _gemm_kernel = _k._cp_gemm_kernel
 _gemm_stream_kernel = _k._cp_gemm_stream_kernel
 _gemv_kernel = _k._cp_gemv_kernel
+_gemv_w8_kernel = _k._cp_gemv_w8_kernel
 _head_norm_rope = _k._head_norm_rope
 _PDL_GU_BN = _k._PDL_GU_BN
 
@@ -41,6 +42,9 @@ DEFAULT_CONFIGS = {
     "qkv": (64, 256, 2, 16, 4, 1, 1), "o": (32, 256, 1, 16, 4, 1, 2), "gu": (64, 256, 2, 16, 4, 1, 1),
     "down": (32, 128, 4, 16, 4, 1, 1), "lm": (64, 256, 2, 16, 8, 1, 1),
 }
+
+# Weight-only INT8 M=1 GEMV configs for bandwidth-bound GPUs (gfx1151): ~2x the BF16 GEMV.
+QUANT_CONFIGS = {name: ("q", 8, 256, 4, 8) for name in ("qkv", "o", "gu", "down", "lm")}
 
 
 @triton.jit
@@ -347,7 +351,7 @@ PREFILL_CONFIGS = {
 
 class TalkerEngine:
     def __init__(self, talker, *, capacity=4096, predictor_mode="pdl", attn_splits=8, attn_bk=32, attn_warps=4,
-                 configs=None, pred_configs=None, pred_attn_o=False, own_prefill=True, prefill_max=256):
+                 configs=None, pred_configs=None, pred_attn_o=False, own_prefill=True, prefill_max=256, weight_bits=16):
         self.talker = talker
         m = talker.model
         cfg = talker.config
@@ -364,11 +368,19 @@ class TalkerEngine:
         self.hidden, self.vocab, self.G = cfg.hidden_size, cfg.vocab_size, cfg.num_code_groups
         self.eps = float(m.norm.variance_epsilon)
         self.capacity, self.S, self.abk, self.awarps = capacity, attn_splits, attn_bk, attn_warps
-        self.cfgs = dict(DEFAULT_CONFIGS, **(configs or {}))
+        self._w8 = weight_bits == 8
+        if weight_bits not in (8, 16):
+            raise ValueError("weight_bits must be 8 or 16")
+        if self._w8:
+            # Quantized decode weights are INT8 tuples; the engine prefill kernels read BF16 weights, so
+            # quantized mode uses the HF prefill (also faster than the engine prefill on gfx1151).
+            own_prefill = False
+        self.cfgs = dict(QUANT_CONFIGS if self._w8 else DEFAULT_CONFIGS, **(configs or {}))
         f32 = lambda t: t.detach().float()
         bf = lambda t: t.to(torch.bfloat16).contiguous()
         fold = lambda w, ln: bf(f32(w) * f32(ln)[None, :])  # [N, K] weight with RMSNorm weight folded on K
-        half = _PDL_GU_BN // 2
+        qw = (lambda w: _k._quantize_w8(w)) if self._w8 else (lambda w: w)
+        half = 4 if self._w8 else _PDL_GU_BN // 2
         self.layers = []
         for layer in m.layers:
             a, mlp = layer.self_attn, layer.mlp
@@ -380,16 +392,17 @@ class TalkerEngine:
             up = fold(mlp.up_proj.weight, layer.post_attention_layernorm.weight)
             gu = torch.stack((gate.reshape(-1, half, self.hidden), up.reshape(-1, half, self.hidden)), 1)
             self.layers.append(dict(
-                qkv=fold(qkv, layer.input_layernorm.weight), o=bf(a.o_proj.weight),
-                gu=gu.reshape(-1, self.hidden).contiguous(), down=bf(mlp.down_proj.weight),
+                qkv=qw(fold(qkv, layer.input_layernorm.weight)), o=qw(bf(a.o_proj.weight)),
+                gu=qw(gu.reshape(-1, self.hidden).contiguous()), down=qw(bf(mlp.down_proj.weight)),
                 qn=bf(a.q_norm.weight), kn=bf(a.k_norm.weight),
                 eps1=float(layer.input_layernorm.variance_epsilon),
                 eps2=float(layer.post_attention_layernorm.variance_epsilon),
                 head_eps=float(a.q_norm.variance_epsilon)))
         self.scale = a0.scaling
         self.norm_w = bf(m.norm.weight)
-        self.head = fold(talker.codec_head.weight, m.norm.weight)
-        self.inter = self.layers[0]["down"].shape[1]
+        self.head = qw(fold(talker.codec_head.weight, m.norm.weight))
+        d0 = self.layers[0]["down"]
+        self.inter = (d0[0] if self._w8 else d0).shape[1]
         # RoPE tables exactly as HF builds them (text-only mRoPE: all three axes share positions).
         pos = torch.arange(capacity, device=self.device).view(1, 1, -1).expand(3, 1, -1)
         cos, sin = m.rotary_emb(torch.empty(1, device=self.device, dtype=dt), pos)
@@ -416,7 +429,7 @@ class TalkerEngine:
             from pred_fused import FusedAttnOPredictor as _P
         else:
             _P = _k.FusedCodePredictor
-        self.pred = _P(_mapped(cp), max_batch=1, mode=predictor_mode)
+        self.pred = _P(_mapped(cp), max_batch=1, mode=predictor_mode, weight_bits=weight_bits)
         self.pvocab = self.pred.vocab
         if self.pred._pdl_configs:
             p = self.pred
@@ -424,6 +437,8 @@ class TalkerEngine:
                                    device=self.device, dtype=torch.float32)
             if pred_configs:
                 self.set_pred_configs(pred_configs)
+            elif self._w8:
+                self.set_pred_configs(QUANT_CONFIGS)
         # Buffers
         z = lambda *s, dtype=torch.bfloat16: torch.zeros(*s, device=self.device, dtype=dtype)
         L = len(self.layers)
@@ -451,7 +466,7 @@ class TalkerEngine:
                      (self.cfgs["gu"], self.hidden), (self.cfgs["down"], self.inter), (self.cfgs["lm"], self.hidden)])
         self.ws = z(64 * widest, dtype=torch.float32)  # any split-K up to 64
         self.cnt = z(16384, dtype=torch.int32)
-        self.ss = [z(self.hidden // (8 if torch.version.hip is not None else 16), 1, dtype=torch.float32) for _ in range(2)]
+        self.ss = [z(self.hidden // (8 if (torch.version.hip is not None or self._w8) else 16), 1, dtype=torch.float32) for _ in range(2)]
         # own prefill (bucketed graphs); prompts longer than pmax use the HF prefill
         self.pmax, self.pstep = prefill_max, 16
         P = self.pmax
@@ -484,11 +499,20 @@ class TalkerEngine:
 
     @staticmethod
     def _split(cfg, k):
-        if cfg[0] == "g":
+        if cfg[0] in ("g", "q"):
             return 1
         return cfg[3] if cfg[0] == "s" else k // (cfg[1] * cfg[2])
 
     def _gemm(self, cfg, a, w, out, ss_in, nt_in, ss_out, epi, eps=0.0, M=1, rmax=1, ro=0, ws=None):
+        if cfg[0] == "q":
+            w8, scale = w
+            N, K = w8.shape
+            _, BN, BK, STAGES, warps = cfg
+            _gemv_w8_kernel[(N // BN,)](
+                a, 1, ro, w8, scale, self.ws if ws is None else ws, self.cnt, out, ss_in, ss_out, M, eps,
+                K=K, N=N, HID=self.hidden, RMAX=rmax, BN=BN, BK=BK, EPI=epi,
+                NT_IN=nt_in, STAGES=STAGES, num_warps=warps)
+            return self.hidden // BN if epi == 2 else 0
         N, K = w.shape
         common = (a, 1, ro, w, self.ws if ws is None else ws, self.cnt, out, ss_in, ss_out, M, eps)
         lp = {"launch_pdl": True} if self._pdl else {}
@@ -795,7 +819,11 @@ def install_fast_tts(model, *, tuned="auto", codec_fast=True, codec_graphs=True,
     from codec_overlap import OverlapCodec
     if tuned == "auto":
         size = "1.7B" if model.model.talker.config.hidden_size == 2048 else "0.6B"
-        engine_kw = {**load_tuned(size), **engine_kw}
+        lt = load_tuned(size)
+        if engine_kw.get("weight_bits") == 8:
+            # Quantized GEMMs use QUANT_CONFIGS; only the tuned attention params apply.
+            lt = {k: lt[k] for k in ("attn_splits", "attn_bk", "attn_warps") if k in lt}
+        engine_kw = {**lt, **engine_kw}
     h = install_talker_engine(model.model.talker, **engine_kw)
     eng = h.engine
     if eng.own_prefill:

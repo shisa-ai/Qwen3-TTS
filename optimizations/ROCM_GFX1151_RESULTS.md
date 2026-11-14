@@ -9,12 +9,14 @@ guarded so the CUDA path is unchanged; on ROCm the same fused kernels run as pla
 
 ## TL;DR
 
-Every CUDA-side optimization was ported and measured. Best RTF on gfx1151: **0.6B 0.3444 (~2× over HF)** with
-the base graph stack, **1.7B 0.6875 (1.25×)** with the whole-frame engine. Quality is preserved (numerics no
-worse than HF BF16 vs FP32; WER 0.35%/0.53%). The gains are much smaller than the H20's 40×/29× because
-gfx1151 is **bandwidth-bound** (~226 GB/s vs ~4 TB/s): the weight-read floor alone is RTF ≈ 0.19, and the
-vendored fused GEMM streams weights slower than hipBLASLt. The whole-frame engine — the CUDA crown jewel —
-does not win here for 0.6B; faster GEMMs (hipBLASLt) beat fewer kernels.
+Every CUDA-side optimization was ported and measured, then **weight-only INT8 quantization** was added as the
+bandwidth lever. Best RTF on gfx1151: **0.6B 0.1607 (4.26× over HF)** and **1.7B 0.2477 (3.46×)** with the
+INT8 whole-frame engine — intelligibility preserved (WER 0.53% / 1.06%). Without quantization the best were
+0.6B 0.3444 (base stack, ~2×) and 1.7B 0.6875 (BF16 engine, 1.25×). gfx1151 is **bandwidth-bound**
+(~226 GB/s vs the H20's ~4 TB/s), so halving the weight bytes with INT8 nearly halves the frame time; the
+H20's 40×/29× is still out of reach, but quantization closes much of the gap. The BF16 whole-frame engine —
+the CUDA crown jewel — does not win here without quantization, because hipBLASLt streams BF16 weights faster
+than the vendored fused Triton chain.
 
 ## Hardware and software
 
@@ -54,11 +56,13 @@ Full per-config comparison (mean of per-condition median RTFs, 24 samples each, 
 | Configuration | 0.6B RTF ↓ | 0.6B speedup | 1.7B RTF ↓ | 1.7B speedup |
 |---|---:|---:|---:|---:|
 | HF `generate` + SDPA (reference) | 0.6845 | 1.0× | 0.8581 | 1.0× |
-| Base stack: predictor/talker HIP graphs, fused norms, hipBLASLt fused predictor, talker fusion, frame loop | **0.3444** | **1.99×** | 0.8525 | 1.01× |
+| Base stack: predictor/talker HIP graphs, fused norms, hipBLASLt fused predictor, talker fusion, frame loop | 0.3444 | 1.99× | 0.8525 | 1.01× |
 | Whole-frame engine, un-tuned H200 configs | ~0.70 | ~1.0× | — | — |
-| Whole-frame engine, gfx1151-tuned configs + fast codec | 0.4094 | 1.67× | **0.6875** | **1.25×** |
+| Whole-frame engine, gfx1151-tuned BF16 + fast codec | 0.4094 | 1.67× | 0.6875 | 1.25× |
+| **Whole-frame engine, weight-only INT8 + fast codec** | **0.1607** | **4.26×** | **0.2477** | **3.46×** |
 
-**Best configuration per size: 0.6B → base stack (0.3444, ~2×); 1.7B → whole-frame engine (0.6875, 1.25×).**
+**Best configuration: the INT8 whole-frame engine for both sizes.** Without quantization the best flips by
+size (0.6B → base stack, 1.7B → BF16 engine); quantization makes the engine the clear winner everywhere.
 
 This is the headline difference from the CUDA work. On the H20 the whole-frame engine was the clear winner
 (40×/29× over HF) because the workload was latency-bound and fusion cut kernel count. On gfx1151 the gains
@@ -89,6 +93,28 @@ as a selectable config variant (`("g", BN, BK, STAGES, warps)`) for future work.
 redesigned fusion (decoupled sum-of-squares reduction) or weight-only FP8/INT8 — the latter halves the bytes
 and, unlike on the latency-bound H20, would pay off directly here.
 
+## Weight-only INT8 quantization (the bandwidth lever)
+
+Because gfx1151 is bandwidth-bound, halving the weight bytes is the direct lever (the CUDA work rejected FP8
+on the latency-bound H20, where quant/dequant overhead dominated). Implemented as **weight-only INT8** with
+per-output-row symmetric scales and **fused in-register dequant** — activations stay BF16, no separate
+dequant kernel or materialized BF16 weights.
+
+- A new M=1 GEMV (`_cp_gemv_w8_kernel`, config variant `("q", BN, BK, STAGES, warps)`) loads INT8 weights,
+  converts to FP32 in registers, accumulates, and applies the per-row scale before the chain epilogue. With
+  `BN=8, BK=256, num_stages=4, num_warps=8` it runs **2.02× the BF16 GEMV** (20.8 vs 42.1 µs for an 8 MB
+  weight; 404 GB/s BF16-equivalent). `num_warps=8` is essential to hide the int8→fp32 conversion latency.
+- The kernel loops over M rows so it also covers the predictor's M=2 first step (re-reads weights once more,
+  1 of 15 steps). Gate/up is re-packed for BN=8 tiles; sum-of-squares buffers use hidden/8 tiles.
+- Enabled with `weight_bits=8` on `TalkerEngine` / `install_fast_tts`. Quantized mode uses the HF prefill
+  (the engine prefill is slower than HF eager on gfx1151 anyway). The BF16 path is unchanged.
+- **FP8 E4M3 was tried and rejected**: the fp8→fp32 conversion is slower than BF16 on RDNA (0.84×) and less
+  accurate (2.7% vs INT8 0.8% per-weight rel-err).
+
+Per-frame (0.6B): talker **3.35 ms** (BF16 8.9), predictor **8.8 ms** (BF16 23.0), frame **12.16 ms** (BF16 33).
+The predictor benefits most because it re-reads its weights 15× per frame. The INT8 frame even beats the BF16
+weight-read floor, since the floor itself halves with the bytes.
+
 ## Quality checks
 
 Same principles as the CUDA work: compare against an FP32 reference and sampled behavior, not greedy token
@@ -100,7 +126,13 @@ parity. All checks passed; the port introduces no quality regression.
 | Talker numerics (1.7B) | same | engine rel-err **0.0120** (p95 0.0153), KL 3.98e-4 — **no worse than HF BF16** (0.0126, KL 4.87e-4) |
 | Prefill (both sizes) | engine prefill vs HF on all 4 prompts | argmax identical on every prompt; top-5 overlap **5/5**; logits rel ~1–1.7% |
 | Codec (0.6B) | fast kernels vs FP32 decode, 220 frames | fast **36.6 dB** vs stock 35.7 dB (more accurate); fast vs stock 39.7 dB |
-| Intelligibility | Whisper large-v3-turbo WER, 24-sample suites | fast **0.35%** (0.6B), **0.53%** (1.7B); HF 0.89% (1.7B). The 0.6B HF suite pooled 41% only because one sample hit the model's documented laugh-loop ("Hey, hey, hey…", WER 28.6); its other 23 files are ≤6%. Fast max per-file WER 5.6% ("9"/"nine"). |
+| Intelligibility | Whisper large-v3-turbo WER, 24-sample suites | BF16 fast **0.35%** (0.6B), **0.53%** (1.7B); **INT8 0.53% (0.6B), 1.06% (1.7B)**; HF 0.89% (1.7B). The 0.6B HF suite pooled 41% only because one sample hit the model's documented laugh-loop ("Hey, hey, hey…", WER 28.6); its other 23 files are ≤6%. |
+| INT8 numerics (0.6B) | engine hidden states vs FP32 | rel-err **0.0316** (p95 0.0464), KL 1.45e-3 (HF BF16 0.0140, KL 4.06e-4) |
+| INT8 numerics (1.7B) | same | rel-err **0.0405** (p95 0.0493), KL 1.37e-3 (HF BF16 0.0130, KL 3.85e-4) |
+
+INT8 raises the numeric error vs FP32 (3–4% vs BF16's ~1.3%) as expected, but **WER stays near zero** — the
+sampling distribution and intelligibility are preserved. This is the doc's "validate distributions, not
+tokens" principle: the quantized engine is accepted on WER + sampled behavior, not bit parity.
 
 Notes specific to gfx1151:
 - **Engine prefill is slower than HF eager here** (0.6B ~13 vs 12 ms; 1.7B ~50 vs 35 ms), unlike the H20
@@ -113,29 +145,30 @@ Notes specific to gfx1151:
 
 ## Remaining opportunities (gfx1151-specific)
 
-- **Weight-only FP8/INT8** is the biggest lever: the part is bandwidth-bound, so halving weight bytes nearly
-  halves the floor. On the latency-bound H20 this was rejected (quant/dequant overhead dominated); here it
-  would pay off directly. Untested.
-- **hipBLASLt GEMMs inside the whole-frame engine** (hybrid): keep the engine's graph + fused attention +
-  on-device sampling, but replace the slow fused Triton GEMM chain with hipBLASLt. Would likely make the
-  engine win for both sizes. Requires decoupling the norm-fold/residual/sum-of-squares epilogues.
-- **Decoupled sum-of-squares reduction** so the fast BN=8 GEMV can be used in the chain without the epilogue
-  reduction overhead that currently negates it (see above).
-- **Predictor weight reuse**: the 15 residual steps re-read the same ~0.16 GB 15×/frame. A persistent
-  megakernel or larger-cache strategy could cut this; the 2 MB L2 cannot hold it.
+- **Done: weight-only INT8** (above) — 4.26×/3.46× over HF, the best config. FP8 tried, rejected (slow + less
+  accurate on RDNA).
+- **Finer quantization granularity** (per-group scales, e.g. group 128) could cut the 3–4% numeric error
+  toward BF16 at a small bandwidth cost; WER is already fine so this is optional.
+- **INT4 weight-only** would halve the bytes again (floor ~0.08 RTF) if accuracy holds; untested.
+- **hipBLASLt GEMMs inside the BF16 engine** (hybrid) would make the BF16 engine win without quantization;
+  superseded by INT8 for this bandwidth-bound part.
+- **Predictor weight reuse**: the 15 residual steps re-read the same weights 15×/frame; a persistent
+  megakernel could cut this further (the 2 MB L2 cannot hold them).
 
 ## Reproduce
 
 ```bash
-# suites (base = best 0.6B, fast = best 1.7B)
+# suites (w8 = INT8 quantized engine, the best config)
 python optimizations/scripts/fast/suite.py --size 0.6B --stack hf   --label rocm-hf
 python optimizations/scripts/fast/suite.py --size 0.6B --stack base --label rocm-base
-python optimizations/scripts/fast/suite.py --size 1.7B --stack fast --label rocm-fast
-# retune on this GPU (writes tuned-<size>-gfx1151.json)
+python optimizations/scripts/fast/suite.py --size 0.6B --stack fast --label rocm-w8 \
+    --engine-kw '{"weight_bits": 8}'
+# in Python: install_fast_tts(model, weight_bits=8)  # tuned attention auto-loaded
+# retune BF16 attention/GEMM configs on this GPU
 python optimizations/scripts/fast/tune.py 0.6B
 # quality
 python optimizations/scripts/fast/test_numerics.py 1.7B
 python optimizations/scripts/fast/test_prefill.py 0.6B
 python optimizations/scripts/fast/test_codec_fast.py
-python optimizations/scripts/fast/asr_wer.py optimizations/results/fast/0.6b-rocm-fast.manifest.json
+python optimizations/scripts/fast/asr_wer.py optimizations/results/fast/0.6b-rocm-w8.manifest.json
 ```

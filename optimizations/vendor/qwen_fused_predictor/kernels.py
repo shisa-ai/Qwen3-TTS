@@ -443,6 +443,44 @@ def _cp_gemv_kernel(
 
 
 @triton.jit
+def _cp_gemv_w8_kernel(
+    a_ptr, a_rs, a_ro, w_ptr, scale_ptr, ws_ptr, cnt_ptr, out_ptr, ss_in_ptr, ss_out_ptr, M, eps,
+    K: tl.constexpr, N: tl.constexpr, HID: tl.constexpr, RMAX: tl.constexpr,
+    BN: tl.constexpr, BK: tl.constexpr, EPI: tl.constexpr, NT_IN: tl.constexpr, STAGES: tl.constexpr,
+):  # fmt: skip
+    """Weight-only INT8 M=1 GEMV (gfx1151). Weights are per-output-row symmetric INT8 with an FP32 scale;
+    activations stay BF16. Loads half the bytes of BF16 and dequantizes in registers (acc * scale[n]),
+    so on a bandwidth-bound part it runs ~2x the BF16 GEMV. Same chain epilogues. Loops over M rows
+    (M=1 decode fast path; the predictor's M=2 first step re-reads weights once more, 1 of 15 steps)."""
+    pid_n = tl.program_id(0)
+    n = pid_n * BN + tl.arange(0, BN)
+    scale = tl.load(scale_ptr + n)
+    for mi in range(M):
+        arow = mi * a_rs + a_ro
+        acc = tl.zeros([BN], tl.float32)
+        for k0 in tl.range(0, K, BK, num_stages=STAGES):
+            k = k0 + tl.arange(0, BK)
+            a = tl.load(a_ptr + arow * K + k).to(tl.float32)
+            w = tl.load(w_ptr + n[:, None] * K + k[None, :]).to(tl.float32)
+            acc += tl.sum(w * a[None, :], axis=1)
+        acc = acc * scale
+        m = mi + tl.arange(0, 1)
+        rmask = m < M
+        _cp_gemm_epilogue(
+            acc[:, None], m, rmask, m * a_rs + a_ro, n, pid_n, out_ptr, ss_in_ptr, ss_out_ptr, eps,
+            N, HID, RMAX, BN, EPI, NT_IN,
+        )  # fmt: skip
+
+
+def _quantize_w8(w: torch.Tensor):
+    """Per-output-row symmetric INT8 quantization of an [N, K] weight. Returns (int8 [N,K], fp32 scale [N])."""
+    wf = w.detach().float()
+    scale = (wf.abs().amax(dim=1) / 127.0).clamp(min=1e-8)
+    q = torch.round(wf / scale[:, None]).clamp(-127, 127).to(torch.int8).contiguous()
+    return q, scale.contiguous()
+
+
+@triton.jit
 def _cp_gemm_stream_kernel(
     a_ptr, a_rs, a_ro, w_ptr, ws_ptr, cnt_ptr, out_ptr, ss_in_ptr, ss_out_ptr, M, eps,
     K: tl.constexpr, N: tl.constexpr, HID: tl.constexpr, RMAX: tl.constexpr,
@@ -539,10 +577,13 @@ def _pdl_fits(cfg: tuple, n: int, k: int) -> bool:
 class FusedCodePredictor:
     """Execution object built from a loaded ``Qwen3TTSTalkerCodePredictorForConditionalGenerationVLLM``."""
 
-    def __init__(self, predictor, max_batch: int, mode: str = "pdl") -> None:
+    def __init__(self, predictor, max_batch: int, mode: str = "pdl", weight_bits: int = 16) -> None:
         if mode not in ("pdl", "nonpdl"):
             raise ValueError("Unknown fused predictor mode")
+        if weight_bits not in (8, 16):
+            raise ValueError("weight_bits must be 8 or 16")
         self.mode = mode
+        self._w8 = weight_bits == 8
         model = predictor.model
         weight = next(model.parameters())
         dev, dt = weight.device, weight.dtype
@@ -643,7 +684,8 @@ class FusedCodePredictor:
             # [K, N] transposed weight -> [N, K] with the RMSNorm weight folded into its columns
             return (wt.float().t() * ln.float()[None, :]).to(torch.bfloat16).contiguous()
 
-        half = _PDL_GU_BN // 2
+        half = 4 if self._w8 else _PDL_GU_BN // 2
+        qw = (lambda w: _quantize_w8(w)) if self._w8 else (lambda w: w)
         self.pdl_w = []
         for L in self.layers:
             gu = fold(L["gu"], L["ln2"])
@@ -652,14 +694,15 @@ class FusedCodePredictor:
             gu = torch.stack((gu[:inter].reshape(-1, half, hid), gu[inter:].reshape(-1, half, hid)), 1)
             self.pdl_w.append(
                 dict(
-                    qkv=fold(L["qkv"], L["ln1"]),
-                    o=L["o"].t().contiguous(),
-                    gu=gu.reshape(-1, hid).contiguous(),
-                    down=L["down"].t().contiguous(),
+                    qkv=qw(fold(L["qkv"], L["ln1"])),
+                    o=qw(L["o"].t().contiguous()),
+                    gu=qw(gu.reshape(-1, hid).contiguous()),
+                    down=qw(L["down"].t().contiguous()),
                 )
             )
-        self.pdl_lm = [fold(h, self.norm_w) for h in self.lm_heads]
-        inter = self.pdl_w[0]["gu"].shape[0] // 2
+        self.pdl_lm = [qw(fold(h, self.norm_w)) for h in self.lm_heads]
+        g0 = self.pdl_w[0]["gu"]
+        inter = (g0[0] if self._w8 else g0).shape[0] // 2
         rows = 2 * max_batch
         self._rows = rows
         bf = torch.bfloat16
@@ -669,7 +712,7 @@ class FusedCodePredictor:
         self.pdl_act = torch.empty(rows, inter, device=dev, dtype=bf)
         self.pdl_logits = torch.empty(max_batch, self.vocab, device=dev, dtype=bf)
         widest = max(self.pdl_qkv.shape[1], 2 * inter, self.vocab, hid)
-        ks = {name: w.shape[1] for name, w in self.pdl_w[0].items()} | {"lm": hid}
+        ks = {name: (w[0] if self._w8 else w).shape[1] for name, w in self.pdl_w[0].items()} | {"lm": hid}
         splits = max(_pdl_split(c[name], ks[name]) for _, c in self._pdl_configs for name in ks)
         self.pdl_ws = torch.empty(splits * rows * widest, device=dev, dtype=torch.float32)
         self.pdl_cnt = torch.zeros(16384, device=dev, dtype=torch.int32)
@@ -702,6 +745,16 @@ class FusedCodePredictor:
 
     def _gemm(self, cfg, a, a_rs, a_ro, w, out, ss_in, nt_in, ss_out, M, epi, eps=0.0) -> int:
         """Launch one chain GEMM; returns the number of sum-of-squares tiles it wrote (EPI 2)."""
+        if cfg[0] == "q":
+            w8, scale = w
+            N, K = w8.shape
+            _, BN, BK, STAGES, warps = cfg
+            _cp_gemv_w8_kernel[(N // BN,)](
+                a, a_rs, a_ro, w8, scale, self.pdl_ws, self.pdl_cnt, out, ss_in, ss_out, M, eps,
+                K=K, N=N, HID=self.hidden, RMAX=self._rows, BN=BN, BK=BK, EPI=epi,
+                NT_IN=nt_in, STAGES=STAGES, num_warps=warps,
+            )  # fmt: skip
+            return self.hidden // BN if epi == 2 else 0
         N, K = w.shape
         common = (a, a_rs, a_ro, w, self.pdl_ws, self.pdl_cnt, out, ss_in, ss_out, M, eps)
         lp = {"launch_pdl": True} if self._use_pdl else {}
