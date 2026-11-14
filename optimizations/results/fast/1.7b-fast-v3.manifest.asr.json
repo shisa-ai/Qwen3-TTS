@@ -1,0 +1,194 @@
+[
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-short-s0.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there, how can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-short-s1.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there. How can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-short-s2.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there! How can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning and welcome back. The meeting starts at 9 and the coffee's already on the table.",
+  "wer": 0.16666666666666666,
+  "errors": 3,
+  "words": 18
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-medium-s1.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning and welcome back. The meeting starts at 9 and the coffee is already on the table.",
+  "wer": 0.05555555555555555,
+  "errors": 1,
+  "words": 18
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-medium-s2.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha ha",
+  "wer": 24.666666666666668,
+  "errors": 444,
+  "words": 18
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-long-s0.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed And the sailors who saw it knew they were almost home",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-long-s1.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night, its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-long-s2.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-numbers-s0.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-numbers-s1.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Ryan-numbers-s2.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12 and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-short-s0.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there! How can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-short-s1.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there. How can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-short-s2.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there, how can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 18
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-medium-s1.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning, and welcome back. The meeting starts at nine, and the coffee's already on the table.",
+  "wer": 0.1111111111111111,
+  "errors": 2,
+  "words": 18
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-medium-s2.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 18
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-long-s0.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-long-s1.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night, its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-long-s2.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night, its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-numbers-s0.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-numbers-s1.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-v3/Aiden-numbers-s2.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ }
+]

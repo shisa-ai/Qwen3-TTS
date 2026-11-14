@@ -1,0 +1,482 @@
+[
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s0.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s1.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s2.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s3.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s4.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s5.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s6.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s7.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s8.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s9.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s10.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s11.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s12.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s13.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s14.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s15.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s16.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s17.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s18.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s19.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s20.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s21.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s22.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s23.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s24.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s25.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s26.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s27.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s28.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-short-s29.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s1.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s2.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s3.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s4.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s5.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s6.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s7.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s8.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s9.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s10.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s11.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s12.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s13.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s14.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s15.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s16.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s17.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s18.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s19.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s20.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s21.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s22.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s23.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s24.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s25.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s26.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s27.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s28.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Ryan-medium-s29.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s0.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s1.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s2.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s3.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s4.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s5.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s6.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s7.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s8.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s9.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s10.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s11.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s12.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s13.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s14.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s15.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s16.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s17.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s18.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s19.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s20.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s21.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s22.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s23.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s24.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s25.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s26.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s27.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s28.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-short-s29.wav",
+  "text": "Hello there. How can I help you today?"
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s1.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s2.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s3.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s4.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s5.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s6.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s7.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s8.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s9.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s10.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s11.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s12.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s13.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s14.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s15.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s16.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s17.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s18.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s19.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s20.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s21.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s22.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s23.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s24.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s25.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s26.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s27.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s28.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-hf-stat/Aiden-medium-s29.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ }
+]

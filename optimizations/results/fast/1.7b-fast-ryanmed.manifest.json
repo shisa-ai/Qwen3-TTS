@@ -1,0 +1,402 @@
+[
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s1.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s2.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s3.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s4.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s5.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s6.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s7.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s8.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s9.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s10.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s11.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s12.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s13.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s14.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s15.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s16.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s17.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s18.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s19.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s20.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s21.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s22.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s23.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s24.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s25.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s26.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s27.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s28.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s29.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s30.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s31.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s32.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s33.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s34.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s35.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s36.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s37.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s38.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s39.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s40.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s41.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s42.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s43.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s44.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s45.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s46.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s47.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s48.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s49.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s50.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s51.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s52.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s53.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s54.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s55.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s56.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s57.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s58.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s59.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s60.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s61.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s62.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s63.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s64.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s65.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s66.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s67.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s68.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s69.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s70.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s71.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s72.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s73.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s74.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s75.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s76.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s77.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s78.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s79.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s80.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s81.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s82.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s83.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s84.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s85.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s86.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s87.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s88.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s89.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s90.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s91.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s92.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s93.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s94.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s95.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s96.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s97.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s98.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ },
+ {
+  "wav": "/root/tts/samples/fast/1.7b-fast-ryanmed/Ryan-medium-s99.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table."
+ }
+]

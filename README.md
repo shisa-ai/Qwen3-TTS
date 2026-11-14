@@ -11,12 +11,15 @@ Last measured: **2026-11-14**. These are local **H20, BF16, batch-one CustomVoic
 | + Predictor and talker CUDA graphs | 0.2240 | 0.2230 | 6.36× | 5.90× |
 | + Fused predictor RMSNorm and removal of unused predictor hidden states | 0.1842 | 0.1945 | 7.73× | 6.76× |
 | + Fused predictor kernels, talker norm/projection fusion, cached immutable configuration defaults | 0.1027 | 0.1086 | 13.88× | 12.11× |
-| **+ Explicit decode loop (current offline stack)** | **0.0891** | **0.1016** | **15.99×** | **12.94×** |
+| + Explicit decode loop (previous offline stack) | 0.0891 | 0.1016 | 15.99× | 12.94× |
+| + Whole-frame CUDA graph engine (talker PDL GEMM chain, on-device sampling) | 0.0568 | 0.0711 | 25.08× | 18.50× |
+| + H20-tuned GEMM/attention configs, faster codec kernels | 0.0457 | 0.0598 | 31.17× | 22.00× |
+| **+ Engine prefill graphs + bucketed codec graphs (current fast engine)** | **0.0351** | **0.0447** | **40.59×** | **29.43×** |
 | Historical vLLM-Omni 0.32.0 deployment — comparison only | 0.0753 | 0.0844 | 18.91× | 15.59× |
 
-**Measurement notes:** Custom-path suites use Ryan/Aiden across four shared texts, with three measured repetitions after warmup; the aggregate is the mean of condition-level median RTFs. Offline timing includes waveform decoding. Sampled audio lengths differ, and measurements span separate runs/devices of the same GPU class. Ratios describe recorded end-to-end results, not identical-token causal speedups. The vLLM measurements are historical and are **not a contemporaneous controlled comparison**. The current custom stack has not beaten those vLLM results.
+**Measurement notes:** Custom-path suites use Ryan/Aiden across four shared texts, with three measured repetitions after warmup; the aggregate is the mean of condition-level median RTFs. Offline timing includes waveform decoding. Sampled audio lengths differ, and measurements span separate runs/devices of the same GPU class. Ratios describe recorded end-to-end results, not identical-token causal speedups. The vLLM measurements are historical and are **not a contemporaneous controlled comparison**. The fast engine (2026-11-14, [`optimizations/FAST_ENGINE_RESULTS.md`](optimizations/FAST_ENGINE_RESULTS.md)) is below those historical vLLM numbers; fast-engine rows were measured in one session on two H20s.
 
-**Runnable checkout:** the completed optimization snapshot, portable CLI, benchmark runner, vendored kernels, and selected evidence are now included in [`optimizations/`](optimizations/README.md). Start there to install and run the optimized runtime. Newer ongoing optimization experiments are excluded.
+**Runnable checkout:** the completed optimization snapshot, portable CLI, benchmark runner, vendored kernels, and selected evidence are now included in [`optimizations/`](optimizations/README.md). Start there to install and run the optimized runtime; the newest fast engine is in [`optimizations/scripts/fast/`](optimizations/scripts/fast/).
 
 **Current constraints:** Optimizations are opt-in experimental adapters, not enabled automatically by importing the upstream package. The validated fused predictor uses explicit `nonpdl` mode for 0.6B and `pdl` mode for 1.7B. Independent talker/subtalker temperature controls remain available; unsupported fast-path options, including nondefault subtalker top-p, use strict fallback. No production concurrency scheduler or perceptual-quality certification is provided.
 
@@ -38,6 +41,7 @@ Selected compact evidence is bundled under `optimizations/results/` using the pa
 | Fusion + configuration cache | `results/gap/combined/{size}-final-cache-v1.json` |
 | Final explicit loop | `results/gap/final/{size}-loop-v2.json`, `audit-loop-v2.json` |
 | Historical vLLM | `results/vllm-omni-{size}.json` |
+| Fast engine rows | `results/fast/{size}-engine-v1.json`, `{size}-fast-v2.json`, `{size}-fast-v3.json` (+ `.manifest.asr.json` ASR) |
 | Final streaming | `results/gap/frame-streaming/final-measurement-audit.json` and per-size final JSON files |
 
 Here `{size}` is `0.6b` or `1.7b` for the offline files. The reports [`optimizations/OPTIMIZATION_RESULTS.md`](optimizations/OPTIMIZATION_RESULTS.md) and [`optimizations/GAP_CLOSING_RESULTS.md`](optimizations/GAP_CLOSING_RESULTS.md) contain methodology, commands, correctness evidence, rejected experiments, and remaining limitations. Use the portable commands in [`optimizations/README.md`](optimizations/README.md) for this checkout.

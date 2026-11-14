@@ -1,5 +1,14 @@
 # Experimental optimized CustomVoice runtime
 
+> **Newest: fast engine** ([`scripts/fast/`](scripts/fast/), report: [FAST_ENGINE_RESULTS.md](FAST_ENGINE_RESULTS.md)). One CUDA graph per codec frame, faster codec kernels, and engine prefill: mean RTF **0.0351 (0.6B) / 0.0447 (1.7B)**, 2.64× / 2.24× faster than the stack documented below, with WER and sampling behavior matching unmodified HF. Offline only for now.
+>
+> ```bash
+> CUDA_VISIBLE_DEVICES=0 python optimizations/scripts/fast/run_fast.py --size 0.6B --speaker ryan \
+>   --text "Hello from the fast engine." --output out.wav
+> ```
+>
+> In Python: `sys.path.insert(0, "optimizations/scripts/fast"); from talker_engine import install_fast_tts; install_fast_tts(model)`, then call `model.generate_custom_voice(...)` as usual. Unsupported requests fall back to the original path.
+
 This directory packages the completed H20 optimization pass from 2026-11-14. It is self-contained within this checkout; it does not import `/root/tts` files, vLLM, or a server. Newer work by other agents is deliberately excluded. `SNAPSHOT.json` records the frozen benchmark source hashes. The runtime adapters and vendored kernels are unchanged from that snapshot; the benchmark runner has portable device/path handling.
 
 ## Install
