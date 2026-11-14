@@ -1,5 +1,50 @@
 # Qwen3-TTS
 
+## Fast engine: run it and tune it for your GPU
+
+This fork's fastest CustomVoice path is the whole-frame CUDA graph engine in [`optimizations/scripts/fast/`](optimizations/scripts/fast/). On an H20 it reaches RTF 0.035 (0.6B) / 0.045 (1.7B), batch one, including codec decoding. The full write-up is [OPTIMIZATIONS.md](OPTIMIZATIONS.md).
+
+```bash
+pip install -e .          # plus a CUDA PyTorch + Triton build (tested: torch 2.15, triton 3.9, transformers 4.57.3)
+CUDA_VISIBLE_DEVICES=0 python optimizations/scripts/fast/run_fast.py --size 0.6B --speaker ryan \
+    --text "Hello from the fast engine." --output out.wav --repeat 3
+```
+
+In Python, after `model = Qwen3TTSModel.from_pretrained(..., dtype=torch.bfloat16, attn_implementation="sdpa")`:
+
+```python
+import sys; sys.path.insert(0, "optimizations/scripts/fast")
+from talker_engine import install_fast_tts
+install_fast_tts(model)                      # loads tuned/tuned-<size>.json if present
+wavs, sr = model.generate_custom_voice(text=..., speaker="ryan", language="English")
+```
+
+### Tuning on a new GPU
+
+The shipped GEMM and attention configs in `optimizations/scripts/fast/tuned/` were tuned on an **H20 (78 SMs)**. Batch-one decode is kernel-latency bound, so the best tile sizes, split-K factors and attention splits depend on SM count and memory system. On another GPU the engine still runs with the H20 configs, but you will leave speed on the table (on the H20, retuning made the talker and predictor graphs 1.27–1.35× faster than with the vendored H200 configs). Use an sm90+ GPU; the GEMM chain uses programmatic dependent launch.
+
+1. **Free the GPU.** Timings are taken with CUDA events, so other work on the device corrupts them.
+2. **Back up the shipped configs.** Tuning overwrites `tuned/tuned-<size>.json`.
+   ```bash
+   cp optimizations/scripts/fast/tuned/tuned-1.7B.json optimizations/scripts/fast/tuned/tuned-1.7B.h20.json
+   ```
+3. **Run the tuner, once per model size.** It takes about 20–40 min per size, mostly Triton compiles; two sizes can tune in parallel on two GPUs.
+   ```bash
+   CUDA_VISIBLE_DEVICES=0 python optimizations/scripts/fast/tune.py 0.6B
+   CUDA_VISIBLE_DEVICES=1 python optimizations/scripts/fast/tune.py 1.7B
+   ```
+   - **Stage 1** times every candidate config for each GEMM shape (talker qkv/o/gate-up/down/head and the predictor's five shapes) in a PDL chain over 24 distinct weight copies, so L2 cache can't flatter a config. Results are cached per GPU type in `tuned/gemm_stage1.json`, so reruns and the shared predictor shapes are reused.
+   - **Stage 2** captures the real talker and predictor graphs and runs coordinate descent over the stage-1 top candidates and the attention kernel's (splits, block, warps). It prints `talker final ms` and `pred final ms` and writes `tuned/tuned-<size>.json`, which `install_fast_tts` picks up automatically.
+4. **Verify speed and quality** before relying on the new configs. The configs change only scheduling, not math, but always check:
+   ```bash
+   CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=8 python optimizations/scripts/fast/suite.py --size 1.7B --stack fast --label mygpu
+   python optimizations/scripts/fast/asr_wer.py optimizations/results/fast/1.7b-mygpu.manifest.json
+   ```
+   Expect `all_eos: true` and low pooled WER. The first request per sampling configuration includes a one-time ~4 s frame-graph capture, which the suite's warmup absorbs.
+
+If a GPU type needs a different candidate space (for example far more or fewer SMs), edit `candidates()` in `tune.py`. A gate/up tile width of 64 is fixed by the packed weight layout.
+
+
 ## Local optimization tracker
 
 Last measured: **2026-11-14**. These are local **H20, BF16, batch-one CustomVoice** experiments, not official upstream benchmarks. **RTF = generation wall time / audio duration; lower is better.** Rows show cumulative configurations, not additive speedups.

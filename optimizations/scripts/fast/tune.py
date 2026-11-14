@@ -2,7 +2,8 @@
 
 Stage 1: each GEMM shape alone, PDL chain of 24 launches over 24 distinct weights (no L2 reuse).
 Stage 2: coordinate descent over the stage-1 top-k per name, scored by the real captured graphs.
-Writes results/fast/tuned-<size>.json.
+Writes scripts/fast/tuned/tuned-<size>.json (loaded automatically by install_fast_tts) and caches
+stage-1 timings per GPU type in tuned/gemm_stage1.json.
 """
 import itertools, json, sys, time
 import _paths  # noqa: F401  (sys.path)
@@ -70,7 +71,7 @@ def stage1(shapes):
     import os
     res = {}
     for name, (N, K, epi) in shapes.items():
-        key = f'{name}:{N}x{K}'
+        key = f'{torch.cuda.get_device_name(dev)}:{name}:{N}x{K}'  # per GPU type
         cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
         if key in cache:
             res[name] = [(u, tuple(c)) for u, c in cache[key]]
