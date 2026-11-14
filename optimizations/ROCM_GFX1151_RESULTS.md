@@ -10,8 +10,9 @@ guarded so the CUDA path is unchanged; on ROCm the same fused kernels run as pla
 ## TL;DR
 
 Every CUDA-side optimization was ported and measured, then **weight-only INT8 quantization** was added as the
-bandwidth lever. Best RTF on gfx1151: **0.6B 0.1607 (4.26× over HF)** and **1.7B 0.2477 (3.46×)** with the
-INT8 whole-frame engine — intelligibility preserved (WER 0.53% / 1.06%). Without quantization the best were
+bandwidth lever, then per-shape kernel tuning. Best RTF on gfx1151: **0.6B 0.1376 (~5× over HF)** and
+**1.7B 0.2380 (3.6×)** with the per-shape-tuned INT8 whole-frame engine — intelligibility preserved
+(WER 0.53% both). Without quantization the best were
 0.6B 0.3444 (base stack, ~2×) and 1.7B 0.6875 (BF16 engine, 1.25×). gfx1151 is **bandwidth-bound**
 (~226 GB/s vs the H20's ~4 TB/s), so halving the weight bytes with INT8 nearly halves the frame time; the
 H20's 40×/29× is still out of reach, but quantization closes much of the gap. The BF16 whole-frame engine —
@@ -20,9 +21,10 @@ than the vendored fused Triton chain.
 
 ## Hardware and software
 
-- **GPU:** AMD Radeon 8060S (gfx1151, RDNA 3.5), 40 CUs, 2 MB L2, unified LPDDR5X.
+- **GPU:** AMD Radeon 8060S (gfx1151, RDNA 3.5), 40 CUs, 2 MB L2 **+ 32 MB MALL (L3 Infinity Cache)**, unified LPDDR5X.
 - **Measured DRAM bandwidth:** ~226 GB/s read-only, ~202 GB/s copy (read+write). This is the dominant
-  constraint: the H20 used for the CUDA work has ~4 TB/s, ~18× more.
+  constraint: the H20 used for the CUDA work has ~4 TB/s, ~18× more. The 32 MB MALL reaches **~400 GB/s**
+  for working sets ≤34 MB (one INT8 predictor layer ~15 MB fits); ≥67 MB falls back to DRAM speeds.
 - **PyTorch** 2.13.0+rocm10.0.0, **Triton** 3.8.0 (AMD backend), **Transformers** 4.57.3, BF16, batch one.
 - Models: `Qwen/Qwen3-TTS-12Hz-{0.6B,1.7B}-CustomVoice`. RTF and suite methodology are identical to
   `OPTIMIZATIONS.md` (2 voices × 4 texts × 3 seeds, mean of per-condition median RTFs, full
@@ -59,7 +61,8 @@ Full per-config comparison (mean of per-condition median RTFs, 24 samples each, 
 | Base stack: predictor/talker HIP graphs, fused norms, hipBLASLt fused predictor, talker fusion, frame loop | 0.3444 | 1.99× | 0.8525 | 1.01× |
 | Whole-frame engine, un-tuned H200 configs | ~0.70 | ~1.0× | — | — |
 | Whole-frame engine, gfx1151-tuned BF16 + fast codec | 0.4094 | 1.67× | 0.6875 | 1.25× |
-| **Whole-frame engine, weight-only INT8 + fast codec** | **0.1607** | **4.26×** | **0.2477** | **3.46×** |
+| Whole-frame engine, weight-only INT8 (uniform config) + fast codec | 0.1607 | 4.26× | 0.2477 | 3.46× |
+| **Whole-frame engine, INT8 per-shape-tuned + fast codec** | **0.1376** | **4.97×** | **0.2380** | **3.61×** |
 
 **Best configuration: the INT8 whole-frame engine for both sizes.** Without quantization the best flips by
 size (0.6B → base stack, 1.7B → BF16 engine); quantization makes the engine the clear winner everywhere.
@@ -175,17 +178,48 @@ Notes specific to gfx1151:
   reasonable, so the polyphase rewrite removes less overhead than it did from cuDNN's legacy dilated kernel.
   The fused SnakeBeta pass and bucketed graphs still help and are more accurate than stock BF16.
 
+## Launch overhead, megakernel, and per-shape tuning (measured)
+
+A colleague's bandwidth arithmetic suggested ~40% headroom lost "between kernels" (~7 µs/kernel), implying a
+persistent predictor megakernel would pay off. **Profiling disproves the launch-overhead hypothesis.**
+`rocprofv3 --kernel-trace` hangs on HIP graph replay, so per-graph `torch.profiler` was used instead:
+
+| Part | wall | Σ kernel time | between-kernel gap | kernels | gap/kernel |
+|---|---:|---:|---:|---:|---:|
+| Predictor | 8.85 ms | 8.31 ms | **0.54 ms** | 411 | 1.31 µs |
+| Talker | 3.35 ms | 3.15 ms | **0.20 ms** | 142 | 1.41 µs |
+
+The launch gap is only **~0.74 ms total (~6% of the frame)** — a persistent megakernel saves ≤6%, not worth
+the complexity. The real loss is *inside* the GEMV kernels: with a uniform config the **o-projection
+(1024×2048) runs at only 80 GB/s** and down at 156 GB/s, while qkv/gu hit ~200 GB/s.
+
+**Per-shape INT8 config tuning (the safe win):** sweeping BN/BK/warps/stages per GEMM shape found the
+small-N projections need **BK=512** (o: 80→161 GB/s, down: 156→178 GB/s). The o GEMV runs 103×/frame, so
+this saves ~1.3 ms/frame. Result: **0.6B RTF 0.1607 → 0.1376 (14% faster, ~5× over HF), WER 0.53% unchanged**.
+Zero quality risk (same INT8 precision). These per-shape configs are now the default `QUANT_CONFIGS`.
+
+**Mixed precision (INT4 predictor + INT8 talker):** the predictor fills residual codebooks 1–15 (audio
+fidelity) while the talker decides EOS/language, so INT4 on the predictor alone preserves stopping.
+Measured: **RTF 0.1454 (10% faster than uniform INT8), WER 0%, no rambling.** The gain is ~10% not 1.56×
+because per-kernel overhead doesn't shrink. Timbre is not certified: greedy single-frame codec SNR is a noisy
+metric (even INT8 shows −1 dB vs BF16, 19% code agreement, because residual-codebook argmax flips on tiny
+logit changes); a perceptual/speaker-similarity metric over full utterances is needed. Per-shape-tuned INT8
+(0.1376) is both faster and fidelity-safe, so it is preferred; mixed precision is an option for throughput.
+
 ## Remaining opportunities (gfx1151-specific)
 
-- **Done: weight-only INT8** (above) — 4.26×/3.46× over HF, the best config. FP8 tried, rejected (slow + less
-  accurate on RDNA).
-- **Finer quantization granularity** (per-group scales, e.g. group 128) could cut the 3–4% numeric error
-  toward BF16 at a small bandwidth cost; WER is already fine so this is optional.
-- **INT4 weight-only** would halve the bytes again (floor ~0.08 RTF) if accuracy holds; untested.
-- **hipBLASLt GEMMs inside the BF16 engine** (hybrid) would make the BF16 engine win without quantization;
-  superseded by INT8 for this bandwidth-bound part.
-- **Predictor weight reuse**: the 15 residual steps re-read the same weights 15×/frame; a persistent
-  megakernel could cut this further (the 2 MB L2 cannot hold them).
+- **Done:** weight-only INT8 (best), per-group scales, GPTQ calibration, per-shape INT8 config tuning,
+  INT4 (rejected — quality collapses), mixed INT4-predictor/INT8-talker (characterized).
+- **Batching / continuous batching** for serving throughput: on a bandwidth-bound part, batch 2–4 reads the
+  same weights once for all streams → near-linear throughput growth. The engine is `max_batch=1`; this is the
+  biggest serving win but does not help single-request RTF.
+- **1.7B per-shape INT8 tuning:** the default `QUANT_CONFIGS` were swept on 0.6B shapes (hidden 1024); the
+  1.7B shapes (hidden 2048) may benefit from their own sweep.
+- **MALL-aware predictor scheduling:** one INT8 predictor layer (~15 MB) fits the 32 MB MALL, but the 5-layer
+  cycle (~75 MB) exceeds it; the steps are data-dependent so layers cannot be reordered across steps. Limited
+  headroom unless the predictor is restructured.
+- **Perceptual certification of mixed precision** (speaker similarity / PESQ over full utterances) if the
+  ~10% gain is wanted for production.
 
 ## Reproduce
 

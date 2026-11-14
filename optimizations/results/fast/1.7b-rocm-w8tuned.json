@@ -1,0 +1,285 @@
+{
+ "args": {
+  "size": "1.7B",
+  "stack": "fast",
+  "label": "rocm-w8tuned",
+  "seeds": 3,
+  "engine_kw": "{\"tuned\": null, \"weight_bits\": 8, \"attn_splits\": 2, \"attn_bk\": 32, \"attn_warps\": 8}",
+  "engine_module": "talker_engine",
+  "texts": "short,medium,long,numbers",
+  "voices": "Ryan,Aiden"
+ },
+ "summary": {
+  "mean_condition_median_rtf": 0.23795950334863164,
+  "total_gen_s": 48.499097744817846,
+  "total_audio_s": 205.44,
+  "all_eos": true,
+  "pooled_rtf": 0.23607426861768813
+ },
+ "rows": [
+  {
+   "voice": "Ryan",
+   "text": "short",
+   "seed": 0,
+   "gen_s": 0.5762993840035051,
+   "audio_s": 2.4,
+   "rtf": 0.2401247433347938,
+   "frames": 30,
+   "eos": true,
+   "ms_per_frame": 19.209979466783505
+  },
+  {
+   "voice": "Ryan",
+   "text": "short",
+   "seed": 1,
+   "gen_s": 0.5405352739617229,
+   "audio_s": 2.24,
+   "rtf": 0.2413103901614834,
+   "frames": 28,
+   "eos": true,
+   "ms_per_frame": 19.304831212918675
+  },
+  {
+   "voice": "Ryan",
+   "text": "short",
+   "seed": 2,
+   "gen_s": 0.5583941509248689,
+   "audio_s": 2.32,
+   "rtf": 0.24068713401934005,
+   "frames": 29,
+   "eos": true,
+   "ms_per_frame": 19.254970721547203
+  },
+  {
+   "voice": "Ryan",
+   "text": "medium",
+   "seed": 0,
+   "gen_s": 1.6432849769480526,
+   "audio_s": 6.96,
+   "rtf": 0.23610416335460527,
+   "frames": 87,
+   "eos": true,
+   "ms_per_frame": 18.88833306836842
+  },
+  {
+   "voice": "Ryan",
+   "text": "medium",
+   "seed": 1,
+   "gen_s": 1.7321986689930782,
+   "audio_s": 7.36,
+   "rtf": 0.23535308002623342,
+   "frames": 92,
+   "eos": true,
+   "ms_per_frame": 18.828246402098674
+  },
+  {
+   "voice": "Ryan",
+   "text": "medium",
+   "seed": 2,
+   "gen_s": 1.64152690989431,
+   "audio_s": 6.96,
+   "rtf": 0.23585156751355027,
+   "frames": 87,
+   "eos": true,
+   "ms_per_frame": 18.868125401084022
+  },
+  {
+   "voice": "Ryan",
+   "text": "long",
+   "seed": 0,
+   "gen_s": 5.463847815990448,
+   "audio_s": 23.28,
+   "rtf": 0.23470136666625635,
+   "frames": 291,
+   "eos": true,
+   "ms_per_frame": 18.776109333300507
+  },
+  {
+   "voice": "Ryan",
+   "text": "long",
+   "seed": 1,
+   "gen_s": 4.579201626009308,
+   "audio_s": 19.52,
+   "rtf": 0.2345902472340834,
+   "frames": 244,
+   "eos": true,
+   "ms_per_frame": 18.76721977872667
+  },
+  {
+   "voice": "Ryan",
+   "text": "long",
+   "seed": 2,
+   "gen_s": 4.341206446988508,
+   "audio_s": 18.48,
+   "rtf": 0.2349137687764344,
+   "frames": 231,
+   "eos": true,
+   "ms_per_frame": 18.793101502114755
+  },
+  {
+   "voice": "Ryan",
+   "text": "numbers",
+   "seed": 0,
+   "gen_s": 1.337870199000463,
+   "audio_s": 5.6,
+   "rtf": 0.2389053926786541,
+   "frames": 70,
+   "eos": true,
+   "ms_per_frame": 19.112431414292328
+  },
+  {
+   "voice": "Ryan",
+   "text": "numbers",
+   "seed": 1,
+   "gen_s": 2.5944083619397134,
+   "audio_s": 11.04,
+   "rtf": 0.2350007574220755,
+   "frames": 138,
+   "eos": true,
+   "ms_per_frame": 18.800060593766037
+  },
+  {
+   "voice": "Ryan",
+   "text": "numbers",
+   "seed": 2,
+   "gen_s": 1.7141744729597121,
+   "audio_s": 7.28,
+   "rtf": 0.23546352650545496,
+   "frames": 91,
+   "eos": true,
+   "ms_per_frame": 18.837082120436396
+  },
+  {
+   "voice": "Aiden",
+   "text": "short",
+   "seed": 0,
+   "gen_s": 0.46859110496006906,
+   "audio_s": 1.92,
+   "rtf": 0.24405786716670264,
+   "frames": 24,
+   "eos": true,
+   "ms_per_frame": 19.52462937333621
+  },
+  {
+   "voice": "Aiden",
+   "text": "short",
+   "seed": 1,
+   "gen_s": 0.5217717540217564,
+   "audio_s": 2.16,
+   "rtf": 0.2415609972322946,
+   "frames": 27,
+   "eos": true,
+   "ms_per_frame": 19.32487977858357
+  },
+  {
+   "voice": "Aiden",
+   "text": "short",
+   "seed": 2,
+   "gen_s": 0.45167257101275027,
+   "audio_s": 1.84,
+   "rtf": 0.2454742233764947,
+   "frames": 23,
+   "eos": true,
+   "ms_per_frame": 19.637937870119575
+  },
+  {
+   "voice": "Aiden",
+   "text": "medium",
+   "seed": 0,
+   "gen_s": 1.354975335067138,
+   "audio_s": 5.68,
+   "rtf": 0.23855199561041165,
+   "frames": 71,
+   "eos": true,
+   "ms_per_frame": 19.08415964883293
+  },
+  {
+   "voice": "Aiden",
+   "text": "medium",
+   "seed": 1,
+   "gen_s": 1.4288201059680432,
+   "audio_s": 6.0,
+   "rtf": 0.2381366843280072,
+   "frames": 75,
+   "eos": true,
+   "ms_per_frame": 19.050934746240575
+  },
+  {
+   "voice": "Aiden",
+   "text": "medium",
+   "seed": 2,
+   "gen_s": 1.3377866660011932,
+   "audio_s": 5.6,
+   "rtf": 0.23889047607164166,
+   "frames": 70,
+   "eos": true,
+   "ms_per_frame": 19.111238085731333
+  },
+  {
+   "voice": "Aiden",
+   "text": "long",
+   "seed": 0,
+   "gen_s": 4.271326718968339,
+   "audio_s": 18.16,
+   "rtf": 0.2352052158022213,
+   "frames": 227,
+   "eos": true,
+   "ms_per_frame": 18.816417264177705
+  },
+  {
+   "voice": "Aiden",
+   "text": "long",
+   "seed": 1,
+   "gen_s": 4.104158747009933,
+   "audio_s": 17.52,
+   "rtf": 0.2342556362448592,
+   "frames": 219,
+   "eos": true,
+   "ms_per_frame": 18.740450899588737
+  },
+  {
+   "voice": "Aiden",
+   "text": "long",
+   "seed": 2,
+   "gen_s": 4.412739330087788,
+   "audio_s": 18.8,
+   "rtf": 0.23472017713232915,
+   "frames": 235,
+   "eos": true,
+   "ms_per_frame": 18.777614170586332
+  },
+  {
+   "voice": "Aiden",
+   "text": "numbers",
+   "seed": 0,
+   "gen_s": 0.9983969370368868,
+   "audio_s": 4.16,
+   "rtf": 0.23999926371079008,
+   "frames": 52,
+   "eos": true,
+   "ms_per_frame": 19.199941096863206
+  },
+  {
+   "voice": "Aiden",
+   "text": "numbers",
+   "seed": 1,
+   "gen_s": 1.141426965012215,
+   "audio_s": 4.8,
+   "rtf": 0.23779728437754483,
+   "frames": 60,
+   "eos": true,
+   "ms_per_frame": 19.023782750203583
+  },
+  {
+   "voice": "Aiden",
+   "text": "numbers",
+   "seed": 2,
+   "gen_s": 1.2844832220580429,
+   "audio_s": 5.36,
+   "rtf": 0.239642392175008,
+   "frames": 67,
+   "eos": true,
+   "ms_per_frame": 19.17139137400064
+  }
+ ]
+}

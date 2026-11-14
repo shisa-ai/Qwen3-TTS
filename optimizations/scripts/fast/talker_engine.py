@@ -45,8 +45,12 @@ DEFAULT_CONFIGS = {
     "down": (32, 128, 4, 16, 4, 1, 1), "lm": (64, 256, 2, 16, 8, 1, 1),
 }
 
-# Weight-only INT8 M=1 GEMV configs for bandwidth-bound GPUs (gfx1151): ~2x the BF16 GEMV.
-QUANT_CONFIGS = {name: ("q", 8, 256, 4, 8) for name in ("qkv", "o", "gu", "down", "lm")}
+# Weight-only INT8 M=1 GEMV configs for bandwidth-bound GPUs (gfx1151), tuned per GEMM shape.
+# The o/down projections (N=1024) need BK=512 to reach ~160-178 GB/s; BK=256 leaves them at ~80-156.
+QUANT_CONFIGS = {
+    "qkv": ("q", 8, 128, 2, 8), "o": ("q", 8, 512, 5, 8), "gu": ("q", 8, 128, 4, 8),
+    "down": ("q", 8, 512, 2, 4), "lm": ("q", 8, 256, 5, 4),
+}
 
 
 @triton.jit
@@ -354,7 +358,7 @@ PREFILL_CONFIGS = {
 class TalkerEngine:
     def __init__(self, talker, *, capacity=4096, predictor_mode="pdl", attn_splits=8, attn_bk=32, attn_warps=4,
                  configs=None, pred_configs=None, pred_attn_o=False, own_prefill=True, prefill_max=256, weight_bits=16,
-                 gptq_weights=None, group_size=0):
+                 gptq_weights=None, group_size=0, pred_weight_bits=None):
         self.talker = talker
         m = talker.model
         cfg = talker.config
@@ -453,7 +457,9 @@ class TalkerEngine:
             from pred_fused import FusedAttnOPredictor as _P
         else:
             _P = _k.FusedCodePredictor
-        self.pred = _P(_mapped(cp), max_batch=1, mode=predictor_mode, weight_bits=weight_bits, gptq_weights=gptq_weights, group_size=group_size)
+        pbits = pred_weight_bits if pred_weight_bits is not None else weight_bits
+        pgroup = group_size if pbits == 8 else (128 if pbits == 4 else 0)
+        self.pred = _P(_mapped(cp), max_batch=1, mode=predictor_mode, weight_bits=pbits, gptq_weights=gptq_weights, group_size=pgroup)
         self.pvocab = self.pred.vocab
         if self.pred._pdl_configs:
             p = self.pred
@@ -461,10 +467,10 @@ class TalkerEngine:
                                    device=self.device, dtype=torch.float32)
             if pred_configs:
                 self.set_pred_configs(pred_configs)
-            elif self._w4:
-                self.set_pred_configs({name: ("q4", 8, self._group, 4, 8) for name in QUANT_CONFIGS})
-            elif self._w8:
-                pc = {name: ("qg", 8, self._group, 4, 8) for name in QUANT_CONFIGS} if self._group else QUANT_CONFIGS
+            elif pbits == 4:
+                self.set_pred_configs({name: ("q4", 8, pgroup, 4, 8) for name in QUANT_CONFIGS})
+            elif pbits == 8:
+                pc = {name: ("qg", 8, pgroup, 4, 8) for name in QUANT_CONFIGS} if pgroup else QUANT_CONFIGS
                 self.set_pred_configs(pc)
         # Buffers
         z = lambda *s, dtype=torch.bfloat16: torch.zeros(*s, device=self.device, dtype=dtype)

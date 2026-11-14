@@ -1,0 +1,66 @@
+[
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Ryan-short-s0.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there. How can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Ryan-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning and welcome back. The meeting starts at nine and the coffee is already on the table.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 18
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Ryan-long-s0.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night, its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Ryan-numbers-s0.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Aiden-short-s0.wav",
+  "text": "Hello there. How can I help you today?",
+  "hyp": " Hello there. How can I help you today?",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 8
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Aiden-medium-s0.wav",
+  "text": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "hyp": " Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 18
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Aiden-long-s0.wav",
+  "text": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+  "hyp": " The old lighthouse stood at the edge of the cliff for more than a century. Every night, its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came The light never failed And the sailors who saw it Knew they were almost home",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 54
+ },
+ {
+  "wav": "/home/lhl/Qwen3-TTS/optimizations/samples/fast/0.6b-rocm-mixed/Aiden-numbers-s0.wav",
+  "text": "There are 24 students in room 12, and the class starts at 9:30.",
+  "hyp": " There are 24 students in room 12, and the class starts at 9.30.",
+  "wer": 0.0,
+  "errors": 0,
+  "words": 14
+ }
+]
