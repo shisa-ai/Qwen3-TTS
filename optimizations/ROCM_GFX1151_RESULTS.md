@@ -115,6 +115,22 @@ Per-frame (0.6B): talker **3.35 ms** (BF16 8.9), predictor **8.8 ms** (BF16 23.0
 The predictor benefits most because it re-reads its weights 15× per frame. The INT8 frame even beats the BF16
 weight-read floor, since the floor itself halves with the bytes.
 
+### Improving quantization quality (AutoRound / SmoothQuant / SpinQuant / GPTQ)
+
+Assessed and prototyped for the weight-only W8A16 setup (INT8 weights, BF16 activations):
+
+| Method | Fit | Measured outcome |
+|---|---|---|
+| **Per-group scales** (`group_size`) | reliable, no calibration | rel-err 3.16% → **2.53%** (G128) / 2.65% (G256); RTF ~unchanged (G256 0.1624, WER 0.89%). Grouped-dequant GEMV applies the scale per K-chunk. |
+| **GPTQ / AutoRound** (`quant_calib.py`, `gptq_weights`) | weight-only, kernel unchanged | ~1.5× lower per-GEMM error *in-sample*, but **overfits** with limited calibration: decode runs via graph replay, so few real activation rows are captured (mostly zero-padded prefill). Full-engine error was worse than RTN without proper eager calibration. Needs a dedicated calibration pass to generalize. |
+| **SmoothQuant** | W8A8-oriented | migrates activation outliers into weights so *activations* can be quantized; we keep activations BF16, so its core benefit does not apply (reduces to per-channel scaling already done). |
+| **SpinQuant** | learned rotations | needs an online Hadamard rotation of activations (changes the GEMM structure); overkill for INT8, valuable at INT4/INT2. |
+
+**Conclusion:** at INT8, RTN per-channel is already near-optimal in practice — WER is 0.53%/1.06%, so the
+modest numeric-error reductions above do not change intelligibility. These methods matter at **INT4**, where
+RTN error is ~18% and GPTQ/AutoRound-style rounding is needed to keep quality usable. Per-group scales and
+GPTQ are kept as optional modes (`group_size`, `gptq_weights`); the default remains per-channel RTN (fastest).
+
 ## Quality checks
 
 Same principles as the CUDA work: compare against an FP32 reference and sampled behavior, not greedy token

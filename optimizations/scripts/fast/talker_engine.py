@@ -34,6 +34,7 @@ _gemm_kernel = _k._cp_gemm_kernel
 _gemm_stream_kernel = _k._cp_gemm_stream_kernel
 _gemv_kernel = _k._cp_gemv_kernel
 _gemv_w8_kernel = _k._cp_gemv_w8_kernel
+_gemv_w8g_kernel = _k._cp_gemv_w8g_kernel
 _head_norm_rope = _k._head_norm_rope
 _PDL_GU_BN = _k._PDL_GU_BN
 
@@ -351,7 +352,8 @@ PREFILL_CONFIGS = {
 
 class TalkerEngine:
     def __init__(self, talker, *, capacity=4096, predictor_mode="pdl", attn_splits=8, attn_bk=32, attn_warps=4,
-                 configs=None, pred_configs=None, pred_attn_o=False, own_prefill=True, prefill_max=256, weight_bits=16):
+                 configs=None, pred_configs=None, pred_attn_o=False, own_prefill=True, prefill_max=256, weight_bits=16,
+                 gptq_weights=None, group_size=0):
         self.talker = talker
         m = talker.model
         cfg = talker.config
@@ -369,20 +371,31 @@ class TalkerEngine:
         self.eps = float(m.norm.variance_epsilon)
         self.capacity, self.S, self.abk, self.awarps = capacity, attn_splits, attn_bk, attn_warps
         self._w8 = weight_bits == 8
+        self._group = group_size if self._w8 else 0
         if weight_bits not in (8, 16):
             raise ValueError("weight_bits must be 8 or 16")
         if self._w8:
             # Quantized decode weights are INT8 tuples; the engine prefill kernels read BF16 weights, so
             # quantized mode uses the HF prefill (also faster than the engine prefill on gfx1151).
             own_prefill = False
-        self.cfgs = dict(QUANT_CONFIGS if self._w8 else DEFAULT_CONFIGS, **(configs or {}))
+        if self._w8 and self._group:
+            base_cfgs = {name: ("qg", 8, self._group, 4, 8) for name in QUANT_CONFIGS}
+        else:
+            base_cfgs = QUANT_CONFIGS if self._w8 else DEFAULT_CONFIGS
+        self.cfgs = dict(base_cfgs, **(configs or {}))
         f32 = lambda t: t.detach().float()
         bf = lambda t: t.to(torch.bfloat16).contiguous()
         fold = lambda w, ln: bf(f32(w) * f32(ln)[None, :])  # [N, K] weight with RMSNorm weight folded on K
-        qw = (lambda w: _k._quantize_w8(w)) if self._w8 else (lambda w: w)
+        self._gptq = gptq_weights or {}
+        if self._w8 and self._gptq:
+            qw = lambda w, key: self._gptq.get(key, _k._quantize_w8(w))
+        elif self._w8 and self._group:
+            qw = lambda w, key: _k._quantize_w8_group(w, self._group)
+        else:
+            qw = (lambda w, key: _k._quantize_w8(w)) if self._w8 else (lambda w, key: w)
         half = 4 if self._w8 else _PDL_GU_BN // 2
         self.layers = []
-        for layer in m.layers:
+        for li, layer in enumerate(m.layers):
             a, mlp = layer.self_attn, layer.mlp
             for p in (a.q_proj, a.k_proj, a.v_proj, a.o_proj, mlp.gate_proj, mlp.up_proj, mlp.down_proj):
                 if p.bias is not None:
@@ -392,15 +405,15 @@ class TalkerEngine:
             up = fold(mlp.up_proj.weight, layer.post_attention_layernorm.weight)
             gu = torch.stack((gate.reshape(-1, half, self.hidden), up.reshape(-1, half, self.hidden)), 1)
             self.layers.append(dict(
-                qkv=qw(fold(qkv, layer.input_layernorm.weight)), o=qw(bf(a.o_proj.weight)),
-                gu=qw(gu.reshape(-1, self.hidden).contiguous()), down=qw(bf(mlp.down_proj.weight)),
+                qkv=qw(fold(qkv, layer.input_layernorm.weight), (li, "qkv")), o=qw(bf(a.o_proj.weight), (li, "o")),
+                gu=qw(gu.reshape(-1, self.hidden).contiguous(), (li, "gu")), down=qw(bf(mlp.down_proj.weight), (li, "down")),
                 qn=bf(a.q_norm.weight), kn=bf(a.k_norm.weight),
                 eps1=float(layer.input_layernorm.variance_epsilon),
                 eps2=float(layer.post_attention_layernorm.variance_epsilon),
                 head_eps=float(a.q_norm.variance_epsilon)))
         self.scale = a0.scaling
         self.norm_w = bf(m.norm.weight)
-        self.head = qw(fold(talker.codec_head.weight, m.norm.weight))
+        self.head = qw(fold(talker.codec_head.weight, m.norm.weight), "head")
         d0 = self.layers[0]["down"]
         self.inter = (d0[0] if self._w8 else d0).shape[1]
         # RoPE tables exactly as HF builds them (text-only mRoPE: all three axes share positions).
@@ -429,7 +442,7 @@ class TalkerEngine:
             from pred_fused import FusedAttnOPredictor as _P
         else:
             _P = _k.FusedCodePredictor
-        self.pred = _P(_mapped(cp), max_batch=1, mode=predictor_mode, weight_bits=weight_bits)
+        self.pred = _P(_mapped(cp), max_batch=1, mode=predictor_mode, weight_bits=weight_bits, gptq_weights=gptq_weights, group_size=group_size)
         self.pvocab = self.pred.vocab
         if self.pred._pdl_configs:
             p = self.pred
@@ -438,7 +451,8 @@ class TalkerEngine:
             if pred_configs:
                 self.set_pred_configs(pred_configs)
             elif self._w8:
-                self.set_pred_configs(QUANT_CONFIGS)
+                pc = {name: ("qg", 8, self._group, 4, 8) for name in QUANT_CONFIGS} if self._group else QUANT_CONFIGS
+                self.set_pred_configs(pc)
         # Buffers
         z = lambda *s, dtype=torch.bfloat16: torch.zeros(*s, device=self.device, dtype=dtype)
         L = len(self.layers)
@@ -499,16 +513,17 @@ class TalkerEngine:
 
     @staticmethod
     def _split(cfg, k):
-        if cfg[0] in ("g", "q"):
+        if cfg[0] in ("g", "q", "qg"):
             return 1
         return cfg[3] if cfg[0] == "s" else k // (cfg[1] * cfg[2])
 
     def _gemm(self, cfg, a, w, out, ss_in, nt_in, ss_out, epi, eps=0.0, M=1, rmax=1, ro=0, ws=None):
-        if cfg[0] == "q":
+        if cfg[0] in ("q", "qg"):
             w8, scale = w
             N, K = w8.shape
             _, BN, BK, STAGES, warps = cfg
-            _gemv_w8_kernel[(N // BN,)](
+            kern = _gemv_w8_kernel if cfg[0] == "q" else _gemv_w8g_kernel
+            kern[(N // BN,)](
                 a, 1, ro, w8, scale, self.ws if ws is None else ws, self.cnt, out, ss_in, ss_out, M, eps,
                 K=K, N=N, HID=self.hidden, RMAX=rmax, BN=BN, BK=BK, EPI=epi,
                 NT_IN=nt_in, STAGES=STAGES, num_warps=warps)
