@@ -1,0 +1,42 @@
+{
+  "0.6B": {
+    "checks": 75,
+    "fixed_work": {
+      "tokens": 24,
+      "baseline_s": [
+        0.17556787800276652,
+        0.1738877770039835,
+        0.17405150700506056
+      ],
+      "candidate_s": [
+        0.1584329070028616,
+        0.15841797000030056,
+        0.15851470099732978
+      ],
+      "speedup": 1.098581792745347
+    },
+    "audio_verified": true
+  },
+  "1.7B": {
+    "checks": 75,
+    "fixed_work": {
+      "tokens": 24,
+      "baseline_s": [
+        0.1818341739999596,
+        0.1805278680039919,
+        0.180761205003364
+      ],
+      "candidate_s": [
+        0.16665963300329167,
+        0.16493725500185974,
+        0.16567085799761117
+      ],
+      "speedup": 1.0910863092528345
+    },
+    "audio_verified": true
+  },
+  "sources": {
+    "scripts/qwen_frame_loop.py": "887fb285412aa27e9ba20ae6280b0a7e6a11f57cef0dc7eaa37bd86abf54a9b2",
+    "scripts/test_qwen_frame_loop.py": "309372e017595f870f98af073357f7b7030179b9d4fb2ea2649301a7deecc1dc"
+  }
+}

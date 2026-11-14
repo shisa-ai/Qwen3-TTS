@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+samples/
+results/**/*-trace.json
+results/**/*-sources/
+*.wav

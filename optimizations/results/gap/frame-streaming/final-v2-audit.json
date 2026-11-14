@@ -1,0 +1,42 @@
+{
+  "resource": "GPU1 only",
+  "seed": 123,
+  "sampling": true,
+  "cudnn_sdpa": false,
+  "limitation": "Initial greedy 0.6B medium offline reference exceeded cache; final integration uses seeded sampling.",
+  "sizes": {
+    "0.6B": {
+      "hook-eager": {
+        "rtf": 0.12954069979020544,
+        "first_audio_s": 0.07363102599871733,
+        "starvation_s": 0.0
+      },
+      "direct-graph": {
+        "rtf": 0.11002929161977433,
+        "first_audio_s": 0.05828660749951572,
+        "starvation_s": 0.0
+      },
+      "rtf_speedup": 1.1773292173674645
+    },
+    "1.7B": {
+      "hook-eager": {
+        "rtf": 0.1391780513201629,
+        "first_audio_s": 0.07487559733150799,
+        "starvation_s": 0.0
+      },
+      "direct-graph": {
+        "rtf": 0.11696314368814897,
+        "first_audio_s": 0.05929934649975621,
+        "starvation_s": 0.0
+      },
+      "rtf_speedup": 1.1899308357446687
+    }
+  },
+  "sources": {
+    "scripts/qwen_frame_loop.py": "84da61a9352c66aa943a1d0438cb2dcdb69e32932fb2651e6f30300d7b247eaa",
+    "scripts/qwen_frame_streaming.py": "307a61e02b820fa58d537b9e3953d5ede128f15b9ca5f9b7cbc4ec46e108787e",
+    "scripts/qwen_codec_graph.py": "b4337174770d7a26fb2b2fc10525b50b8b44cf5c8165c7bbb849dd30ac7d1619",
+    "scripts/test_qwen_frame_streaming.py": "30e10a1e65b6ce3cde4009107e0574058f9afc0d3e416cc7d7814d27f2a73d2d",
+    "scripts/test_qwen_frame_streaming_integration.py": "08957c7591f19ee48a51b89a6e38b8e3eb47872658bfdd78f7e821f5483f9617"
+  }
+}

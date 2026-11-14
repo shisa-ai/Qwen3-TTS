@@ -1,0 +1,42 @@
+{
+  "complete": true,
+  "checks": {
+    "both_json_complete": true,
+    "eight_conditions_each": true,
+    "three_measured_calls_each_condition": true,
+    "all_measured_audio_finite_nonempty": true,
+    "all_measured_calls_eos_no_truncation": true,
+    "all_recorded_source_hashes_match": true,
+    "no_captures_during_timed_repetitions": true,
+    "independent_temperature_and_nondefault_subtalker_top_p_forwarding": true,
+    "py_compile": true
+  },
+  "rows": [
+    {
+      "size": "0.6b",
+      "mean_row_median_rtf": 0.18422623161363533,
+      "inverse_mean_rtf": 5.428108642515304,
+      "historical_vllm_mean_rtf": 0.07534187462021445,
+      "custom_over_historical_vllm_rtf": 2.4452037136358546,
+      "historical_graph_only_rtf_over_custom": 1.2159056223430553,
+      "timed_calls": 24,
+      "smoke_cases": 3
+    },
+    {
+      "size": "1.7b",
+      "mean_row_median_rtf": 0.19454905862818808,
+      "inverse_mean_rtf": 5.140091692302389,
+      "historical_vllm_mean_rtf": 0.08437540511789696,
+      "custom_over_historical_vllm_rtf": 2.3057555499300597,
+      "historical_graph_only_rtf_over_custom": 1.1461775144001525,
+      "timed_calls": 24,
+      "smoke_cases": 3
+    }
+  ],
+  "limitations": [
+    "Historical runtime comparisons are not contemporaneous controlled measurements.",
+    "Smoke tests verify argument forwarding and successful generation, not sampling-distribution equivalence or perceptual quality.",
+    "Nonstreaming benchmark; ttfa_s is null.",
+    "Initial accepted-stack partial file records failed metadata serialization before inference; v2 files are completed runs."
+  ]
+}

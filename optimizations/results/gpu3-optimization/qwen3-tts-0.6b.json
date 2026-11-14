@@ -1,0 +1,184 @@
+{
+  "engine": "qwen3-tts-0.6b",
+  "meta": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8575C",
+    "affinity_cpus": 192,
+    "loadavg": [
+      4.56,
+      4.92,
+      8.59
+    ],
+    "gpu": "NVIDIA H20-3e",
+    "python": "3.12.14",
+    "date": "2026-11-14 04:33:57",
+    "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+    "weights": "bf16",
+    "attn": "flash_attention_2",
+    "runtime": "qwen-tts, torch 2.15.0+cu132",
+    "load_s": 5.626651182000387,
+    "runs": 3,
+    "seed": 0,
+    "params_m": 905.788672,
+    "sample_rate": 24000,
+    "peak_gpu_mb": 2738.36962890625,
+    "peak_rss_mb": 2819.40625,
+    "physical_gpu_index": 3,
+    "gpu_uuid": "GPU-88395248-f4ce-ee5f-0cc5-1bdd951de1e8",
+    "omp_num_threads": 8,
+    "mkl_num_threads": 8
+  },
+  "rows": [
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "ryan",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "short",
+      "chars": 38,
+      "audio_s": 4.32,
+      "gen_s": 6.2218191359997945,
+      "gen_s_all": [
+        6.2218191359997945,
+        6.241724866999903,
+        6.164058153000042
+      ],
+      "rtf": 1.4402359111110634,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/ryan_short.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "ryan",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "medium",
+      "chars": 99,
+      "audio_s": 10.56,
+      "gen_s": 15.104299489000368,
+      "gen_s_all": [
+        15.134500150000349,
+        15.104299489000368,
+        15.089533102000132
+      ],
+      "rtf": 1.4303313910038227,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/ryan_medium.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "ryan",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "long",
+      "chars": 290,
+      "audio_s": 23.12,
+      "gen_s": 33.00099913200029,
+      "gen_s_all": [
+        32.689539012999376,
+        33.787808009999935,
+        33.00099913200029
+      ],
+      "rtf": 1.427378855190324,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/ryan_long.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "ryan",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "numbers",
+      "chars": 63,
+      "audio_s": 5.92,
+      "gen_s": 8.371144736999668,
+      "gen_s_all": [
+        8.371144736999668,
+        8.22405696199985,
+        8.509665704999861
+      ],
+      "rtf": 1.4140447190877816,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/ryan_numbers.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "aiden",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "short",
+      "chars": 38,
+      "audio_s": 2.72,
+      "gen_s": 3.8451055389996327,
+      "gen_s_all": [
+        3.732586199999787,
+        3.8451055389996327,
+        3.978481166000165
+      ],
+      "rtf": 1.4136417422792766,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/aiden_short.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "aiden",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "medium",
+      "chars": 99,
+      "audio_s": 6.56,
+      "gen_s": 9.30645317699964,
+      "gen_s_all": [
+        9.439616980999745,
+        9.30645317699964,
+        9.290646086000379
+      ],
+      "rtf": 1.418666642835311,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/aiden_medium.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "aiden",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "long",
+      "chars": 290,
+      "audio_s": 16.96,
+      "gen_s": 24.278355501000078,
+      "gen_s_all": [
+        23.915363226999943,
+        24.278355501000078,
+        24.302200751999408
+      ],
+      "rtf": 1.4315068102004762,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/aiden_long.wav"
+    },
+    {
+      "engine": "qwen3-tts-0.6b",
+      "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+      "voice": "aiden",
+      "device": "cuda",
+      "config": "bf16, flash_attention_2",
+      "text_id": "numbers",
+      "chars": 63,
+      "audio_s": 5.28,
+      "gen_s": 7.500853686000482,
+      "gen_s_all": [
+        7.538024599999517,
+        7.500853686000482,
+        7.495459026999924
+      ],
+      "rtf": 1.4206162284091821,
+      "ttfa_s": null,
+      "sample": "samples/gpu3-optimization/qwen3-tts-0.6b/aiden_numbers.wav"
+    }
+  ]
+}

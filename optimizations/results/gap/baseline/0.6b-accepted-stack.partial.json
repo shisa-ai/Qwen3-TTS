@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8575C",
+    "affinity_cpus": 192,
+    "loadavg": [
+      1.94,
+      1.97,
+      1.89
+    ],
+    "gpu": "NVIDIA H20-3e",
+    "python": "3.12.14",
+    "date": "2026-11-14 18:56:56",
+    "size": "0.6B",
+    "label": "accepted-stack",
+    "runs": 3,
+    "installer": [],
+    "command": "CUDA_VISIBLE_DEVICES=GPU-74eb9316-76d6-7587-c3de-2153fc1ea3dc OMP_NUM_THREADS=8 MKL_NUM_THREADS=8 /root/miniforge3/envs/qwen3-tts/bin/python scripts/bench_qwen_gap.py --size 0.6B",
+    "gpu_uuid": "GPU-74eb9316-76d6-7587-c3de-2153fc1ea3dc",
+    "torch": "2.15.0+cu132",
+    "cuda": "13.2",
+    "cudnn_sdpa_enabled": true,
+    "threads": 8,
+    "texts": {
+      "short": "Hello there. How can I help you today?",
+      "medium": "Good morning, and welcome back. The meeting starts at nine, and the coffee is already on the table.",
+      "long": "The old lighthouse stood at the edge of the cliff for more than a century. Every night its keeper climbed the narrow stairs, lit the lamp, and watched the ships pass safely through the fog. When the storms came, the light never failed, and the sailors who saw it knew they were almost home.",
+      "numbers": "There are 24 students in room 12, and the class starts at 9:30."
+    },
+    "timing": "synchronized full generate_custom_voice, including codec; no streaming",
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "warmup_seed": 1234,
+    "gpu_metadata": "uuid, name, driver_version, memory.total [MiB], power.limit [W], clocks.current.sm [MHz], clocks.current.memory [MHz]\nGPU-74eb9316-76d6-7587-c3de-2153fc1ea3dc, NVIDIA H20-3e, 580.105.08, 143771 MiB, 500.00 W, 345 MHz, 3201 MHz\n"
+  },
+  "rows": [],
+  "smoke": [],
+  "complete": false
+}

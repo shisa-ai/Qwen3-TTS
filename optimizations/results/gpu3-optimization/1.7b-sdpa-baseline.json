@@ -1,0 +1,208 @@
+{
+  "meta": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8575C",
+    "affinity_cpus": 192,
+    "loadavg": [
+      3.38,
+      2.97,
+      3.84
+    ],
+    "gpu": "NVIDIA H20-3e",
+    "python": "3.12.14",
+    "date": "2026-11-14 05:03:55",
+    "size": "1.7B",
+    "label": "sdpa-baseline",
+    "installer": [],
+    "texts": [
+      "short",
+      "medium",
+      "long",
+      "numbers"
+    ],
+    "voices": [
+      "ryan",
+      "aiden"
+    ],
+    "runs": 3,
+    "seed": 0,
+    "greedy": false,
+    "attn": "sdpa",
+    "model": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
+    "load_s": 5.3376771009998265,
+    "cuda_visible_devices": "GPU-3e620c1c-c243-7353-580e-cde9e5eb4b8a",
+    "torch": "2.15.0+cu132",
+    "threads": 8,
+    "install_s": 3.4294999750272837e-05
+  },
+  "rows": [
+    {
+      "voice": "ryan",
+      "text_id": "short",
+      "gen_s_all": [
+        2.707777249999708,
+        2.706074671999886,
+        2.707043994000742
+      ],
+      "audio_s_all": [
+        2.64,
+        2.64,
+        2.64
+      ],
+      "gen_s": 2.707043994000742,
+      "rtf": 1.0253954522730082,
+      "cold_call_s": 5.103903855999306,
+      "peak_gpu_mb": 4062.8994140625,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/ryan_short.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "ryan",
+      "text_id": "medium",
+      "gen_s_all": [
+        7.034758734999741,
+        7.0802823300000455,
+        7.047026303000166
+      ],
+      "audio_s_all": [
+        6.96,
+        6.96,
+        6.96
+      ],
+      "gen_s": 7.047026303000166,
+      "rtf": 1.0125037791666904,
+      "cold_call_s": 9.232015757000227,
+      "peak_gpu_mb": 4190.12939453125,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/ryan_medium.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "ryan",
+      "text_id": "long",
+      "gen_s_all": [
+        22.70828911499939,
+        22.632629991000613,
+        23.8203309190003
+      ],
+      "audio_s_all": [
+        22.24,
+        22.16,
+        23.12
+      ],
+      "gen_s": 22.70828911499939,
+      "rtf": 1.0213280681859482,
+      "cold_call_s": 30.22237655200024,
+      "peak_gpu_mb": 4667.92626953125,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/ryan_long.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "ryan",
+      "text_id": "numbers",
+      "gen_s_all": [
+        6.1249890939998295,
+        6.122210781999456,
+        6.0946379369997885
+      ],
+      "audio_s_all": [
+        6.0,
+        6.0,
+        6.0
+      ],
+      "gen_s": 6.122210781999456,
+      "rtf": 1.020368463666576,
+      "cold_call_s": 6.216741510999782,
+      "peak_gpu_mb": 4161.859375,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/ryan_numbers.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "short",
+      "gen_s_all": [
+        2.2141292010001052,
+        2.209811635000733,
+        2.2109404759994504
+      ],
+      "audio_s_all": [
+        2.16,
+        2.16,
+        2.16
+      ],
+      "gen_s": 2.2109404759994504,
+      "rtf": 1.0235835537034492,
+      "cold_call_s": 2.278606191000108,
+      "peak_gpu_mb": 4048.7626953125,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/aiden_short.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "medium",
+      "gen_s_all": [
+        5.966575415000079,
+        5.974197948999972,
+        5.948535927999728
+      ],
+      "audio_s_all": [
+        5.84,
+        5.84,
+        5.84
+      ],
+      "gen_s": 5.966575415000079,
+      "rtf": 1.0216738724315204,
+      "cold_call_s": 6.00580663799974,
+      "peak_gpu_mb": 4157.1484375,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/aiden_medium.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "long",
+      "gen_s_all": [
+        18.623466851000558,
+        18.491906576000474,
+        18.840407195999433
+      ],
+      "audio_s_all": [
+        18.32,
+        18.24,
+        18.4
+      ],
+      "gen_s": 18.623466851000558,
+      "rtf": 1.016564784443262,
+      "cold_call_s": 18.58426146199963,
+      "peak_gpu_mb": 4527.40087890625,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/aiden_long.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "numbers",
+      "gen_s_all": [
+        4.760386838000159,
+        4.768467435000275,
+        4.768925924000541
+      ],
+      "audio_s_all": [
+        4.64,
+        4.64,
+        4.64
+      ],
+      "gen_s": 4.768467435000275,
+      "rtf": 1.0276869471983352,
+      "cold_call_s": 4.818813620000583,
+      "peak_gpu_mb": 4121.79541015625,
+      "sample": "samples/gpu3-optimization/1.7b-sdpa-baseline/aiden_numbers.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    }
+  ],
+  "complete": true
+}

@@ -1,0 +1,26 @@
+{
+  "0.6B": {
+    "24": {
+      "full_stack_explicit_step_digests_exact": true,
+      "steps": 23,
+      "unified_step_digests_exact": true
+    },
+    "72": {
+      "full_stack_explicit_step_digests_exact": true,
+      "steps": 71,
+      "unified_step_digests_exact": false
+    }
+  },
+  "1.7B": {
+    "24": {
+      "full_stack_explicit_step_digests_exact": true,
+      "steps": 23,
+      "unified_step_digests_exact": true
+    },
+    "72": {
+      "full_stack_explicit_step_digests_exact": true,
+      "steps": 71,
+      "unified_step_digests_exact": true
+    }
+  }
+}

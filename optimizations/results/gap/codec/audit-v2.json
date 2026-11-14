@@ -1,0 +1,66 @@
+{
+  "0.6B": {
+    "checks": 136,
+    "eos_requests": 34,
+    "graph_stream_comparisons": 16,
+    "all_graph_waveforms_exact": true,
+    "max_waveform_error": 0.0,
+    "request_hits": 92,
+    "request_misses": 0,
+    "fixed_speedups": {
+      "1": 5.459789052981422,
+      "12": 3.2846914207332314,
+      "25": 2.6074292031152497,
+      "97": 1.6179460154625038,
+      "613": 1.0849810464473213
+    },
+    "schedule4": [
+      {
+        "text": "short",
+        "first_audio_s": 0.060662247000436764,
+        "rtf": 0.11823270833338029,
+        "starvation_s": 0.0
+      },
+      {
+        "text": "medium",
+        "first_audio_s": 0.06081782900218968,
+        "rtf": 0.11568647598357562,
+        "starvation_s": 0.0
+      }
+    ]
+  },
+  "1.7B": {
+    "checks": 136,
+    "eos_requests": 34,
+    "graph_stream_comparisons": 16,
+    "all_graph_waveforms_exact": true,
+    "max_waveform_error": 0.0,
+    "request_hits": 68,
+    "request_misses": 0,
+    "fixed_speedups": {
+      "1": 5.236197461710086,
+      "12": 3.2233046733207327,
+      "25": 2.555328805147079,
+      "97": 1.6066459311627592,
+      "613": 1.0834581126786305
+    },
+    "schedule4": [
+      {
+        "text": "short",
+        "first_audio_s": 0.06126323849821347,
+        "rtf": 0.12480459129922868,
+        "starvation_s": 0.0
+      },
+      {
+        "text": "medium",
+        "first_audio_s": 0.05988740249813418,
+        "rtf": 0.1187836209131395,
+        "starvation_s": 0.0
+      }
+    ]
+  },
+  "sha256": {
+    "scripts/qwen_codec_graph.py": "b4337174770d7a26fb2b2fc10525b50b8b44cf5c8165c7bbb849dd30ac7d1619",
+    "scripts/test_qwen_codec_graph.py": "ce63c448aba68dd9b6f471b1f5fb5cff69125c9cba3a6fe674a848ae9b623625"
+  }
+}

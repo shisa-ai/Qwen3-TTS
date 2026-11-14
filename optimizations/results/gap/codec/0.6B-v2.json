@@ -1,0 +1,1332 @@
+{
+  "size": "0.6B",
+  "gpu": "GPU-3e620c1c-c243-7353-580e-cde9e5eb4b8a",
+  "cudnn_sdpa": false,
+  "checks": [
+    "short EOS before limit",
+    "medium EOS before limit",
+    "graph same-input waveform 1",
+    "owned output 1",
+    "graph same-input waveform 12",
+    "owned output 12",
+    "graph same-input waveform 25",
+    "owned output 25",
+    "graph same-input waveform 97",
+    "owned output 97",
+    "graph same-input waveform 613",
+    "owned output 613",
+    "uncached shape falls back without capture",
+    "reject dtype",
+    "reject contiguous batch2",
+    "reject noncontiguous batch1",
+    "reject wrong groups",
+    "reject empty frames",
+    "reject CPU device",
+    "reject foreign stream",
+    "reject inference disabled",
+    "reject autocast replay",
+    "reject autocast prepare",
+    "reject autocast constructor",
+    "reject nondefault rotary before warmup",
+    "reject changed rotary",
+    "reject foreign thread",
+    "reject foreign device metadata",
+    "reject nested capture state",
+    "reject real nested capture",
+    "reject nested install",
+    "restore preexisting forward identity",
+    "injected warmup failure",
+    "warmup preserves existing graphs",
+    "warmup eager remains usable",
+    "warmup subsequent prepare usable",
+    "injected capture failure",
+    "capture preserves existing graphs",
+    "capture eager remains usable",
+    "capture subsequent prepare usable",
+    "reset and owned output",
+    "capacity reject 26",
+    "capacity reject 2",
+    "exception restores decoder",
+    "reject training",
+    "window alignment 588",
+    "window alignment 72",
+    "stream finite/aligned/EOS ('short', 12, 588, 'eager', 0)",
+    "per-repeat waveform tolerance ('short', 12, 588, 'eager', 0)",
+    "stream finite/aligned/EOS ('short', 12, 588, 'eager', 1)",
+    "per-repeat waveform tolerance ('short', 12, 588, 'eager', 1)",
+    "stream finite/aligned/EOS ('short', 12, 588, 'graph', 0)",
+    "per-repeat waveform tolerance ('short', 12, 588, 'graph', 0)",
+    "stream finite/aligned/EOS ('short', 12, 588, 'graph', 1)",
+    "per-repeat waveform tolerance ('short', 12, 588, 'graph', 1)",
+    "stream graph reference ('short', 12, 588)",
+    "reopen short-12-12-588.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('short', 1, 588, 'eager', 0)",
+    "per-repeat waveform tolerance ('short', 1, 588, 'eager', 0)",
+    "stream finite/aligned/EOS ('short', 1, 588, 'eager', 1)",
+    "per-repeat waveform tolerance ('short', 1, 588, 'eager', 1)",
+    "stream finite/aligned/EOS ('short', 1, 588, 'graph', 0)",
+    "per-repeat waveform tolerance ('short', 1, 588, 'graph', 0)",
+    "stream finite/aligned/EOS ('short', 1, 588, 'graph', 1)",
+    "per-repeat waveform tolerance ('short', 1, 588, 'graph', 1)",
+    "stream graph reference ('short', 1, 588)",
+    "reopen short-1-25-588.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('short', 4, 588, 'eager', 0)",
+    "per-repeat waveform tolerance ('short', 4, 588, 'eager', 0)",
+    "stream finite/aligned/EOS ('short', 4, 588, 'eager', 1)",
+    "per-repeat waveform tolerance ('short', 4, 588, 'eager', 1)",
+    "stream finite/aligned/EOS ('short', 4, 588, 'graph', 0)",
+    "per-repeat waveform tolerance ('short', 4, 588, 'graph', 0)",
+    "stream finite/aligned/EOS ('short', 4, 588, 'graph', 1)",
+    "per-repeat waveform tolerance ('short', 4, 588, 'graph', 1)",
+    "stream graph reference ('short', 4, 588)",
+    "reopen short-4-25-588.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('short', 4, 72, 'eager', 0)",
+    "per-repeat waveform tolerance ('short', 4, 72, 'eager', 0)",
+    "stream finite/aligned/EOS ('short', 4, 72, 'eager', 1)",
+    "per-repeat waveform tolerance ('short', 4, 72, 'eager', 1)",
+    "stream finite/aligned/EOS ('short', 4, 72, 'graph', 0)",
+    "per-repeat waveform tolerance ('short', 4, 72, 'graph', 0)",
+    "stream finite/aligned/EOS ('short', 4, 72, 'graph', 1)",
+    "per-repeat waveform tolerance ('short', 4, 72, 'graph', 1)",
+    "stream graph reference ('short', 4, 72)",
+    "reopen short-4-25-72.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('medium', 12, 588, 'eager', 0)",
+    "per-repeat waveform tolerance ('medium', 12, 588, 'eager', 0)",
+    "stream finite/aligned/EOS ('medium', 12, 588, 'eager', 1)",
+    "per-repeat waveform tolerance ('medium', 12, 588, 'eager', 1)",
+    "stream finite/aligned/EOS ('medium', 12, 588, 'graph', 0)",
+    "per-repeat waveform tolerance ('medium', 12, 588, 'graph', 0)",
+    "stream finite/aligned/EOS ('medium', 12, 588, 'graph', 1)",
+    "per-repeat waveform tolerance ('medium', 12, 588, 'graph', 1)",
+    "stream graph reference ('medium', 12, 588)",
+    "reopen medium-12-12-588.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('medium', 1, 588, 'eager', 0)",
+    "per-repeat waveform tolerance ('medium', 1, 588, 'eager', 0)",
+    "stream finite/aligned/EOS ('medium', 1, 588, 'eager', 1)",
+    "per-repeat waveform tolerance ('medium', 1, 588, 'eager', 1)",
+    "stream finite/aligned/EOS ('medium', 1, 588, 'graph', 0)",
+    "per-repeat waveform tolerance ('medium', 1, 588, 'graph', 0)",
+    "stream finite/aligned/EOS ('medium', 1, 588, 'graph', 1)",
+    "per-repeat waveform tolerance ('medium', 1, 588, 'graph', 1)",
+    "stream graph reference ('medium', 1, 588)",
+    "reopen medium-1-25-588.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('medium', 4, 588, 'eager', 0)",
+    "per-repeat waveform tolerance ('medium', 4, 588, 'eager', 0)",
+    "stream finite/aligned/EOS ('medium', 4, 588, 'eager', 1)",
+    "per-repeat waveform tolerance ('medium', 4, 588, 'eager', 1)",
+    "stream finite/aligned/EOS ('medium', 4, 588, 'graph', 0)",
+    "per-repeat waveform tolerance ('medium', 4, 588, 'graph', 0)",
+    "stream finite/aligned/EOS ('medium', 4, 588, 'graph', 1)",
+    "per-repeat waveform tolerance ('medium', 4, 588, 'graph', 1)",
+    "stream graph reference ('medium', 4, 588)",
+    "reopen medium-4-25-588.wav",
+    "no request-time capture",
+    "stream finite/aligned/EOS ('medium', 4, 72, 'eager', 0)",
+    "per-repeat waveform tolerance ('medium', 4, 72, 'eager', 0)",
+    "stream finite/aligned/EOS ('medium', 4, 72, 'eager', 1)",
+    "per-repeat waveform tolerance ('medium', 4, 72, 'eager', 1)",
+    "stream finite/aligned/EOS ('medium', 4, 72, 'graph', 0)",
+    "per-repeat waveform tolerance ('medium', 4, 72, 'graph', 0)",
+    "stream finite/aligned/EOS ('medium', 4, 72, 'graph', 1)",
+    "per-repeat waveform tolerance ('medium', 4, 72, 'graph', 1)",
+    "stream graph reference ('medium', 4, 72)",
+    "reopen medium-4-25-72.wav",
+    "no request-time capture",
+    "all observed requests reached EOS"
+  ],
+  "fixed": [
+    {
+      "frames": 1,
+      "setup_s": 0.07274585800041677,
+      "error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "times": {
+        "eager": [
+          0.016258855001069605,
+          0.016266106998955365,
+          0.016181558996322565,
+          0.016122446999361273,
+          0.016047254001023248
+        ],
+        "graph": [
+          0.002981593002914451,
+          0.0029689319999306463,
+          0.0029637699990416877,
+          0.002961303005577065,
+          0.0029603080038214102
+        ]
+      },
+      "speedup": 5.459789052981422
+    },
+    {
+      "frames": 12,
+      "setup_s": 0.07879721000063,
+      "error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "times": {
+        "eager": [
+          0.017331127004581504,
+          0.01686453499860363,
+          0.017022932996042073,
+          0.017211204001796432,
+          0.016875956003786996
+        ],
+        "graph": [
+          0.005180938998819329,
+          0.005132698999659624,
+          0.0051830480006174184,
+          0.005190174997551367,
+          0.005182505999982823
+        ]
+      },
+      "speedup": 3.2846914207332314
+    },
+    {
+      "frames": 25,
+      "setup_s": 0.078749139996944,
+      "error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "times": {
+        "eager": [
+          0.01876837199961301,
+          0.018666036005015485,
+          0.01898386699758703,
+          0.018623923002451193,
+          0.01875711300090188
+        ],
+        "graph": [
+          0.007209750001493376,
+          0.007193575002020225,
+          0.007193719000497367,
+          0.007190461998106912,
+          0.00719875399954617
+        ]
+      },
+      "speedup": 2.6074292031152497
+    },
+    {
+      "frames": 97,
+      "setup_s": 0.09470201499789255,
+      "error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "times": {
+        "eager": [
+          0.030255186000431422,
+          0.030458428998827003,
+          0.03226418099802686,
+          0.030234683996241074,
+          0.030090653999650385
+        ],
+        "graph": [
+          0.018715799997153226,
+          0.018718735002039466,
+          0.018699749998631887,
+          0.018699022999498993,
+          0.018696743005421013
+        ]
+      },
+      "speedup": 1.6179460154625038
+    },
+    {
+      "frames": 613,
+      "setup_s": 0.41417582299618516,
+      "error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "times": {
+        "eager": [
+          0.1337687730047037,
+          0.13406327700067777,
+          0.1337820949993329,
+          0.13370293499610852,
+          0.13410300099349115
+        ],
+        "graph": [
+          0.12329876500007231,
+          0.12331316500058165,
+          0.12330362400098238,
+          0.12332821000018157,
+          0.12326207300066017
+        ]
+      },
+      "speedup": 1.0849810464473213
+    }
+  ],
+  "streaming": [
+    {
+      "text": "short",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.15345432599860942,
+      "total_s": 0.8692493909984478,
+      "rtf": 0.1448748984997413,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.15345432599860942,
+        0.2802311519990326,
+        0.41209717400488444,
+        0.5429464560002089,
+        0.6764166350039886,
+        0.8128457979983068,
+        0.868909602999338
+      ],
+      "setup_s": 1.0804127419978613,
+      "captures": 7,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.14742017300159205,
+      "total_s": 0.8617481059991405,
+      "rtf": 0.1436246843331901,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.14742017300159205,
+        0.2749925030002487,
+        0.4052730609982973,
+        0.5365999999994528,
+        0.6700314120025723,
+        0.8054912599982345,
+        0.861491866002325
+      ],
+      "setup_s": 1.0804127419978613,
+      "captures": 7,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.13519300699408632,
+      "total_s": 0.7781981169973733,
+      "rtf": 0.12969968616622887,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.13519300699408632,
+        0.24889669299591333,
+        0.3668509599956451,
+        0.4860198229944217,
+        0.6077307329978794,
+        0.7346421389956959,
+        0.7779943249988719
+      ],
+      "setup_s": 1.0804127419978613,
+      "captures": 7,
+      "hits": 7,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.13531989899638575,
+      "total_s": 0.7729038659963408,
+      "rtf": 0.12881731099939012,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.13531989899638575,
+        0.24916654900152935,
+        0.36630000000150176,
+        0.4851883009978337,
+        0.6065749789995607,
+        0.7296601009948063,
+        0.7727519199979724
+      ],
+      "setup_s": 1.0804127419978613,
+      "captures": 7,
+      "hits": 7,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.049147368998092134,
+      "total_s": 0.7871054129936965,
+      "rtf": 0.13118423549894942,
+      "starvation_s": 0.16116430900176054,
+      "arrivals_s": [
+        0.049147368998092134,
+        0.2903116779998527,
+        0.5434177789938985,
+        0.786823224996624
+      ],
+      "setup_s": 0.4645089260011446,
+      "captures": 4,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.04756112700124504,
+      "total_s": 0.7824384539999301,
+      "rtf": 0.13040640899998834,
+      "starvation_s": 0.16289758699887896,
+      "arrivals_s": [
+        0.04756112700124504,
+        0.290458714000124,
+        0.5374914420026471,
+        0.7821961139998166
+      ],
+      "setup_s": 0.4645089260011446,
+      "captures": 4,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.03489442300633527,
+      "total_s": 0.7310106180011644,
+      "rtf": 0.12183510300019407,
+      "starvation_s": 0.14988169900054343,
+      "arrivals_s": [
+        0.03489442300633527,
+        0.2647761220068787,
+        0.5008146400068654,
+        0.7307879490035702
+      ],
+      "setup_s": 0.4645089260011446,
+      "captures": 4,
+      "hits": 4,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.03526465899631148,
+      "total_s": 0.7339213140003267,
+      "rtf": 0.12232021900005445,
+      "starvation_s": 0.15276039199845398,
+      "arrivals_s": [
+        0.03526465899631148,
+        0.2680250509947655,
+        0.5043833659947268,
+        0.7337253379955655
+      ],
+      "setup_s": 0.4645089260011446,
+      "captures": 4,
+      "hits": 4,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.07606132699584123,
+      "total_s": 0.7838397180021275,
+      "rtf": 0.13063995300035458,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07606132699584123,
+        0.3180181909992825,
+        0.567308117999346,
+        0.7836666439980036
+      ],
+      "setup_s": 0.3082779890028178,
+      "captures": 4,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.07492085099511314,
+      "total_s": 0.7842305599988322,
+      "rtf": 0.1307050933331387,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07492085099511314,
+        0.3190151149974554,
+        0.5672501079970971,
+        0.7839815529951011
+      ],
+      "setup_s": 0.3082779890028178,
+      "captures": 4,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.06199606900190702,
+      "total_s": 0.7311332489989582,
+      "rtf": 0.12185554149982636,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.06199606900190702,
+        0.2924964949997957,
+        0.5280842280044453,
+        0.7307722879995708
+      ],
+      "setup_s": 0.3082779890028178,
+      "captures": 4,
+      "hits": 4,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.05932842499896651,
+      "total_s": 0.6876592510016053,
+      "rtf": 0.11460987516693422,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.05932842499896651,
+        0.2743825060024392,
+        0.4951024710026104,
+        0.6873871839998174
+      ],
+      "setup_s": 0.3082779890028178,
+      "captures": 4,
+      "hits": 4,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.07704044600541238,
+      "total_s": 0.7838914330059197,
+      "rtf": 0.13064857216765327,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07704044600541238,
+        0.3194078390006325,
+        0.5668835810065502,
+        0.7836337300032028
+      ],
+      "setup_s": 0.4828876030005631,
+      "captures": 4,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.07606633799878182,
+      "total_s": 0.7824793139952817,
+      "rtf": 0.13041321899921363,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07606633799878182,
+        0.3179550109998672,
+        0.5656955069935066,
+        0.7823065229968051
+      ],
+      "setup_s": 0.4828876030005631,
+      "captures": 4,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 75,
+      "first_audio_s": 0.06194434799544979,
+      "total_s": 0.731486427001073,
+      "rtf": 0.12191440450017883,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.06194434799544979,
+        0.2920024069971987,
+        0.5278555279946886,
+        0.7313140599944745
+      ],
+      "setup_s": 0.4828876030005631,
+      "captures": 4,
+      "hits": 4,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "short",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 75,
+      "first_audio_s": 0.06121973300469108,
+      "total_s": 0.7304736380028771,
+      "rtf": 0.12174560633381286,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.06121973300469108,
+        0.2911101530044107,
+        0.5266953120008111,
+        0.7303082790022017
+      ],
+      "setup_s": 0.4828876030005631,
+      "captures": 4,
+      "hits": 4,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.14953747199615464,
+      "total_s": 1.2175962249966688,
+      "rtf": 0.14092548900424406,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.14953747199615464,
+        0.2752049979972071,
+        0.4042516749977949,
+        0.5349008009943645,
+        0.6688292439939687,
+        0.8037959189969115,
+        0.9391965239992714,
+        1.0766209189969231,
+        1.216043943000841
+      ],
+      "setup_s": 0.815006878998247,
+      "captures": 9,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.14911705299891764,
+      "total_s": 1.2179270299966447,
+      "rtf": 0.14096377661998202,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.14911705299891764,
+        0.2750438770017354,
+        0.40424355000141077,
+        0.5351379069979885,
+        0.6684075860030134,
+        0.8035824219987262,
+        0.9397511990027851,
+        1.076632641001197,
+        1.216414069996972
+      ],
+      "setup_s": 0.815006878998247,
+      "captures": 9,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.13555104099941673,
+      "total_s": 1.1084402490014327,
+      "rtf": 0.12829169548627692,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.13555104099941673,
+        0.2495212010035175,
+        0.36671678800485097,
+        0.4858101749996422,
+        0.6071931469996343,
+        0.7303977820047294,
+        0.8541208829992684,
+        0.9794375740020769,
+        1.1070303349988535
+      ],
+      "setup_s": 0.815006878998247,
+      "captures": 9,
+      "hits": 9,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 12,
+      "chunk": 12,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.13517602999490919,
+      "total_s": 1.106142787997669,
+      "rtf": 0.12802578564787837,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.13517602999490919,
+        0.2490178410007502,
+        0.36591184699500445,
+        0.4846907819955959,
+        0.6057300479951664,
+        0.7286726640013512,
+        0.8519784589952906,
+        0.9772400389992981,
+        1.1047358360010548
+      ],
+      "setup_s": 0.815006878998247,
+      "captures": 9,
+      "hits": 9,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.04915816499851644,
+      "total_s": 1.1392241700013983,
+      "rtf": 0.1318546493057174,
+      "starvation_s": 0.16180518900539026,
+      "arrivals_s": [
+        0.04915816499851644,
+        0.2909633540039067,
+        0.5388382579985773,
+        0.7883291329999338,
+        1.0417123830047785,
+        1.1390243740024744
+      ],
+      "setup_s": 0.5273375969991321,
+      "captures": 6,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.04770308200386353,
+      "total_s": 1.135596500003885,
+      "rtf": 0.13143478009304224,
+      "starvation_s": 0.16149206400034016,
+      "arrivals_s": [
+        0.04770308200386353,
+        0.2891951460042037,
+        0.5352390730040497,
+        0.7848387730045943,
+        1.0380077680019895,
+        1.1352981360032572
+      ],
+      "setup_s": 0.5273375969991321,
+      "captures": 6,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.03410357400571229,
+      "total_s": 1.06312686700403,
+      "rtf": 0.12304709108842939,
+      "starvation_s": 0.14997091599972917,
+      "arrivals_s": [
+        0.03410357400571229,
+        0.2640744900054415,
+        0.4990173140031402,
+        0.7365168890028144,
+        0.9782640039993566,
+        1.0628345799996168
+      ],
+      "setup_s": 0.5273375969991321,
+      "captures": 6,
+      "hits": 6,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 1,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.03492287100380054,
+      "total_s": 1.06398920200445,
+      "rtf": 0.12314689838014466,
+      "starvation_s": 0.14955182199802947,
+      "arrivals_s": [
+        0.03492287100380054,
+        0.26447469300183,
+        0.5009934160043485,
+        0.7382951750041684,
+        0.9794260720009333,
+        1.0637253610038897
+      ],
+      "setup_s": 0.5273375969991321,
+      "captures": 6,
+      "hits": 6,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.07647868299682159,
+      "total_s": 1.139677979001135,
+      "rtf": 0.13190717349550174,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07647868299682159,
+        0.317745478998404,
+        0.5650316679966636,
+        0.8156933490026859,
+        1.0686198679977679,
+        1.139451167997322
+      ],
+      "setup_s": 0.5960048810011358,
+      "captures": 6,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.07493498899566475,
+      "total_s": 1.137356594997982,
+      "rtf": 0.1316384947914331,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07493498899566475,
+        0.3160668729979079,
+        0.5643359379973845,
+        0.8135274679953,
+        1.0664521629951196,
+        1.1371386029932182
+      ],
+      "setup_s": 0.5960048810011358,
+      "captures": 6,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.06246377500065137,
+      "total_s": 1.0019895609948435,
+      "rtf": 0.1159710140040328,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.06246377500065137,
+        0.27709229399624746,
+        0.497507615997165,
+        0.7202594049958861,
+        0.9466775179971592,
+        1.0017568959956407
+      ],
+      "setup_s": 0.5960048810011358,
+      "captures": 6,
+      "hits": 6,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 588,
+      "approximate": false,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.059171883003728,
+      "total_s": 0.9970727440013434,
+      "rtf": 0.11540193796311844,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.059171883003728,
+        0.2737225760065485,
+        0.49372969700198155,
+        0.7160417850027443,
+        0.9420071890053805,
+        0.9968802360017435
+      ],
+      "setup_s": 0.5960048810011358,
+      "captures": 6,
+      "hits": 6,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "eager",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.07573396200314164,
+      "total_s": 1.1333504720023484,
+      "rtf": 0.13117482314841994,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07573396200314164,
+        0.31694228400010616,
+        0.5641076960018836,
+        0.8152414880023571,
+        1.0673264420038322,
+        1.1330216690039379
+      ],
+      "setup_s": 0.536958605000109,
+      "captures": 6,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "eager",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.07504320600128267,
+      "total_s": 1.1312838769954396,
+      "rtf": 0.1309356339115092,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.07504320600128267,
+        0.3160654609964695,
+        0.5630924119977863,
+        0.8122660669978359,
+        1.0663454289970105,
+        1.1310603019956034
+      ],
+      "setup_s": 0.536958605000109,
+      "captures": 6,
+      "hits": 0,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "graph",
+      "repeat": 0,
+      "frames": 108,
+      "first_audio_s": 0.06230568799946923,
+      "total_s": 1.0590434330006246,
+      "rtf": 0.12257447141210932,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.06230568799946923,
+        0.2919108780042734,
+        0.5276984420052031,
+        0.7653335030045127,
+        1.006615023004997,
+        1.0588049110010616
+      ],
+      "setup_s": 0.536958605000109,
+      "captures": 6,
+      "hits": 6,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    },
+    {
+      "text": "medium",
+      "first": 4,
+      "chunk": 25,
+      "context": 72,
+      "approximate": true,
+      "variant": "graph",
+      "repeat": 1,
+      "frames": 108,
+      "first_audio_s": 0.06182805500429822,
+      "total_s": 1.05644314300298,
+      "rtf": 0.12227351192164118,
+      "starvation_s": 0.0,
+      "arrivals_s": [
+        0.06182805500429822,
+        0.2912886220001383,
+        0.5262553640059195,
+        0.7636316280040774,
+        1.0042149810033152,
+        1.0562275260017486
+      ],
+      "setup_s": 0.536958605000109,
+      "captures": 6,
+      "hits": 6,
+      "misses": 0,
+      "waveform_error": {
+        "max_abs": 0.0,
+        "rmse": 0.0
+      },
+      "waveform_exact": true
+    }
+  ],
+  "complete": true,
+  "context_frames": 588,
+  "hop": 1920,
+  "sample_rate": 24000,
+  "seed": 42,
+  "generation": {
+    "speaker": "ryan",
+    "language": "English",
+    "do_sample": true,
+    "subtalker_dosample": true,
+    "max_new_tokens": 1000,
+    "temperature": 0.9,
+    "top_k": 50,
+    "top_p": 1.0,
+    "subtalker_temperature": 0.9,
+    "subtalker_top_k": 50,
+    "subtalker_top_p": 1.0
+  },
+  "window_errors": [
+    {
+      "context": 588,
+      "approximate": false,
+      "error": {
+        "max_abs": 0.03076171875,
+        "rmse": 0.0008043780107982457
+      },
+      "boundary_rmse": 0.0006542792543768883,
+      "boundary_max": 0.0107421875
+    },
+    {
+      "context": 72,
+      "approximate": true,
+      "error": {
+        "max_abs": 0.0704345703125,
+        "rmse": 0.0018073214450851083
+      },
+      "boundary_rmse": 0.001516610267572105,
+      "boundary_max": 0.01123046875
+    }
+  ],
+  "eos_observations": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ]
+}

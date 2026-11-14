@@ -1,0 +1,52 @@
+{
+  "complete": true,
+  "models": [
+    {
+      "size": "0.6b",
+      "mode": "nonpdl",
+      "baseline_rtf": 0.18422623161363533,
+      "final_rtf": 0.1026522161256226,
+      "baseline_over_final_speedup": 1.794663949467832,
+      "rtf_reduction_percent": 44.27926184751592,
+      "inverse_mean_rtf": 9.741630894516987,
+      "historical_vllm_rtf": 0.07534187462021445,
+      "final_over_historical_vllm_rtf": 1.3624855585698514,
+      "all_24_measured_eos_finite_no_fallback": true,
+      "all_3_smoke_passed": true,
+      "source_snapshots_verified_stable": true,
+      "max_new_tokens": 8192,
+      "largest_measured_sequence_tokens": 264,
+      "smoke_fallback_counts": [
+        0,
+        0,
+        67
+      ]
+    },
+    {
+      "size": "1.7b",
+      "mode": "pdl",
+      "baseline_rtf": 0.19454905862818808,
+      "final_rtf": 0.10859063382845777,
+      "baseline_over_final_speedup": 1.791582310271069,
+      "rtf_reduction_percent": 44.183418519649344,
+      "inverse_mean_rtf": 9.208897349100244,
+      "historical_vllm_rtf": 0.08437540511789696,
+      "final_over_historical_vllm_rtf": 1.2869939252644191,
+      "all_24_measured_eos_finite_no_fallback": true,
+      "all_3_smoke_passed": true,
+      "source_snapshots_verified_stable": true,
+      "max_new_tokens": 8192,
+      "largest_measured_sequence_tokens": 291,
+      "smoke_fallback_counts": [
+        0,
+        0,
+        31
+      ]
+    }
+  ],
+  "limitations": [
+    "Sampled outputs differ; not an equal-frame workload.",
+    "Historical vLLM results are not contemporaneous controlled measurements.",
+    "No listening certification or streaming latency measurement."
+  ]
+}

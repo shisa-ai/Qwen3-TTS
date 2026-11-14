@@ -1,0 +1,198 @@
+{
+  "size": "1.7B",
+  "gpu": "GPU-3e620c1c-c243-7353-580e-cde9e5eb4b8a",
+  "rows": [
+    {
+      "text": "short",
+      "baseline": [
+        {
+          "seed": 0,
+          "seconds": 0.399633716995595,
+          "audio_seconds": 3.04,
+          "rtf": 0.13145845953802468,
+          "tokens": 39,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/short-baseline-0.wav"
+        },
+        {
+          "seed": 1,
+          "seconds": 0.23561634700308787,
+          "audio_seconds": 2.16,
+          "rtf": 0.10908164213105918,
+          "tokens": 28,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/short-baseline-1.wav"
+        },
+        {
+          "seed": 2,
+          "seconds": 0.3369664119964,
+          "audio_seconds": 2.56,
+          "rtf": 0.13162750468609374,
+          "tokens": 33,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/short-baseline-2.wav"
+        }
+      ],
+      "candidate": [
+        {
+          "seed": 0,
+          "seconds": 0.31683346800127765,
+          "audio_seconds": 3.04,
+          "rtf": 0.10422153552673606,
+          "tokens": 39,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/short-candidate-0.wav"
+        },
+        {
+          "seed": 1,
+          "seconds": 0.23657689099491108,
+          "audio_seconds": 2.16,
+          "rtf": 0.10952633842356994,
+          "tokens": 28,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/short-candidate-1.wav"
+        },
+        {
+          "seed": 2,
+          "seconds": 0.2731680009965203,
+          "audio_seconds": 2.56,
+          "rtf": 0.10670625038926573,
+          "tokens": 33,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/short-candidate-2.wav"
+        }
+      ]
+    },
+    {
+      "text": "medium",
+      "baseline": [
+        {
+          "seed": 0,
+          "seconds": 0.9324928849964635,
+          "audio_seconds": 8.48,
+          "rtf": 0.10996378360807353,
+          "tokens": 107,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/medium-baseline-0.wav"
+        },
+        {
+          "seed": 1,
+          "seconds": 0.693131899999571,
+          "audio_seconds": 6.56,
+          "rtf": 0.10566035060969071,
+          "tokens": 83,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/medium-baseline-1.wav"
+        },
+        {
+          "seed": 2,
+          "seconds": 0.778475769002398,
+          "audio_seconds": 7.52,
+          "rtf": 0.10352071396308485,
+          "tokens": 95,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/medium-baseline-2.wav"
+        }
+      ],
+      "candidate": [
+        {
+          "seed": 0,
+          "seconds": 0.8177605370001402,
+          "audio_seconds": 8.08,
+          "rtf": 0.1012079872524926,
+          "tokens": 102,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/medium-candidate-0.wav"
+        },
+        {
+          "seed": 1,
+          "seconds": 0.6660057230037637,
+          "audio_seconds": 6.4,
+          "rtf": 0.10406339421933808,
+          "tokens": 81,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/medium-candidate-1.wav"
+        },
+        {
+          "seed": 2,
+          "seconds": 0.6944296680012485,
+          "audio_seconds": 6.72,
+          "rtf": 0.1033377482144715,
+          "tokens": 85,
+          "audio": "/root/tts/samples/gap/frame-decode/1.7B/medium-candidate-2.wav"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    "restored original generate",
+    "fast path exercised",
+    "greedy fixed-work sequences exact",
+    "real hidden-state count",
+    "all retained real hidden states exact",
+    "retained outputs survive replay",
+    "unsupported output option strict fallback",
+    "cross-stream rejected",
+    "cache capacity raises",
+    "request resets after failure",
+    "uninstall restores forward",
+    "uninstall restores generate",
+    "sampled independent temperatures exact seeded sequence",
+    "top-p strict predictor fallback exact seeded sequence",
+    "repetition and suppression exact seeded sequence",
+    "short/baseline/1234 EOS",
+    "short/baseline/1234 finite audio",
+    "short/baseline/1234 no capture",
+    "short/baseline/0 EOS",
+    "short/baseline/0 finite audio",
+    "short/baseline/0 no capture",
+    "short/baseline/1 EOS",
+    "short/baseline/1 finite audio",
+    "short/baseline/1 no capture",
+    "short/baseline/2 EOS",
+    "short/baseline/2 finite audio",
+    "short/baseline/2 no capture",
+    "short/candidate/1234 EOS",
+    "short/candidate/1234 finite audio",
+    "short/candidate/1234 no capture",
+    "short/candidate/0 EOS",
+    "short/candidate/0 finite audio",
+    "short/candidate/0 no capture",
+    "short/candidate/1 EOS",
+    "short/candidate/1 finite audio",
+    "short/candidate/1 no capture",
+    "short/candidate/2 EOS",
+    "short/candidate/2 finite audio",
+    "short/candidate/2 no capture",
+    "short fast path exercised",
+    "medium/baseline/1234 EOS",
+    "medium/baseline/1234 finite audio",
+    "medium/baseline/1234 no capture",
+    "medium/baseline/0 EOS",
+    "medium/baseline/0 finite audio",
+    "medium/baseline/0 no capture",
+    "medium/baseline/1 EOS",
+    "medium/baseline/1 finite audio",
+    "medium/baseline/1 no capture",
+    "medium/baseline/2 EOS",
+    "medium/baseline/2 finite audio",
+    "medium/baseline/2 no capture",
+    "medium/candidate/1234 EOS",
+    "medium/candidate/1234 finite audio",
+    "medium/candidate/1234 no capture",
+    "medium/candidate/0 EOS",
+    "medium/candidate/0 finite audio",
+    "medium/candidate/0 no capture",
+    "medium/candidate/1 EOS",
+    "medium/candidate/1 finite audio",
+    "medium/candidate/1 no capture",
+    "medium/candidate/2 EOS",
+    "medium/candidate/2 finite audio",
+    "medium/candidate/2 no capture",
+    "medium fast path exercised"
+  ],
+  "complete": true,
+  "fixed_work": {
+    "tokens": 24,
+    "baseline_s": [
+      0.18041699699824676,
+      0.17955609299679054,
+      0.17970289300137665
+    ],
+    "candidate_s": [
+      0.17980478100071196,
+      0.17881661400315352,
+      0.1799348420026945
+    ],
+    "speedup": 0.9994333409892204
+  }
+}

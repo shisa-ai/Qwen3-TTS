@@ -1,0 +1,16 @@
+{
+  "checks": [
+    "negative and duplicate repetition history",
+    "suppression",
+    "minimum EOS boundary",
+    "temperature",
+    "top-k",
+    "top-p",
+    "greedy argmax"
+  ],
+  "passed": true,
+  "sources": {
+    "scripts/qwen_frame_decode.py": "aae8a1b18b5f0161ff54fca46a4581809ce09ecb8ae86e105113e1e21f70eb78",
+    "scripts/test_qwen_frame_decode.py": "0e76008679bbd864f600fdf9f74c3175a5ca08265ca17fb572b380fb5e667f77"
+  }
+}

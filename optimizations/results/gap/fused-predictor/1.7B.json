@@ -1,0 +1,370 @@
+{
+  "size": "1.7B",
+  "gpu": "GPU-3e620c1c-c243-7353-580e-cde9e5eb4b8a",
+  "complete": true,
+  "torch": "2.15.0+cu132",
+  "config": {
+    "return_dict": true,
+    "output_hidden_states": false,
+    "torchscript": false,
+    "dtype": null,
+    "pruned_heads": {},
+    "tie_word_embeddings": false,
+    "chunk_size_feed_forward": 0,
+    "is_encoder_decoder": false,
+    "is_decoder": false,
+    "cross_attention_hidden_size": null,
+    "add_cross_attention": false,
+    "tie_encoder_decoder": false,
+    "architectures": null,
+    "finetuning_task": null,
+    "id2label": {
+      "0": "LABEL_0",
+      "1": "LABEL_1"
+    },
+    "label2id": {
+      "LABEL_0": 0,
+      "LABEL_1": 1
+    },
+    "task_specific_params": null,
+    "problem_type": null,
+    "tokenizer_class": null,
+    "prefix": null,
+    "bos_token_id": null,
+    "pad_token_id": null,
+    "eos_token_id": null,
+    "sep_token_id": null,
+    "decoder_start_token_id": null,
+    "max_length": 20,
+    "min_length": 0,
+    "do_sample": false,
+    "early_stopping": false,
+    "num_beams": 1,
+    "temperature": 1.0,
+    "top_k": 50,
+    "top_p": 1.0,
+    "typical_p": 1.0,
+    "repetition_penalty": 1.0,
+    "length_penalty": 1.0,
+    "no_repeat_ngram_size": 0,
+    "encoder_no_repeat_ngram_size": 0,
+    "bad_words_ids": null,
+    "num_return_sequences": 1,
+    "output_scores": false,
+    "return_dict_in_generate": false,
+    "forced_bos_token_id": null,
+    "forced_eos_token_id": null,
+    "remove_invalid_values": false,
+    "exponential_decay_length_penalty": null,
+    "suppress_tokens": null,
+    "begin_suppress_tokens": null,
+    "num_beam_groups": 1,
+    "diversity_penalty": 0.0,
+    "_name_or_path": "",
+    "transformers_version": "4.57.3",
+    "model_type": "qwen3_tts_talker_code_predictor",
+    "tf_legacy_loss": false,
+    "use_bfloat16": false,
+    "vocab_size": 2048,
+    "max_position_embeddings": 65536,
+    "hidden_size": 1024,
+    "intermediate_size": 3072,
+    "num_hidden_layers": 5,
+    "num_attention_heads": 16,
+    "use_sliding_window": false,
+    "sliding_window": null,
+    "max_window_layers": 28,
+    "num_key_value_heads": 8,
+    "head_dim": 128,
+    "hidden_act": "silu",
+    "initializer_range": 0.02,
+    "rms_norm_eps": 1e-06,
+    "use_cache": true,
+    "rope_theta": 1000000,
+    "rope_scaling": null,
+    "attention_bias": false,
+    "attention_dropout": 0,
+    "layer_types": [
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention",
+      "full_attention"
+    ],
+    "num_code_groups": 16,
+    "output_attentions": false
+  },
+  "strict_ms": 6.7128004993719514,
+  "greedy_agreement": 0.9500000476837158,
+  "fused_ms": 2.3515715001849458,
+  "speedup": 2.854601911463889,
+  "pdl": true,
+  "ownership_cache_stream": true,
+  "sampling_fallback": true,
+  "captures": [
+    {
+      "setup_s": 0.06949001099565066,
+      "capture_s": 0.009455921994231176
+    },
+    {
+      "setup_s": 0.03803218599932734,
+      "capture_s": 0.008397391000471544
+    },
+    {
+      "setup_s": 0.03282223200221779,
+      "capture_s": 0.008853722996718716
+    }
+  ],
+  "layer_errors": [
+    {
+      "layer": 0,
+      "fused_hf_rmse": 0.0018343774136155844,
+      "fused_fp32_rmse": 0.005806907080113888,
+      "hf_fp32_rmse": 0.005784311797469854,
+      "reference_rms": 2.1703739166259766,
+      "pdl_fp32_rmse": 0.005784911103546619
+    },
+    {
+      "layer": 1,
+      "fused_hf_rmse": 0.0022617264185100794,
+      "fused_fp32_rmse": 0.0035395226441323757,
+      "hf_fp32_rmse": 0.0036308704875409603,
+      "reference_rms": 2.16439151763916,
+      "pdl_fp32_rmse": 0.003561840858310461
+    },
+    {
+      "layer": 2,
+      "fused_hf_rmse": 0.056406419724226,
+      "fused_fp32_rmse": 0.05246717110276222,
+      "hf_fp32_rmse": 0.017037535086274147,
+      "reference_rms": 11.901385307312012,
+      "pdl_fp32_rmse": 0.019146624952554703
+    },
+    {
+      "layer": 3,
+      "fused_hf_rmse": 0.1179627999663353,
+      "fused_fp32_rmse": 0.10871994495391846,
+      "hf_fp32_rmse": 0.05490748584270477,
+      "reference_rms": 28.406341552734375,
+      "pdl_fp32_rmse": 0.0610293373465538
+    },
+    {
+      "layer": 4,
+      "fused_hf_rmse": 0.008306675590574741,
+      "fused_fp32_rmse": 0.04770411178469658,
+      "hf_fp32_rmse": 0.04749127849936485,
+      "reference_rms": 28.386632919311523,
+      "pdl_fp32_rmse": 0.04757627472281456
+    },
+    {
+      "layer": 0,
+      "fused_hf_rmse": 0.0012621451169252396,
+      "fused_fp32_rmse": 0.00353320618160069,
+      "hf_fp32_rmse": 0.0035484465770423412,
+      "reference_rms": 1.4549297094345093,
+      "pdl_fp32_rmse": 0.0035440190695226192
+    },
+    {
+      "layer": 1,
+      "fused_hf_rmse": 0.0019361065933480859,
+      "fused_fp32_rmse": 0.005399615038186312,
+      "hf_fp32_rmse": 0.005406123585999012,
+      "reference_rms": 1.451402187347412,
+      "pdl_fp32_rmse": 0.0053435275331139565
+    },
+    {
+      "layer": 2,
+      "fused_hf_rmse": 0.025982802733778954,
+      "fused_fp32_rmse": 0.013143653981387615,
+      "hf_fp32_rmse": 0.017205867916345596,
+      "reference_rms": 9.813549995422363,
+      "pdl_fp32_rmse": 0.01892230659723282
+    },
+    {
+      "layer": 3,
+      "fused_hf_rmse": 0.16692988574504852,
+      "fused_fp32_rmse": 0.10914473980665207,
+      "hf_fp32_rmse": 0.08265069872140884,
+      "reference_rms": 26.736238479614258,
+      "pdl_fp32_rmse": 0.03238343074917793
+    },
+    {
+      "layer": 4,
+      "fused_hf_rmse": 0.009014244191348553,
+      "fused_fp32_rmse": 0.03509820997714996,
+      "hf_fp32_rmse": 0.03506128117442131,
+      "reference_rms": 26.7185001373291,
+      "pdl_fp32_rmse": 0.034980349242687225
+    },
+    {
+      "layer": 0,
+      "fused_hf_rmse": 0.001170854433439672,
+      "fused_fp32_rmse": 0.00206780550070107,
+      "hf_fp32_rmse": 0.0020589265041053295,
+      "reference_rms": 1.535840392112732,
+      "pdl_fp32_rmse": 0.002066620858386159
+    },
+    {
+      "layer": 1,
+      "fused_hf_rmse": 0.0019903830252587795,
+      "fused_fp32_rmse": 0.004485398065298796,
+      "hf_fp32_rmse": 0.004324804991483688,
+      "reference_rms": 1.5139870643615723,
+      "pdl_fp32_rmse": 0.004246915224939585
+    },
+    {
+      "layer": 2,
+      "fused_hf_rmse": 0.032161518931388855,
+      "fused_fp32_rmse": 0.017824528738856316,
+      "hf_fp32_rmse": 0.018198907375335693,
+      "reference_rms": 9.77277660369873,
+      "pdl_fp32_rmse": 0.017974337562918663
+    },
+    {
+      "layer": 3,
+      "fused_hf_rmse": 0.0840311124920845,
+      "fused_fp32_rmse": 0.06115996465086937,
+      "hf_fp32_rmse": 0.05771498754620552,
+      "reference_rms": 27.42759895324707,
+      "pdl_fp32_rmse": 0.06286191195249557
+    },
+    {
+      "layer": 4,
+      "fused_hf_rmse": 0.011407970450818539,
+      "fused_fp32_rmse": 0.038229890167713165,
+      "hf_fp32_rmse": 0.03737374395132065,
+      "reference_rms": 27.451019287109375,
+      "pdl_fp32_rmse": 0.03748548775911331
+    },
+    {
+      "layer": 0,
+      "fused_hf_rmse": 0.0013595299096778035,
+      "fused_fp32_rmse": 0.0035380423069000244,
+      "hf_fp32_rmse": 0.0035774395801126957,
+      "reference_rms": 1.8867254257202148,
+      "pdl_fp32_rmse": 0.003569429973140359
+    },
+    {
+      "layer": 1,
+      "fused_hf_rmse": 0.0015675681643188,
+      "fused_fp32_rmse": 0.0042684548534452915,
+      "hf_fp32_rmse": 0.0042630149982869625,
+      "reference_rms": 1.8700380325317383,
+      "pdl_fp32_rmse": 0.004267442971467972
+    },
+    {
+      "layer": 2,
+      "fused_hf_rmse": 0.05744408443570137,
+      "fused_fp32_rmse": 0.04707075655460358,
+      "hf_fp32_rmse": 0.015846841037273407,
+      "reference_rms": 10.757706642150879,
+      "pdl_fp32_rmse": 0.015938928350806236
+    },
+    {
+      "layer": 3,
+      "fused_hf_rmse": 0.053944386541843414,
+      "fused_fp32_rmse": 0.03738805651664734,
+      "hf_fp32_rmse": 0.042235974222421646,
+      "reference_rms": 28.616079330444336,
+      "pdl_fp32_rmse": 0.03746733441948891
+    },
+    {
+      "layer": 4,
+      "fused_hf_rmse": 0.01068069040775299,
+      "fused_fp32_rmse": 0.04781007021665573,
+      "hf_fp32_rmse": 0.047581907361745834,
+      "reference_rms": 28.629053115844727,
+      "pdl_fp32_rmse": 0.04827636852860451
+    }
+  ],
+  "end_to_end": {
+    "strict": [
+      {
+        "text": "short",
+        "run": 0,
+        "wall_s": 0.5644770130020333,
+        "audio_s": 2.48,
+        "rtf": 0.22761169879114249
+      },
+      {
+        "text": "short",
+        "run": 1,
+        "wall_s": 0.6000956350035267,
+        "audio_s": 2.56,
+        "rtf": 0.23441235742325262
+      },
+      {
+        "text": "short",
+        "run": 2,
+        "wall_s": 0.6332018960019923,
+        "audio_s": 2.72,
+        "rtf": 0.23279481470661478
+      },
+      {
+        "text": "medium",
+        "run": 0,
+        "wall_s": 1.4658196760065039,
+        "audio_s": 6.8,
+        "rtf": 0.21556171705977997
+      },
+      {
+        "text": "medium",
+        "run": 1,
+        "wall_s": 1.355156777004595,
+        "audio_s": 6.56,
+        "rtf": 0.20657877698240779
+      },
+      {
+        "text": "medium",
+        "run": 2,
+        "wall_s": 1.5177006180019816,
+        "audio_s": 7.44,
+        "rtf": 0.20399201854865343
+      }
+    ],
+    "fused": [
+      {
+        "text": "short",
+        "run": 0,
+        "wall_s": 0.31126314999710303,
+        "audio_s": 2.4,
+        "rtf": 0.1296929791654596
+      },
+      {
+        "text": "short",
+        "run": 1,
+        "wall_s": 0.3413200240029255,
+        "audio_s": 2.24,
+        "rtf": 0.15237501071559173
+      },
+      {
+        "text": "short",
+        "run": 2,
+        "wall_s": 0.33558667699981015,
+        "audio_s": 2.16,
+        "rtf": 0.15536420231472692
+      },
+      {
+        "text": "medium",
+        "run": 0,
+        "wall_s": 0.7893280260032043,
+        "audio_s": 6.56,
+        "rtf": 0.12032439420780554
+      },
+      {
+        "text": "medium",
+        "run": 1,
+        "wall_s": 0.9832723919971613,
+        "audio_s": 7.76,
+        "rtf": 0.12671035979344863
+      },
+      {
+        "text": "medium",
+        "run": 2,
+        "wall_s": 0.8141034649961512,
+        "audio_s": 6.8,
+        "rtf": 0.11972109779355164
+      }
+    ]
+  }
+}

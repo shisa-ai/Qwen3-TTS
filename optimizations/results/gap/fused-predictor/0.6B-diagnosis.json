@@ -1,0 +1,43 @@
+{
+  "frame": 3,
+  "step": 13,
+  "layer": 4,
+  "local_comparisons": [
+    {
+      "source": "fp32_local",
+      "input_global_error": 0.0,
+      "reference_global_error": 0.0,
+      "bf16_local_error": 0.009874257259070873,
+      "pdl_local_error": 0.010084830224514008,
+      "nonpdl_local_error": 0.009587842971086502,
+      "pdl_nonpdl_error": 0.008102920837700367,
+      "pdl_global_error": 0.010084830224514008
+    },
+    {
+      "source": "bf16_accumulated",
+      "input_global_error": 0.016122126951813698,
+      "reference_global_error": 0.03139220178127289,
+      "bf16_local_error": 0.007413627579808235,
+      "pdl_local_error": 0.005640879273414612,
+      "nonpdl_local_error": 0.006543047726154327,
+      "pdl_nonpdl_error": 0.007029886823147535,
+      "pdl_global_error": 0.032928258180618286
+    },
+    {
+      "source": "fused_accumulated",
+      "input_global_error": 0.019143452867865562,
+      "reference_global_error": 0.04270206019282341,
+      "bf16_local_error": 0.0065873353742063046,
+      "pdl_local_error": 0.006327589973807335,
+      "nonpdl_local_error": 0.006972901057451963,
+      "pdl_nonpdl_error": 0.006912154611200094,
+      "pdl_global_error": 0.04381922632455826
+    }
+  ],
+  "qkv_projection": {
+    "fp32_folded_error": 1.2866846077486116e-07,
+    "bf16_folded_error": 0.0020383934024721384,
+    "hf_cast_order_error": 0.0021840150002390146
+  },
+  "original_fused_global_error": 0.04381922632455826
+}

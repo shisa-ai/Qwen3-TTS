@@ -1,0 +1,712 @@
+{
+  "size": "1.7B",
+  "gpu": "GPU-3e620c1c-c243-7353-580e-cde9e5eb4b8a",
+  "torch": "2.15.0+cu132",
+  "variants": {
+    "baseline": {
+      "e2e": [
+        {
+          "text": "short",
+          "seed": 0,
+          "seconds": 0.5303042969972012,
+          "audio_s": 2.56,
+          "rtf": 0.2071501160145317,
+          "frames": 32,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 1,
+          "seconds": 0.6313495770009467,
+          "audio_s": 2.72,
+          "rtf": 0.23211381507387746,
+          "frames": 34,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 2,
+          "seconds": 0.566841428000771,
+          "audio_s": 2.48,
+          "rtf": 0.22856509193579475,
+          "frames": 31,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 0,
+          "seconds": 1.4253498510006466,
+          "audio_s": 6.96,
+          "rtf": 0.2047916452587136,
+          "frames": 87,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 1,
+          "seconds": 1.3884139030051301,
+          "audio_s": 6.8,
+          "rtf": 0.20417851514781327,
+          "frames": 85,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 2,
+          "seconds": 1.5696716890015523,
+          "audio_s": 7.68,
+          "rtf": 0.20438433450541046,
+          "frames": 96,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        }
+      ],
+      "teacher_max_logit_error": 0.3125,
+      "teacher_argmax_matches": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "fp32_reference_errors": [
+        {
+          "baseline_rmse": 0.042329348623752594,
+          "variant_rmse": 0.045827534049749374,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.029912689700722694,
+          "variant_rmse": 0.021652553230524063,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.025234421715140343,
+          "variant_rmse": 0.029610617086291313,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.050644032657146454,
+          "variant_rmse": 0.026098251342773438,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03880036249756813,
+          "variant_rmse": 0.03663439676165581,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03454511985182762,
+          "variant_rmse": 0.03653428331017494,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.035155002027750015,
+          "variant_rmse": 0.04121459275484085,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032820068299770355,
+          "variant_rmse": 0.03408772125840187,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.028954897075891495,
+          "variant_rmse": 0.028458066284656525,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03776182979345322,
+          "variant_rmse": 0.034857913851737976,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032317887991666794,
+          "variant_rmse": 0.029775060713291168,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.04268086701631546,
+          "variant_rmse": 0.03555426746606827,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        }
+      ],
+      "versus_baseline_graph_max_logit_error": 0.0,
+      "output_storage_owned": true,
+      "padding_reset_checked": true,
+      "wrong_stream_rejected": true,
+      "fixed_graph_ms": [
+        5.232748413085938,
+        5.232802734375,
+        5.23302978515625
+      ],
+      "fixed_graph_median_ms": 5.232802734375,
+      "capture_seconds": [
+        0.11767671500274446
+      ],
+      "uninstall_identity_state_checked": true
+    },
+    "norms": {
+      "e2e": [
+        {
+          "text": "short",
+          "seed": 0,
+          "seconds": 0.43270532000315143,
+          "audio_s": 2.24,
+          "rtf": 0.19317201785854973,
+          "frames": 28,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 1,
+          "seconds": 0.471688591002021,
+          "audio_s": 2.4,
+          "rtf": 0.19653691291750874,
+          "frames": 30,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 2,
+          "seconds": 0.493644715003029,
+          "audio_s": 2.32,
+          "rtf": 0.21277789439785733,
+          "frames": 29,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 0,
+          "seconds": 1.1571388580050552,
+          "audio_s": 6.72,
+          "rtf": 0.17219328244122847,
+          "frames": 84,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 1,
+          "seconds": 1.1438185380029608,
+          "audio_s": 6.64,
+          "rtf": 0.17226182801249412,
+          "frames": 83,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 2,
+          "seconds": 1.328812466999807,
+          "audio_s": 7.76,
+          "rtf": 0.17123871997420193,
+          "frames": 97,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        }
+      ],
+      "teacher_max_logit_error": 0.28125,
+      "teacher_argmax_matches": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "fp32_reference_errors": [
+        {
+          "baseline_rmse": 0.042329348623752594,
+          "variant_rmse": 0.048081155866384506,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.029912689700722694,
+          "variant_rmse": 0.027961568906903267,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.025234421715140343,
+          "variant_rmse": 0.031217582523822784,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": false
+        },
+        {
+          "baseline_rmse": 0.050644032657146454,
+          "variant_rmse": 0.027902543544769287,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03880036249756813,
+          "variant_rmse": 0.03615017980337143,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03454511985182762,
+          "variant_rmse": 0.04247475042939186,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.035155002027750015,
+          "variant_rmse": 0.04044066369533539,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032820068299770355,
+          "variant_rmse": 0.03535224124789238,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.028954897075891495,
+          "variant_rmse": 0.035453785210847855,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03776182979345322,
+          "variant_rmse": 0.030543852597475052,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032317887991666794,
+          "variant_rmse": 0.04082220792770386,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.04268086701631546,
+          "variant_rmse": 0.036366771906614304,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        }
+      ],
+      "versus_baseline_graph_max_logit_error": 0.25,
+      "output_storage_owned": true,
+      "padding_reset_checked": true,
+      "wrong_stream_rejected": true,
+      "uninstall_before_graph_rejected": true,
+      "fixed_graph_ms": [
+        4.023331909179688,
+        4.023224792480469,
+        4.023124084472657
+      ],
+      "fixed_graph_median_ms": 4.023224792480469,
+      "capture_seconds": [
+        0.06714725300116697
+      ],
+      "uninstall_identity_state_checked": true
+    },
+    "projections": {
+      "e2e": [
+        {
+          "text": "short",
+          "seed": 0,
+          "seconds": 0.5128010699991137,
+          "audio_s": 2.56,
+          "rtf": 0.20031291796840378,
+          "frames": 32,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 1,
+          "seconds": 0.5434986980035319,
+          "audio_s": 2.72,
+          "rtf": 0.19981569779541614,
+          "frames": 34,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 2,
+          "seconds": 0.49747701099840924,
+          "audio_s": 2.48,
+          "rtf": 0.20059556895097147,
+          "frames": 31,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 0,
+          "seconds": 1.4620893519968376,
+          "audio_s": 7.44,
+          "rtf": 0.19651738602108032,
+          "frames": 93,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 1,
+          "seconds": 1.3299118729992188,
+          "audio_s": 6.96,
+          "rtf": 0.1910792920975889,
+          "frames": 87,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 2,
+          "seconds": 1.4170379549977952,
+          "audio_s": 7.44,
+          "rtf": 0.1904620907255101,
+          "frames": 93,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        }
+      ],
+      "teacher_max_logit_error": 0.3125,
+      "teacher_argmax_matches": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "fp32_reference_errors": [
+        {
+          "baseline_rmse": 0.042329348623752594,
+          "variant_rmse": 0.045827534049749374,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.029912689700722694,
+          "variant_rmse": 0.021652553230524063,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.025234421715140343,
+          "variant_rmse": 0.029610617086291313,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.050644032657146454,
+          "variant_rmse": 0.026098251342773438,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03880036249756813,
+          "variant_rmse": 0.03663439676165581,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03454511985182762,
+          "variant_rmse": 0.03653428331017494,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.035155002027750015,
+          "variant_rmse": 0.04121459275484085,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032820068299770355,
+          "variant_rmse": 0.03408772125840187,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.028954897075891495,
+          "variant_rmse": 0.028458066284656525,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03776182979345322,
+          "variant_rmse": 0.034857913851737976,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032317887991666794,
+          "variant_rmse": 0.029775060713291168,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.04268086701631546,
+          "variant_rmse": 0.03555426746606827,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        }
+      ],
+      "versus_baseline_graph_max_logit_error": 0.0,
+      "output_storage_owned": true,
+      "padding_reset_checked": true,
+      "wrong_stream_rejected": true,
+      "uninstall_before_graph_rejected": true,
+      "fixed_graph_ms": [
+        4.700625305175781,
+        4.7009344482421875,
+        4.700950622558594
+      ],
+      "fixed_graph_median_ms": 4.7009344482421875,
+      "capture_seconds": [
+        0.1041287830012152
+      ],
+      "uninstall_identity_state_checked": true
+    },
+    "combined": {
+      "e2e": [
+        {
+          "text": "short",
+          "seed": 0,
+          "seconds": 0.4188918280051439,
+          "audio_s": 2.24,
+          "rtf": 0.18700528035943922,
+          "frames": 28,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 1,
+          "seconds": 0.41844526500062784,
+          "audio_s": 2.24,
+          "rtf": 0.18680592187528028,
+          "frames": 28,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "short",
+          "seed": 2,
+          "seconds": 0.43227626899897587,
+          "audio_s": 2.32,
+          "rtf": 0.18632597801679995,
+          "frames": 29,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 0,
+          "seconds": 1.2093997090050834,
+          "audio_s": 6.88,
+          "rtf": 0.1757848414251575,
+          "frames": 86,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 1,
+          "seconds": 1.226668602997961,
+          "audio_s": 6.96,
+          "rtf": 0.17624548893648864,
+          "frames": 87,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        },
+        {
+          "text": "medium",
+          "seed": 2,
+          "seconds": 1.222525470002438,
+          "audio_s": 6.96,
+          "rtf": 0.17565021120724683,
+          "frames": 87,
+          "eos": true,
+          "finite": true,
+          "sample_rate": 24000
+        }
+      ],
+      "teacher_max_logit_error": 0.3125,
+      "teacher_argmax_matches": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "fp32_reference_errors": [
+        {
+          "baseline_rmse": 0.042329348623752594,
+          "variant_rmse": 0.039022866636514664,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.029912689700722694,
+          "variant_rmse": 0.031800419092178345,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.025234421715140343,
+          "variant_rmse": 0.029733413830399513,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": false
+        },
+        {
+          "baseline_rmse": 0.050644032657146454,
+          "variant_rmse": 0.028951162472367287,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03880036249756813,
+          "variant_rmse": 0.030075369402766228,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03454511985182762,
+          "variant_rmse": 0.03572401776909828,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.035155002027750015,
+          "variant_rmse": 0.03453424200415611,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032820068299770355,
+          "variant_rmse": 0.03544312343001366,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.028954897075891495,
+          "variant_rmse": 0.04018549621105194,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.03776182979345322,
+          "variant_rmse": 0.035927705466747284,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.032317887991666794,
+          "variant_rmse": 0.03777464106678963,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        },
+        {
+          "baseline_rmse": 0.04268086701631546,
+          "variant_rmse": 0.03828980773687363,
+          "baseline_argmax_fp32": true,
+          "variant_argmax_fp32": true
+        }
+      ],
+      "versus_baseline_graph_max_logit_error": 0.25,
+      "output_storage_owned": true,
+      "padding_reset_checked": true,
+      "wrong_stream_rejected": true,
+      "uninstall_before_graph_rejected": true,
+      "fixed_graph_ms": [
+        3.4838681030273437,
+        3.4839141845703123,
+        3.4840829467773435
+      ],
+      "fixed_graph_median_ms": 3.4839141845703123,
+      "capture_seconds": [
+        0.06316103000426665
+      ],
+      "uninstall_identity_state_checked": true
+    }
+  },
+  "complete": true,
+  "hashes": {
+    "scripts/qwen_talker_fusion.py": "dfeddaa1ffd84554929e82b8d5e43b6e8f941ebddfe019091d1b11cae1a60536",
+    "scripts/test_qwen_talker_fusion.py": "a713c8222d332616b2cf23cdf06088d2b39bf391087f968ccde99ad7c79cb4c0"
+  },
+  "transaction_rollback": true,
+  "second_instance_class_forward": true,
+  "fp32_explicitly_rejected": true,
+  "alternate_attention_rejected": true,
+  "mixed_biases_rejected": true
+}

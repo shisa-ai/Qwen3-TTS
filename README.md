@@ -16,7 +16,9 @@ Last measured: **2026-11-14**. These are local **H20, BF16, batch-one CustomVoic
 
 **Measurement notes:** Custom-path suites use Ryan/Aiden across four shared texts, with three measured repetitions after warmup; the aggregate is the mean of condition-level median RTFs. Offline timing includes waveform decoding. Sampled audio lengths differ, and measurements span separate runs/devices of the same GPU class. Ratios describe recorded end-to-end results, not identical-token causal speedups. The vLLM measurements are historical and are **not a contemporaneous controlled comparison**. The current custom stack has not beaten those vLLM results.
 
-**Current constraints:** Optimizations are opt-in experimental adapters in the enclosing workspace, not enabled by this upstream checkout. The validated fused predictor uses explicit `nonpdl` mode for 0.6B and `pdl` mode for 1.7B. Independent talker/subtalker temperature controls remain available; unsupported fast-path options, including nondefault subtalker top-p, use strict fallback. No production concurrency scheduler or perceptual-quality certification is provided.
+**Runnable checkout:** the completed optimization snapshot, portable CLI, benchmark runner, vendored kernels, and selected evidence are now included in [`optimizations/`](optimizations/README.md). Start there to install and run the optimized runtime. Newer ongoing optimization experiments are excluded.
+
+**Current constraints:** Optimizations are opt-in experimental adapters, not enabled automatically by importing the upstream package. The validated fused predictor uses explicit `nonpdl` mode for 0.6B and `pdl` mode for 1.7B. Independent talker/subtalker temperature controls remain available; unsupported fast-path options, including nondefault subtalker top-p, use strict fallback. No production concurrency scheduler or perceptual-quality certification is provided.
 
 ### Streaming and experiment decisions
 
@@ -27,7 +29,7 @@ Last measured: **2026-11-14**. These are local **H20, BF16, batch-one CustomVoic
 
 ### Evidence and updating this table
 
-Artifacts currently live **outside this Git repository**, under the enclosing `/root/tts` workspace; they are not included by cloning this checkout:
+Selected compact evidence is bundled under `optimizations/results/` using the paths below. The original full artifact collection remains in `/root/tts`; audio and large profiler traces are not bundled. Historical JSON retains original absolute paths and commands as provenance.
 
 | Rows | Workspace-relative evidence |
 |---|---|
@@ -38,7 +40,7 @@ Artifacts currently live **outside this Git repository**, under the enclosing `/
 | Historical vLLM | `results/vllm-omni-{size}.json` |
 | Final streaming | `results/gap/frame-streaming/final-measurement-audit.json` and per-size final JSON files |
 
-Here `{size}` is `0.6b` or `1.7b` for the offline files. The enclosing workspace's `OPTIMIZATION_RESULTS.md` and `GAP_CLOSING_RESULTS.md` contain methodology, commands, correctness evidence, rejected experiments, and remaining limitations.
+Here `{size}` is `0.6b` or `1.7b` for the offline files. The reports [`optimizations/OPTIMIZATION_RESULTS.md`](optimizations/OPTIMIZATION_RESULTS.md) and [`optimizations/GAP_CLOSING_RESULTS.md`](optimizations/GAP_CLOSING_RESULTS.md) contain methodology, commands, correctness evidence, rejected experiments, and remaining limitations. Use the portable commands in [`optimizations/README.md`](optimizations/README.md) for this checkout.
 
 For future updates, preserve raw results and source hashes, record model/backend/sampling settings and capture exclusions, check EOS/truncation, and recompute aggregates from per-condition results. Keep fixed-work, sampled offline, streaming, and concurrent-serving measurements separate.
 

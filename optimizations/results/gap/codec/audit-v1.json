@@ -1,0 +1,166 @@
+{
+  "0.6B": {
+    "checks": 80,
+    "eos_requests": 34,
+    "fixed": [
+      {
+        "frames": 1,
+        "speedup": 5.267204270531448,
+        "eager_ms": 15.639482997357845,
+        "graph_ms": 2.9692190000787377
+      },
+      {
+        "frames": 12,
+        "speedup": 3.225658473695327,
+        "eager_ms": 16.598344998783432,
+        "graph_ms": 5.1457230001688
+      },
+      {
+        "frames": 25,
+        "speedup": 2.550566125897929,
+        "eager_ms": 18.32709799782606,
+        "graph_ms": 7.185501999629196
+      },
+      {
+        "frames": 97,
+        "speedup": 1.5958578154030263,
+        "eager_ms": 29.840365998097695,
+        "graph_ms": 18.698637002671603
+      },
+      {
+        "frames": 613,
+        "speedup": 1.0849894589450804,
+        "eager_ms": 133.5688740000478,
+        "graph_ms": 123.10614900343353
+      }
+    ],
+    "rows": [
+      {
+        "text": "short",
+        "eager4_ttfa": 0.07490969550053705,
+        "graph4_ttfa": 0.060883733498485526,
+        "graph12_ttfa": 0.13479325200023595,
+        "eager4_rtf": 0.12976438483322755,
+        "graph4_rtf": 0.12113267299961687,
+        "graph4_starvation": 0.0,
+        "graph1_starvation": 0.14903023649632813
+      },
+      {
+        "text": "medium",
+        "eager4_ttfa": 0.07477939550153678,
+        "graph4_ttfa": 0.060959072499827016,
+        "graph12_ttfa": 0.13376740549938404,
+        "eager4_rtf": 0.13143529467588114,
+        "graph4_rtf": 0.12259461603005345,
+        "graph4_starvation": 0.0,
+        "graph1_starvation": 0.14885702949861296
+      }
+    ],
+    "window_errors": [
+      {
+        "context": 588,
+        "approximate": false,
+        "error": {
+          "max_abs": 0.03076171875,
+          "rmse": 0.0008043780107982457
+        },
+        "boundary_rmse": 0.0006542792543768883,
+        "boundary_max": 0.0107421875
+      },
+      {
+        "context": 72,
+        "approximate": true,
+        "error": {
+          "max_abs": 0.0704345703125,
+          "rmse": 0.0018073214450851083
+        },
+        "boundary_rmse": 0.001516610267572105,
+        "boundary_max": 0.01123046875
+      }
+    ]
+  },
+  "1.7B": {
+    "checks": 80,
+    "eos_requests": 34,
+    "fixed": [
+      {
+        "frames": 1,
+        "speedup": 5.3594851128077385,
+        "eager_ms": 15.934654999000486,
+        "graph_ms": 2.973169001052156
+      },
+      {
+        "frames": 12,
+        "speedup": 3.24321594762009,
+        "eager_ms": 16.772661001596134,
+        "graph_ms": 5.171614000573754
+      },
+      {
+        "frames": 25,
+        "speedup": 2.579666013540522,
+        "eager_ms": 18.511267997382674,
+        "graph_ms": 7.175839004048612
+      },
+      {
+        "frames": 97,
+        "speedup": 1.6143723967714083,
+        "eager_ms": 30.196805004379712,
+        "graph_ms": 18.7049809974269
+      },
+      {
+        "frames": 613,
+        "speedup": 1.0850518436130385,
+        "eager_ms": 133.5650219989475,
+        "graph_ms": 123.09552099759458
+      }
+    ],
+    "rows": [
+      {
+        "text": "short",
+        "eager4_ttfa": 0.0757851819980715,
+        "graph4_ttfa": 0.06337086350322352,
+        "graph12_ttfa": 0.13668473350116983,
+        "eager4_rtf": 0.13534041078463477,
+        "graph4_rtf": 0.12582042708363234,
+        "graph4_starvation": 0.0,
+        "graph1_starvation": 0.15525145900202914
+      },
+      {
+        "text": "medium",
+        "eager4_ttfa": 0.07622753550094785,
+        "graph4_ttfa": 0.062163002497982234,
+        "graph12_ttfa": 0.13672611299989512,
+        "eager4_rtf": 0.13235965056059612,
+        "graph4_rtf": 0.12419578709935963,
+        "graph4_starvation": 0.0,
+        "graph1_starvation": 0.15516949000259045
+      }
+    ],
+    "window_errors": [
+      {
+        "context": 588,
+        "approximate": false,
+        "error": {
+          "max_abs": 0.021484375,
+          "rmse": 0.000831058481708169
+        },
+        "boundary_rmse": 0.0010442112106829882,
+        "boundary_max": 0.0078125
+      },
+      {
+        "context": 72,
+        "approximate": true,
+        "error": {
+          "max_abs": 0.03936767578125,
+          "rmse": 0.001519471756182611
+        },
+        "boundary_rmse": 0.0018680185312405229,
+        "boundary_max": 0.0185546875
+      }
+    ]
+  },
+  "sha256": {
+    "scripts/qwen_codec_graph.py": "21da69da8b50a25021de12bdddab6334f5361e6fa878fb834fb726a8169a9faa",
+    "scripts/test_qwen_codec_graph.py": "b5fc41cad0dc4f802a3298fdad98a354f3f970845f63a3ddc3533f053e8f523b"
+  }
+}

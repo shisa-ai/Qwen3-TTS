@@ -1,0 +1,103 @@
+{
+  "size": "0.6B",
+  "checks": [
+    "greedy frame count",
+    "greedy exact frames",
+    "greedy no history return",
+    "greedy owned outputs",
+    "sampled frame count",
+    "sampled exact frames",
+    "sampled no history return",
+    "sampled owned outputs",
+    "top-p frame count",
+    "top-p exact frames",
+    "top-p no history return",
+    "top-p owned outputs",
+    "penalty frame count",
+    "penalty exact frames",
+    "penalty no history return",
+    "penalty owned outputs",
+    "cancel cleans active state",
+    "callback error cleanup",
+    "recovery",
+    "synchronous backpressure",
+    "unsupported sampler strict streaming fallback",
+    "fallback wrapper cleanup",
+    "hook finite audio",
+    "hook finite audio",
+    "hook finite audio",
+    "direct finite audio",
+    "direct finite audio",
+    "direct finite audio",
+    "hook/direct waveform exact"
+  ],
+  "timings": [
+    {
+      "variant": "hook",
+      "repeat": 0,
+      "warmup": true,
+      "first_audio_s": 0.0721039429990924,
+      "total_s": 0.4682821579990559,
+      "rtf": 0.13936968988067142,
+      "starvation_s": 0.0,
+      "frames": 42,
+      "samples": 80640
+    },
+    {
+      "variant": "hook",
+      "repeat": 1,
+      "warmup": false,
+      "first_audio_s": 0.07178364600258647,
+      "total_s": 0.4412159610001254,
+      "rtf": 0.1313142741071802,
+      "starvation_s": 0.0,
+      "frames": 42,
+      "samples": 80640
+    },
+    {
+      "variant": "hook",
+      "repeat": 2,
+      "warmup": false,
+      "first_audio_s": 0.07179162799729966,
+      "total_s": 0.4412234039991745,
+      "rtf": 0.1313164892854686,
+      "starvation_s": 0.0,
+      "frames": 42,
+      "samples": 80640
+    },
+    {
+      "variant": "direct",
+      "repeat": 0,
+      "warmup": true,
+      "first_audio_s": 0.06254049600102007,
+      "total_s": 0.39148696399934124,
+      "rtf": 0.11651397738075632,
+      "starvation_s": 0.0,
+      "frames": 42,
+      "samples": 80640
+    },
+    {
+      "variant": "direct",
+      "repeat": 1,
+      "warmup": false,
+      "first_audio_s": 0.06237135800620308,
+      "total_s": 0.39141321900387993,
+      "rtf": 0.11649202946544046,
+      "starvation_s": 0.0,
+      "frames": 42,
+      "samples": 80640
+    },
+    {
+      "variant": "direct",
+      "repeat": 2,
+      "warmup": false,
+      "first_audio_s": 0.06281142099760473,
+      "total_s": 0.39180395899893483,
+      "rtf": 0.11660832113063536,
+      "starvation_s": 0.0,
+      "frames": 42,
+      "samples": 80640
+    }
+  ],
+  "complete": true
+}

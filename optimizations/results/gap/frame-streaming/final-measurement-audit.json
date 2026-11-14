@@ -1,0 +1,350 @@
+{
+  "0.6B-deterministic": {
+    "rows": [
+      {
+        "text": "short",
+        "variant": "hook",
+        "codec": "eager",
+        "first_audio_s": 0.07456762233535603,
+        "rtf": 0.1319485256040618,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          69,
+          69,
+          69
+        ]
+      },
+      {
+        "text": "short",
+        "variant": "hook",
+        "codec": "graph",
+        "first_audio_s": 0.060555279999486324,
+        "rtf": 0.11891545259656952,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          69,
+          69,
+          69
+        ]
+      },
+      {
+        "text": "short",
+        "variant": "direct",
+        "codec": "eager",
+        "first_audio_s": 0.06418735000382488,
+        "rtf": 0.1097313945656468,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          69,
+          69,
+          69
+        ]
+      },
+      {
+        "text": "short",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.055977593998250086,
+        "rtf": 0.10354396364748493,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          69,
+          69,
+          69
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "hook",
+        "codec": "eager",
+        "first_audio_s": 0.07662659899991316,
+        "rtf": 0.12986970371731016,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          102,
+          102,
+          102
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "hook",
+        "codec": "graph",
+        "first_audio_s": 0.06186371600051643,
+        "rtf": 0.121606906413588,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          102,
+          102,
+          102
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "direct",
+        "codec": "eager",
+        "first_audio_s": 0.06733114700182341,
+        "rtf": 0.11429530735310192,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          102,
+          102,
+          102
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.05906721433469405,
+        "rtf": 0.1095858449350559,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          102,
+          102,
+          102
+        ]
+      }
+    ],
+    "sources": {
+      "scripts/qwen_frame_loop.py": "84da61a9352c66aa943a1d0438cb2dcdb69e32932fb2651e6f30300d7b247eaa",
+      "scripts/qwen_frame_streaming.py": "0b459b3d62acd216e51febca6778e3478567f2fbcfb5aabc75a91e70abc62ebc",
+      "scripts/qwen_codec_graph.py": "b4337174770d7a26fb2b2fc10525b50b8b44cf5c8165c7bbb849dd30ac7d1619",
+      "scripts/qwen_talker_graph.py": "7e2e895b95f17fb3dcbed4da7b5ec317fdf9a545bcc0adb49976bd59c91f3d12",
+      "scripts/qwen_fused_predictor.py": "dcccda9988c3957d897fc8e95ad59fd01ec8067c1cd3fe21c8f1c0146a4f0ae2",
+      "scripts/qwen_streaming.py": "67caaaa57de5cbab27e9c778c90b0180770e82f176ef6fee5c9065cfa1f246f2"
+    }
+  },
+  "0.6B-default-cudnn": {
+    "rows": [
+      {
+        "text": "short",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.052617093669444635,
+        "rtf": 0.095212326757954,
+        "starvation_s": 0.0,
+        "misses": 2,
+        "unique_frame_hashes": 3,
+        "frames": [
+          78,
+          75,
+          76
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.053414136998374794,
+        "rtf": 0.098466685522304,
+        "starvation_s": 0.0,
+        "misses": 4,
+        "unique_frame_hashes": 3,
+        "frames": [
+          132,
+          140,
+          161
+        ]
+      }
+    ],
+    "sources": {
+      "scripts/qwen_frame_loop.py": "84da61a9352c66aa943a1d0438cb2dcdb69e32932fb2651e6f30300d7b247eaa",
+      "scripts/qwen_frame_streaming.py": "0b459b3d62acd216e51febca6778e3478567f2fbcfb5aabc75a91e70abc62ebc",
+      "scripts/qwen_codec_graph.py": "b4337174770d7a26fb2b2fc10525b50b8b44cf5c8165c7bbb849dd30ac7d1619",
+      "scripts/qwen_talker_graph.py": "7e2e895b95f17fb3dcbed4da7b5ec317fdf9a545bcc0adb49976bd59c91f3d12",
+      "scripts/qwen_fused_predictor.py": "dcccda9988c3957d897fc8e95ad59fd01ec8067c1cd3fe21c8f1c0146a4f0ae2",
+      "scripts/qwen_streaming.py": "67caaaa57de5cbab27e9c778c90b0180770e82f176ef6fee5c9065cfa1f246f2"
+    }
+  },
+  "1.7B-deterministic": {
+    "rows": [
+      {
+        "text": "short",
+        "variant": "hook",
+        "codec": "eager",
+        "first_audio_s": 0.07487479333212832,
+        "rtf": 0.14298862403778073,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          26,
+          26,
+          26
+        ]
+      },
+      {
+        "text": "short",
+        "variant": "hook",
+        "codec": "graph",
+        "first_audio_s": 0.0612557463318808,
+        "rtf": 0.12993366971129897,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          26,
+          26,
+          26
+        ]
+      },
+      {
+        "text": "short",
+        "variant": "direct",
+        "codec": "eager",
+        "first_audio_s": 0.06553126600192627,
+        "rtf": 0.12837722660244766,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          26,
+          26,
+          26
+        ]
+      },
+      {
+        "text": "short",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.059274553663271945,
+        "rtf": 0.11922367820354851,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          26,
+          26,
+          26
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "hook",
+        "codec": "eager",
+        "first_audio_s": 0.07553277699965595,
+        "rtf": 0.13335152371377104,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          81,
+          81,
+          81
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "hook",
+        "codec": "graph",
+        "first_audio_s": 0.06041683933532719,
+        "rtf": 0.12167426142014873,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          81,
+          81,
+          81
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "direct",
+        "codec": "eager",
+        "first_audio_s": 0.06593238533241674,
+        "rtf": 0.1162239863168843,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          81,
+          81,
+          81
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.05809777399796682,
+        "rtf": 0.11016969161506426,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          81,
+          81,
+          81
+        ]
+      }
+    ],
+    "sources": {
+      "scripts/qwen_frame_loop.py": "84da61a9352c66aa943a1d0438cb2dcdb69e32932fb2651e6f30300d7b247eaa",
+      "scripts/qwen_frame_streaming.py": "0b459b3d62acd216e51febca6778e3478567f2fbcfb5aabc75a91e70abc62ebc",
+      "scripts/qwen_codec_graph.py": "b4337174770d7a26fb2b2fc10525b50b8b44cf5c8165c7bbb849dd30ac7d1619",
+      "scripts/qwen_talker_graph.py": "7e2e895b95f17fb3dcbed4da7b5ec317fdf9a545bcc0adb49976bd59c91f3d12",
+      "scripts/qwen_fused_predictor.py": "dcccda9988c3957d897fc8e95ad59fd01ec8067c1cd3fe21c8f1c0146a4f0ae2",
+      "scripts/qwen_streaming.py": "67caaaa57de5cbab27e9c778c90b0180770e82f176ef6fee5c9065cfa1f246f2"
+    }
+  },
+  "1.7B-default-cudnn": {
+    "rows": [
+      {
+        "text": "short",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.05316147466752833,
+        "rtf": 0.0971049586312455,
+        "starvation_s": 0.0,
+        "misses": 0,
+        "unique_frame_hashes": 1,
+        "frames": [
+          28,
+          28,
+          28
+        ]
+      },
+      {
+        "text": "medium",
+        "variant": "direct",
+        "codec": "graph",
+        "first_audio_s": 0.05361461866656706,
+        "rtf": 0.09896503340576197,
+        "starvation_s": 0.0,
+        "misses": 3,
+        "unique_frame_hashes": 3,
+        "frames": [
+          89,
+          90,
+          89
+        ]
+      }
+    ],
+    "sources": {
+      "scripts/qwen_frame_loop.py": "84da61a9352c66aa943a1d0438cb2dcdb69e32932fb2651e6f30300d7b247eaa",
+      "scripts/qwen_frame_streaming.py": "0b459b3d62acd216e51febca6778e3478567f2fbcfb5aabc75a91e70abc62ebc",
+      "scripts/qwen_codec_graph.py": "b4337174770d7a26fb2b2fc10525b50b8b44cf5c8165c7bbb849dd30ac7d1619",
+      "scripts/qwen_talker_graph.py": "7e2e895b95f17fb3dcbed4da7b5ec317fdf9a545bcc0adb49976bd59c91f3d12",
+      "scripts/qwen_fused_predictor.py": "dcccda9988c3957d897fc8e95ad59fd01ec8067c1cd3fe21c8f1c0146a4f0ae2",
+      "scripts/qwen_streaming.py": "67caaaa57de5cbab27e9c778c90b0180770e82f176ef6fee5c9065cfa1f246f2"
+    }
+  }
+}

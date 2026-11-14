@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8575C",
+    "affinity_cpus": 192,
+    "loadavg": [
+      15.37,
+      7.97,
+      5.85
+    ],
+    "gpu": "NVIDIA H20-3e",
+    "python": "3.12.14",
+    "date": "2026-11-14 05:22:23",
+    "size": "0.6B",
+    "label": "sdpa-no-cudnn-both-graphs",
+    "installer": [
+      "qwen_predictor_graph:install_predictor_graph",
+      "qwen_talker_graph:install_talker_graph"
+    ],
+    "texts": [
+      "short",
+      "medium",
+      "long",
+      "numbers"
+    ],
+    "voices": [
+      "ryan",
+      "aiden"
+    ],
+    "runs": 3,
+    "seed": 0,
+    "greedy": false,
+    "attn": "sdpa",
+    "disable_cudnn_sdpa": true,
+    "model": "Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice",
+    "load_s": 5.03982705800081,
+    "cuda_visible_devices": "GPU-74eb9316-76d6-7587-c3de-2153fc1ea3dc",
+    "torch": "2.15.0+cu132",
+    "threads": 8,
+    "install_s": 0.002828014999977313
+  },
+  "rows": [
+    {
+      "voice": "ryan",
+      "text_id": "short",
+      "gen_s_all": [
+        1.3011700560000463,
+        1.2987060329996893,
+        1.3014338979992317
+      ],
+      "audio_s_all": [
+        4.88,
+        4.88,
+        4.88
+      ],
+      "gen_s": 1.3011700560000463,
+      "rtf": 0.2666332081967308,
+      "cold_call_s": 2.615742579999278,
+      "peak_gpu_mb": 2315.283203125,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/ryan_short.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "ryan",
+      "text_id": "medium",
+      "gen_s_all": [
+        2.6410730389998207,
+        2.6433276089992432,
+        2.642014922999806
+      ],
+      "audio_s_all": [
+        10.08,
+        10.08,
+        10.08
+      ],
+      "gen_s": 2.642014922999806,
+      "rtf": 0.2621046550595046,
+      "cold_call_s": 2.680862691000584,
+      "peak_gpu_mb": 2466.19970703125,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/ryan_medium.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "ryan",
+      "text_id": "long",
+      "gen_s_all": [
+        5.0963942340004,
+        5.092366437998862,
+        5.095105688998956
+      ],
+      "audio_s_all": [
+        19.6,
+        19.6,
+        19.6
+      ],
+      "gen_s": 5.095105688998956,
+      "rtf": 0.2599543718877018,
+      "cold_call_s": 5.130233027000941,
+      "peak_gpu_mb": 2746.890625,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/ryan_long.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "ryan",
+      "text_id": "numbers",
+      "gen_s_all": [
+        1.995314056001007,
+        1.9964218550012447,
+        1.9957565229997272
+      ],
+      "audio_s_all": [
+        7.6,
+        7.6,
+        7.6
+      ],
+      "gen_s": 1.9957565229997272,
+      "rtf": 0.2625995424999641,
+      "cold_call_s": 2.0208207230007247,
+      "peak_gpu_mb": 2393.22900390625,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/ryan_numbers.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "short",
+      "gen_s_all": [
+        0.7835902650003845,
+        0.781649667000238,
+        0.7819396089998918
+      ],
+      "audio_s_all": [
+        2.88,
+        2.88,
+        2.88
+      ],
+      "gen_s": 0.7819396089998918,
+      "rtf": 0.271506808680518,
+      "cold_call_s": 0.8188575839994883,
+      "peak_gpu_mb": 2254.693359375,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/aiden_short.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "medium",
+      "gen_s_all": [
+        1.6248942759993952,
+        1.6249234240003716,
+        1.6282301310002367
+      ],
+      "audio_s_all": [
+        6.16,
+        6.16,
+        6.16
+      ],
+      "gen_s": 1.6249234240003716,
+      "rtf": 0.26378627012993044,
+      "cold_call_s": 1.6425570619994687,
+      "peak_gpu_mb": 2350.85986328125,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/aiden_medium.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "long",
+      "gen_s_all": [
+        4.191622303998884,
+        4.196585073999813,
+        4.193850686000587
+      ],
+      "audio_s_all": [
+        16.08,
+        16.08,
+        16.08
+      ],
+      "gen_s": 4.193850686000587,
+      "rtf": 0.2608116098259072,
+      "cold_call_s": 4.208941861999847,
+      "peak_gpu_mb": 2642.74169921875,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/aiden_long.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    },
+    {
+      "voice": "aiden",
+      "text_id": "numbers",
+      "gen_s_all": [
+        1.3598258790007094,
+        1.3596580189987435,
+        1.3600607129992568
+      ],
+      "audio_s_all": [
+        5.12,
+        5.12,
+        5.12
+      ],
+      "gen_s": 1.3598258790007094,
+      "rtf": 0.26559099199232605,
+      "cold_call_s": 1.3830573539999023,
+      "peak_gpu_mb": 2321.125,
+      "sample": "samples/gpu3-optimization/0.6b-sdpa-no-cudnn-both-graphs/aiden_numbers.wav",
+      "sample_rate": 24000,
+      "ttfa_s": null
+    }
+  ],
+  "complete": true
+}

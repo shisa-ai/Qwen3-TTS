@@ -1,0 +1,69 @@
+{
+  "baseline_rtf": 0.19454905862818808,
+  "combined_rtf": 0.110282264566525,
+  "speedup": 1.7641010491839444,
+  "rtf_reduction_percent": 43.31390480933107,
+  "inverse_mean_rtf": 9.06764114729232,
+  "all_24_measured_eos_finite_no_fallback": true,
+  "all_3_smoke_passed": true,
+  "source_snapshots_verified": true,
+  "source_changes": [],
+  "conditions": [
+    {
+      "voice": "ryan",
+      "text": "short",
+      "baseline_rtf": 0.23339125215490392,
+      "combined_rtf": 0.13365972460803732,
+      "speedup": 1.7461599059801554
+    },
+    {
+      "voice": "ryan",
+      "text": "medium",
+      "baseline_rtf": 0.19071061222247307,
+      "combined_rtf": 0.10395104846997574,
+      "speedup": 1.8346194197123096
+    },
+    {
+      "voice": "ryan",
+      "text": "long",
+      "baseline_rtf": 0.1768047320454736,
+      "combined_rtf": 0.0967023666957035,
+      "speedup": 1.8283392442899646
+    },
+    {
+      "voice": "ryan",
+      "text": "numbers",
+      "baseline_rtf": 0.1871692863339073,
+      "combined_rtf": 0.10321838951114486,
+      "speedup": 1.8133327522388631
+    },
+    {
+      "voice": "aiden",
+      "text": "short",
+      "baseline_rtf": 0.21471515648146222,
+      "combined_rtf": 0.13007524094691378,
+      "speedup": 1.6506996636592173
+    },
+    {
+      "voice": "aiden",
+      "text": "medium",
+      "baseline_rtf": 0.18396880340932595,
+      "combined_rtf": 0.10753240988772482,
+      "speedup": 1.7108219150059856
+    },
+    {
+      "voice": "aiden",
+      "text": "long",
+      "baseline_rtf": 0.17767342183249976,
+      "combined_rtf": 0.09703917171937394,
+      "speedup": 1.8309453665403363
+    },
+    {
+      "voice": "aiden",
+      "text": "numbers",
+      "baseline_rtf": 0.19195920454545887,
+      "combined_rtf": 0.11007976469332598,
+      "speedup": 1.7438191758516464
+    }
+  ]
+}

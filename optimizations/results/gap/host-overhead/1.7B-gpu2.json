@@ -1,0 +1,233 @@
+{
+  "size": "1.7B",
+  "complete": true,
+  "checks": [
+    "FusedPredictor mutation num_beams",
+    "FusedPredictor mutation repetition_penalty",
+    "FusedPredictor mutation eos_token_id",
+    "FusedPredictor mutation bad_words_ids",
+    "FusedPredictor mutation unknown_setting",
+    "FusedPredictor mutable empty list",
+    "FusedPredictor nested mutation",
+    "FusedPredictor invalid {'do_sample': True, 'temperature': 0}",
+    "FusedPredictor invalid {'do_sample': True, 'top_k': -1}",
+    "FusedPredictor invalid {'do_sample': True, 'top_p': 1.1}",
+    "FusedPredictor invalid {'max_new_tokens': 14}",
+    "FusedPredictor invalid {'num_beams': 2}",
+    "PredictorGraph mutation num_beams",
+    "PredictorGraph mutation repetition_penalty",
+    "PredictorGraph mutation eos_token_id",
+    "PredictorGraph mutation bad_words_ids",
+    "PredictorGraph mutation unknown_setting",
+    "PredictorGraph mutable empty list",
+    "PredictorGraph nested mutation",
+    "PredictorGraph invalid {'do_sample': True, 'temperature': 0}",
+    "PredictorGraph invalid {'do_sample': True, 'top_k': -1}",
+    "PredictorGraph invalid {'do_sample': True, 'top_p': 1.1}",
+    "PredictorGraph invalid {'max_new_tokens': 14}",
+    "PredictorGraph invalid {'num_beams': 2}",
+    "fused wrong stream",
+    "strict wrong stream",
+    "talker wrong stream",
+    "invalid positions [0, 2, 1]",
+    "invalid positions [0, 1, 1]",
+    "invalid positions [-1, 0, 1]",
+    "invalid positions [1023, 1024, 1025]",
+    "invalid decode [4]",
+    "invalid decode [2]",
+    "invalid decode [3, 4]",
+    "reset stale cache",
+    "greedy strict and fused outputs exact across variants"
+  ],
+  "variants": {
+    "rebuild_defaults": {
+      "host_config_ms": [
+        0.10337318899837555,
+        0.10389045400370378,
+        0.10314245500194374
+      ],
+      "fused_predictor_ms": [
+        2.207594479987165,
+        2.2081335200346075,
+        2.2066490599536337
+      ],
+      "strict_predictor_ms": [
+        7.444914600152212,
+        7.436843733254743,
+        7.432756566655978
+      ],
+      "e2e": [
+        {
+          "text": "short",
+          "seed": 0,
+          "seconds": 0.320394763002696,
+          "audio_s": 3.04,
+          "rtf": 0.10539301414562367,
+          "frames": 38,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "short",
+          "seed": 1,
+          "seconds": 0.3022365259967046,
+          "audio_s": 2.16,
+          "rtf": 0.13992431759106694,
+          "frames": 27,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "short",
+          "seed": 2,
+          "seconds": 0.3374304500030121,
+          "audio_s": 2.56,
+          "rtf": 0.1318087695324266,
+          "frames": 32,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "medium",
+          "seed": 0,
+          "seconds": 0.8439126090015634,
+          "audio_s": 8.16,
+          "rtf": 0.10342066286783864,
+          "frames": 102,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "medium",
+          "seed": 1,
+          "seconds": 0.6915758739996818,
+          "audio_s": 6.48,
+          "rtf": 0.10672467191353113,
+          "frames": 81,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "medium",
+          "seed": 2,
+          "seconds": 0.7811093279960915,
+          "audio_s": 7.52,
+          "rtf": 0.103870921276076,
+          "frames": 94,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        }
+      ]
+    },
+    "cached_defaults": {
+      "host_config_ms": [
+        0.05110150499967858,
+        0.051085995000903495,
+        0.05093071699957363
+      ],
+      "fused_predictor_ms": [
+        2.205057759929332,
+        2.2071301600226434,
+        2.2056178800266935
+      ],
+      "strict_predictor_ms": [
+        7.431881733161087,
+        7.4259618333599064,
+        7.427828133222647
+      ],
+      "e2e": [
+        {
+          "text": "short",
+          "seed": 0,
+          "seconds": 0.3175708620037767,
+          "audio_s": 3.04,
+          "rtf": 0.1044640993433476,
+          "frames": 38,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "short",
+          "seed": 1,
+          "seconds": 0.23710785000002943,
+          "audio_s": 2.16,
+          "rtf": 0.1097721527777914,
+          "frames": 27,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "short",
+          "seed": 2,
+          "seconds": 0.26004462400305783,
+          "audio_s": 2.56,
+          "rtf": 0.10157993125119447,
+          "frames": 32,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "medium",
+          "seed": 0,
+          "seconds": 0.749900520000665,
+          "audio_s": 8.16,
+          "rtf": 0.09189957352949325,
+          "frames": 102,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "medium",
+          "seed": 1,
+          "seconds": 0.6075963140028762,
+          "audio_s": 5.92,
+          "rtf": 0.10263451250048584,
+          "frames": 74,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        },
+        {
+          "text": "medium",
+          "seed": 2,
+          "seconds": 0.7043415299995104,
+          "audio_s": 7.68,
+          "rtf": 0.09171113671868625,
+          "frames": 96,
+          "eos": true,
+          "finite": true,
+          "truncated": false
+        }
+      ]
+    }
+  },
+  "gpu": "GPU-3e620c1c-c243-7353-580e-cde9e5eb4b8a",
+  "hashes": {
+    "qwen_predictor_graph.py": "07b1d1f5ed8801294d52925d8732f7adba5f1413e7519e6f35f61dd0cf6bd30a",
+    "qwen_fused_predictor.py": "dcccda9988c3957d897fc8e95ad59fd01ec8067c1cd3fe21c8f1c0146a4f0ae2",
+    "qwen_talker_graph.py": "7e2e895b95f17fb3dcbed4da7b5ec317fdf9a545bcc0adb49976bd59c91f3d12",
+    "test_qwen_host_overhead.py": "5d364b46ec20418ce9503701b614b389907f588634a1d83cfd06d4e1e518cfd0"
+  },
+  "captures": {
+    "talker": [
+      0.1116498129995307
+    ],
+    "fused": [
+      0.010378215003584046,
+      0.009716747998027131
+    ],
+    "strict": [
+      0.049228962998313364
+    ]
+  }
+}

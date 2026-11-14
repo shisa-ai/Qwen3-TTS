@@ -1,0 +1,69 @@
+{
+  "complete": true,
+  "models": [
+    {
+      "size": "0.6b",
+      "mode": "nonpdl",
+      "baseline_rtf": 0.18422623161363533,
+      "cache_stack_rtf": 0.1026522161256226,
+      "final_loop_rtf": 0.08909377746004285,
+      "baseline_speedup": 2.0677788827200403,
+      "loop_incremental_speedup": 1.1521816568127947,
+      "inverse_mean_rtf": 11.22412842410329,
+      "historical_vllm_rtf": 0.07534187462021445,
+      "final_over_vllm_rtf": 1.1825266879693317,
+      "all_checks_passed": true,
+      "profile": {
+        "without_loop": {
+          "kernel_count": 127162,
+          "summed_kernel_ms": 379.529016,
+          "cuda_runtime_sync_count": 446,
+          "cuda_runtime_sync_ms": 293.155661,
+          "wall_ms": 517.2631829991587,
+          "event_span_ms": 517.2346801757812
+        },
+        "with_loop": {
+          "kernel_count": 124754,
+          "summed_kernel_ms": 376.812462,
+          "cuda_runtime_sync_count": 228,
+          "cuda_runtime_sync_ms": 222.843689,
+          "wall_ms": 514.379337997525,
+          "event_span_ms": 514.335693359375
+        }
+      },
+      "fixed72_speedup": 1.0056064557586246
+    },
+    {
+      "size": "1.7b",
+      "mode": "pdl",
+      "baseline_rtf": 0.19454905862818808,
+      "cache_stack_rtf": 0.10859063382845777,
+      "final_loop_rtf": 0.10162027508876861,
+      "baseline_speedup": 1.9144708913476485,
+      "loop_incremental_speedup": 1.0685922049866556,
+      "inverse_mean_rtf": 9.840555923770797,
+      "historical_vllm_rtf": 0.08437540511789696,
+      "final_over_vllm_rtf": 1.204382662776855,
+      "all_checks_passed": true,
+      "profile": {
+        "without_loop": {
+          "kernel_count": 115498,
+          "summed_kernel_ms": 548.636739,
+          "cuda_runtime_sync_count": 446,
+          "cuda_runtime_sync_ms": 311.682901,
+          "wall_ms": 537.0813550034654,
+          "event_span_ms": 537.0411987304688
+        },
+        "with_loop": {
+          "kernel_count": 113090,
+          "summed_kernel_ms": 546.543309,
+          "cuda_runtime_sync_count": 228,
+          "cuda_runtime_sync_ms": 238.77545600000002,
+          "wall_ms": 524.3017050015624,
+          "event_span_ms": 524.264404296875
+        }
+      },
+      "fixed72_speedup": 1.024374610801361
+    }
+  ]
+}
